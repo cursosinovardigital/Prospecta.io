@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProspectaWeb - CRM & Prospecção</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen pb-12">
+
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700 py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-lg">
+                    <i class="fa-solid fa-globe text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide">ProspectaWeb <span class="text-indigo-400 text-xs uppercase px-2 py-0.5 bg-indigo-950 border border-indigo-800 rounded-full ml-2">CRM Pro</span></h1>
+                    <p class="text-xs text-gray-400">Encontre empresas sem site, salve conversas e gerencie seus clientes</p>
+                </div>
+            </div>
+            <!-- Abas de Navegação interna -->
+            <div class="flex bg-gray-900 p-1 rounded-lg border border-gray-700">
+                <button onclick="switchTab('search')" id="tab-search" class="px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white transition">Busca & Leads</button>
+                <button onclick="switchTab('clients')" id="tab-clients" class="px-4 py-1.5 rounded-md text-sm font-medium text-gray-400 hover:text-white transition">Meus Clientes Fechados</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 mt-8">
+
+        <!-- ABA 1: BUSCA E PROSPECÇÃO -->
+        <section id="section-search" class="space-y-6">
+            <!-- Barra de Busca -->
+            <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Nicho / Segmento</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-500 text-sm"></i>
+                            <input type="text" id="inputNiche" placeholder="Ex: Oficinas, Imobiliárias, Pizzarias..." class="w-full bg-gray-900 border border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Cidade / Região</label>
+                        <div class="relative">
+                            <i class="fa-solid fa-location-dot absolute left-3 top-3.5 text-gray-500 text-sm"></i>
+                            <input type="text" id="inputCity" placeholder="Ex: Guarulhos, SP" class="w-full bg-gray-900 border border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
+                        </div>
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="searchLeads()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30">
+                            <i class="fa-solid fa-radar"></i> Buscar Empresas
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Estatísticas Rápidas -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400">Total Encontrados</p>
+                        <h3 id="statTotal" class="text-2xl font-bold text-white">0</h3>
+                    </div>
+                    <div class="p-3 bg-gray-700/50 rounded-lg text-indigo-400"><i class="fa-solid fa-building"></i></div>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400">Oportunidades (Sem Site)</p>
+                        <h3 id="statNoSite" class="text-2xl font-bold text-amber-400">0</h3>
+                    </div>
+                    <div class="p-3 bg-amber-500/10 rounded-lg text-amber-400"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex items-center justify-between">
+                    <div>
+                        <p class="text-xs text-gray-400">Já possuem site</p>
+                        <h3 id="statHasSite" class="text-2xl font-bold text-emerald-400">0</h3>
+                    </div>
+                    <div class="p-3 bg-emerald-500/10 rounded-lg text-emerald-400"><i class="fa-solid fa-check-circle"></i></div>
+                </div>
+            </div>
+
+            <!-- Filtros de Tabela -->
+            <div class="flex flex-wrap gap-2 items-center justify-between">
+                <div class="flex gap-2">
+                    <button onclick="filterTable('all')" id="filter-all" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-800 border border-gray-700 hover:bg-gray-700 transition active">Todos</button>
+                    <button onclick="filterTable('no-site')" id="filter-no-site" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-800 border border-gray-700 hover:bg-gray-700 transition text-amber-400">Sem Site (Alvos)</button>
+                    <button onclick="filterTable('has-site')" id="filter-has-site" class="px-3 py-1.5 rounded-lg text-xs font-medium bg-gray-800 border border-gray-700 hover:bg-gray-700 transition text-emerald-400">Com Site</button>
+                </div>
+                <span id="searchStatus" class="text-xs text-gray-400">Nenhuma busca realizada.</span>
+            </div>
+
+            <!-- Lista de Resultados -->
+            <div class="bg-gray-800 rounded-2xl border border-gray-700 shadow-xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-900/60 text-gray-400 text-xs border-b border-gray-700 uppercase">
+                                <th class="p-4">Empresa</th>
+                                <th class="p-4">Status Web</th>
+                                <th class="p-4">Contato</th>
+                                <th class="p-4">Notas / O que foi dito</th>
+                                <th class="p-4 text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody" class="divide-y divide-gray-700 text-sm">
+                            <tr>
+                                <td colspan="5" class="p-8 text-center text-gray-500">
+                                    <i class="fa-solid fa-arrow-up text-xl mb-2 block"></i>
+                                    Digite um nicho e cidade acima para simular a varredura do Google Maps.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABA 2: CLIENTES JÁ ATENDIDOS -->
+        <section id="section-clients" class="hidden space-y-6">
+            <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl flex justify-between items-center">
+                <div>
+                    <h2 class="text-lg font-bold">Meus Clientes Atendidos</h2>
+                    <p class="text-xs text-gray-400">Empresas para quem você já desenvolveu sites ou presta suporte mensal.</p>
+                </div>
+                <button onclick="openAddClientModal()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium px-4 py-2.5 rounded-xl transition shadow-lg flex items-center gap-2">
+                    <i class="fa-solid fa-plus"></i> Novo Cliente Manual
+                </button>
+            </div>
+
+            <div class="bg-gray-800 rounded-2xl border border-gray-700 shadow-xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gray-900/60 text-gray-400 text-xs border-b border-gray-700 uppercase">
+                                <th class="p-4">Cliente / Projeto</th>
+                                <th class="p-4">WhatsApp</th>
+                                <th class="p-4">Valor / Detalhes</th>
+                                <th class="p-4 text-right">Gerenciar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="clientsTableBody" class="divide-y divide-gray-700 text-sm">
+                            <tr>
+                                <td colspan="4" class="p-8 text-center text-gray-500">Nenhum cliente cadastrado ainda.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal para Editar Notas / Salvar Histórico -->
+    <div id="noteModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+        <div class="bg-gray-800 border border-gray-700 w-full max-w-md rounded-2xl p-6 shadow-2xl space-y-4">
+            <h3 class="text-base font-bold flex items-center gap-2 text-indigo-400">
+                <i class="fa-solid fa-pen-to-square"></i> Histórico de Conversa / Notas
+            </h3>
+            <p id="modalCompanyName" class="text-xs text-gray-400 font-medium"></p>
+            <textarea id="modalNoteInput" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500" placeholder="Ex: Dono pediu para mandar mensagem na próxima segunda-feira..."></textarea>
+            <div class="flex justify-end gap-2">
+                <button onclick="closeNoteModal()" class="px-4 py-2 rounded-xl text-xs bg-gray-700 hover:bg-gray-600 text-gray-300 transition">Cancelar</button>
+                <button onclick="saveLeadNote()" class="px-4 py-2 rounded-xl text-xs bg-indigo-600 hover:bg-indigo-500 text-white transition font-medium shadow-lg">Salvar Nota</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script de lógica do App -->
+    <script>
+        let currentLeads = [];
+        let savedClients = JSON.parse(localStorage.getItem('prospecta_clients')) || [];
+        let activeFilter = 'all';
+        let currentEditIndex = null;
+
+        function switchTab(tab) {
+            const searchSec = document.getElementById('section-search');
+            const clientsSec = document.getElementById('section-clients');
+            const tabSearch = document.getElementById('tab-search');
+            const tabClients = document.getElementById('tab-clients');
+
+            if(tab === 'search') {
+                searchSec.classList.remove('hidden');
+                clientsSec.classList.add('hidden');
+                tabSearch.className = "px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white transition";
+                tabClients.className = "px-4 py-1.5 rounded-md text-sm font-medium text-gray-400 hover:text-white transition";
+            } else {
+                searchSec.classList.add('hidden');
+                clientsSec.classList.remove('hidden');
+                tabClients.className = "px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white transition";
+                tabSearch.className = "px-4 py-1.5 rounded-md text-sm font-medium text-gray-400 hover:text-white transition";
+                renderClients();
+            }
+        }
+
+        // Simulação inteligente de busca (substitui a API do Maps se estiver rodando local sem chave)
+        function searchLeads() {
+            const niche = document.getElementById('inputNiche').value.trim();
+            const city = document.getElementById('inputCity').value.trim();
+            const statusEl = document.getElementById('searchStatus');
+
+            if(!niche || !city) {
+                alert('Por favor, preencha o Nicho e a Cidade.');
+                return;
+            }
+
+            statusEl.innerText = "Buscando empresas no Google Maps...";
+            
+            // Gerador dinâmico simulando resultados reais da região para testes instantâneos
+            setTimeout(() => {
+                currentLeads = [
+                    { name: `${niche} Central ${city}`, hasSite: false, phone: "11988887777", note: "" },
+                    { name: `Auto Escola & ${niche} ${city}`, hasSite: true, siteUrl: `www.${niche.toLowerCase()}exemplo.com.br`, phone: "11977776666", note: "" },
+                    { name: `Studio ${niche} Premium`, hasSite: false, phone: "11966665555", note: "" },
+                    { name: `Irmãos ${niche} Comércio`, hasSite: false, phone: "11955554444", note: "" },
+                    { name: `Soluções em ${niche} Ltda`, hasSite: true, siteUrl: `www.solucoes${niche.toLowerCase()}.com`, phone: "11944443333", note: "" },
+                    { name: `${niche} Express Guarulhos`, hasSite: false, phone: "11933332222", note: "" }
+                ];
+
+                updateStats();
+                renderTable();
+                statusEl.innerText = `Busca concluída: ${currentLeads.length} empresas encontradas.`;
+            }, 600);
+        }
+
+        function updateStats() {
+            const total = currentLeads.length;
+            const noSite = currentLeads.filter(l => !l.hasSite).length;
+            const hasSite = total - noSite;
+
+            document.getElementById('statTotal').innerText = total;
+            document.getElementById('statNoSite').innerText = noSite;
+            document.getElementById('statHasSite').innerText = hasSite;
+        }
+
+        function filterTable(filter) {
+            activeFilter = filter;
+            document.querySelectorAll('[id^="filter-"]').forEach(btn => btn.classList.remove('bg-indigo-900', 'border-indigo-500'));
+            document.getElementById(`filter-${filter}`).classList.add('bg-indigo-900', 'border-indigo-500');
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('leadsTableBody');
+            tbody.innerHTML = '';
+
+            let filtered = currentLeads;
+            if(activeFilter === 'no-site') filtered = currentLeads.filter(l => !l.hasSite);
+            if(activeFilter === 'has-site') filtered = currentLeads.filter(l => l.hasSite);
+
+            if(filtered.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500">Nenhum resultado para este filtro.</td></tr>`;
+                return;
+            }
+
+            filtered.forEach((lead, index) => {
+                const originalIndex = currentLeads.indexOf(lead);
+                const whatsappText = encodeURIComponent(`Olá! Tudo bem? Vi seu perfil no Google e notei que vocês ainda não possuem um site profissional. Sou desenvolvedor web aqui na região e ajudo negócios como o de vocês a atraírem mais clientes no digital. Tem 5 minutinhos para conversarmos?`);
+
+                let row = `
+                    <tr class="hover:bg-gray-750 transition border-b border-gray-700/50">
+                        <td class="p-4 font-medium text-white">${lead.name}</td>
+                        <td class="p-4">
+                            ${lead.hasSite ? 
+                                `<span class="px-2.5 py-1 rounded-full text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"><i class="fa-solid fa-globe mr-1"></i> ${lead.siteUrl}</span>` : 
+                                `<span class="px-2.5 py-1 rounded-full text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Sem Site</span>`
+                            }
+                        </td>
+                        <td class="p-4 text-gray-300 text-xs"><i class="fa-brands fa-whatsapp text-emerald-400 mr-1"></i> +55 (${lead.phone.slice(0,2)}) ${lead.phone.slice(2,7)}-${lead.phone.slice(7)}</td>
+                        <td class="p-4 text-xs text-gray-400 max-w-xs truncate">${lead.note ? lead.note : '<span class="italic text-gray-600">Nenhuma nota ainda...</span>'}</td>
+                        <td class="p-4 text-right space-x-2">
+                            <button onclick="openNoteModal(${originalIndex})" title="Adicionar Nota" class="p-2 bg-gray-700 hover:bg-gray-600 text-indigo-400 rounded-lg transition"><i class="fa-solid fa-pen"></i></button>
+                            <a href="https://wa.me/55${lead.phone}?text=${whatsappText}" target="_blank" title="Enviar WhatsApp" class="inline-block p-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg transition"><i class="fa-brands fa-whatsapp"></i></a>
+                            <button onclick="moveToClients(${originalIndex})" title="Marcar como Cliente Fechado" class="p-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition"><i class="fa-solid fa-check"></i></button>
+                        </td>
+                    </tr>
+                `;
+                tbody.innerHTML += row;
+            });
+        }
+
+        // Funções do Modal de Notas
+        function openNoteModal(index) {
+            currentEditIndex = index;
+            document.getElementById('modalCompanyName').innerText = currentLeads[index].name;
+            document.getElementById('modalNoteInput').value = currentLeads[index].note || '';
+            document.getElementById('noteModal').classList.remove('hidden');
+            document.getElementById('noteModal').classList.add('flex');
+        }
+
+        function closeNoteModal() {
+            document.getElementById('noteModal').classList.add('hidden');
+            document.getElementById('noteModal').classList.remove('flex');
+        }
+
+        function saveLeadNote() {
+            if(currentEditIndex !== null) {
+                currentLeads[currentEditIndex].note = document.getElementById('modalNoteInput').value;
+                renderTable();
+                closeNoteModal();
+            }
+        }
+
+        // Enviar para Clientes Fechados
+        function moveToClients(index) {
+            const client = currentLeads[index];
+            savedClients.push({
+                name: client.name,
+                phone: client.phone,
+                details: "Site desenvolvido via prospecção"
+            });
+            localStorage.setItem('prospecta_clients', JSON.stringify(savedClients));
+            alert(`Cliente "${client.name}" movido para a aba de Clientes Fechados com sucesso!`);
+        }
+
+        function renderClients() {
+            const tbody = document.getElementById('clientsTableBody');
+            tbody.innerHTML = '';
+
+            if(savedClients.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="4" class="p-6 text-center text-gray-500">Nenhum cliente cadastrado ainda.</td></tr>`;
+                return;
+            }
+
+            savedClients.forEach((client, idx) => {
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-750 transition border-b border-gray-700/50">
+                        <td class="p-4 font-medium text-white">${client.name}</td>
+                        <td class="p-4 text-xs text-gray-300">${client.phone}</td>
+                        <td class="p-4 text-xs text-indigo-400">${client.details}</td>
+                        <td class="p-4 text-right">
+                            <button onclick="removeClient(${idx})" class="p-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition"><i class="fa-solid fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function openAddClientModal() {
+            const name = prompt("Nome do Cliente / Empresa:");
+            if(!name) return;
+            const phone = prompt("Telefone/WhatsApp:", "11999998888");
+            const details = prompt("Detalhes do Projeto / Valor Fechado:", "Landing Page R$ 800");
+
+            savedClients.push({ name, phone, details });
+            localStorage.setItem('prospecta_clients', JSON.stringify(savedClients));
+            renderClients();
+        }
+
+        function removeClient(idx) {
+            if(confirm("Deseja remover este cliente?")) {
+                savedClients.splice(idx, 1);
+                localStorage.setItem('prospecta_clients', JSON.stringify(savedClients));
+                renderClients();
+            }
+        }
+    </script>
+</body>
+</html>
