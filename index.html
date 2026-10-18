@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prospecta.io - Prospecção Real & IA</title>
+    <title>Prospecta.io - Prospecção Inteligente & CRM</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -14,15 +14,15 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
                 <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-lg">
-                    <i class="fa-solid fa-radar text-xl"></i>
+                    <i class="fa-solid fa-brain text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-wide">Prospecta.io <span class="text-emerald-400 text-xs uppercase px-2 py-0.5 bg-emerald-950 border border-emerald-800 rounded-full ml-2">Turbo Vendas</span></h1>
-                    <p class="text-xs text-gray-400">Busca empresas reais, analisa sites e dispara mensagens personalizadas</p>
+                    <h1 class="text-xl font-bold tracking-wide">Prospecta.io <span class="text-emerald-400 text-xs uppercase px-2 py-0.5 bg-emerald-950 border border-emerald-800 rounded-full ml-2">SaaS Turbo</span></h1>
+                    <p class="text-xs text-gray-400">Prospecção de 50+ empresas reais, disparos em massa e controle de conversão</p>
                 </div>
             </div>
             <div class="flex bg-gray-900 p-1 rounded-lg border border-gray-700">
-                <button onclick="switchTab('search')" id="tab-search" class="px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white transition">Busca & Leads Reais</button>
+                <button onclick="switchTab('search')" id="tab-search" class="px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white transition">Busca & 50+ Leads</button>
                 <button onclick="switchTab('clients')" id="tab-clients" class="px-4 py-1.5 rounded-md text-sm font-medium text-gray-400 hover:text-white transition">Clientes Fechados ($)</button>
             </div>
         </div>
@@ -32,14 +32,14 @@
 
         <!-- ABA 1: BUSCA E DISPAROS -->
         <section id="section-search" class="space-y-6">
-            <!-- Barra de Busca Real -->
+            <!-- Barra de Busca -->
             <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-xs font-medium text-gray-400 mb-1">Nicho / Segmento</label>
                         <div class="relative">
                             <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-500 text-sm"></i>
-                            <input type="text" id="inputNiche" placeholder="Ex: Oficina, Pizzaria, Modas..." class="w-full bg-gray-900 border border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
+                            <input type="text" id="inputNiche" placeholder="Ex: Pizzaria, Oficina, Modas..." class="w-full bg-gray-900 border border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
                         </div>
                     </div>
                     <div>
@@ -51,7 +51,7 @@
                     </div>
                     <div class="flex items-end">
                         <button onclick="searchRealLeads()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30">
-                            <i class="fa-solid fa-globe"></i> Carregar Empresas Reais
+                            <i class="fa-solid fa-radar"></i> Carregar 50+ Leads Reais
                         </button>
                     </div>
                 </div>
@@ -62,12 +62,12 @@
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-sm font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-pen-nib text-indigo-400"></i> Mensagem Personalizada por IA
+                            <i class="fa-solid fa-pen-nib text-indigo-400"></i> Modelo de Mensagem Personalizada
                         </h2>
-                        <p class="text-xs text-gray-400">A tag <code class="text-indigo-300 bg-gray-900 px-1 py-0.5 rounded">{empresa}</code> será substituída automaticamente pelo nome real de cada negócio.</p>
+                        <p class="text-xs text-gray-400">Use a tag <code class="text-indigo-300 bg-gray-900 px-1 py-0.5 rounded">{empresa}</code> onde quiser que o nome do negócio apareça.</p>
                     </div>
                     <button onclick="massWhatsAppBlast()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-5 py-3 rounded-xl transition shadow-lg flex items-center gap-2">
-                        <i class="fa-brands fa-whatsapp text-base"></i> Disparar para Alvos (Sem Site)
+                        <i class="fa-brands fa-whatsapp text-base"></i> Disparar em Massa no WhatsApp
                     </button>
                 </div>
                 <div>
@@ -79,10 +79,10 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex items-center justify-between">
                     <div>
-                        <p class="text-xs text-gray-400">Total Encontrados</p>
+                        <p class="text-xs text-gray-400">Leads Carregados</p>
                         <h3 id="statTotal" class="text-2xl font-bold text-white">0</h3>
                     </div>
-                    <div class="p-3 bg-gray-700/50 rounded-lg text-indigo-400"><i class="fa-solid fa-building"></i></div>
+                    <div class="p-3 bg-gray-700/50 rounded-lg text-indigo-400"><i class="fa-solid fa-users"></i></div>
                 </div>
                 <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex items-center justify-between">
                     <div>
@@ -100,24 +100,25 @@
                 </div>
             </div>
 
-            <!-- Tabela de Leads Reais -->
+            <!-- Tabela de Leads -->
             <div class="bg-gray-800 rounded-2xl border border-gray-700 shadow-xl overflow-hidden">
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto max-h-[600px]">
                     <table class="w-full text-left border-collapse">
-                        <thead>
-                            <tr class="bg-gray-900/60 text-gray-400 text-xs border-b border-gray-700 uppercase">
-                                <th class="p-4">Empresa Real</th>
+                        <thead class="sticky top-0 bg-gray-900 z-10">
+                            <tr class="text-gray-400 text-xs border-b border-gray-700 uppercase">
+                                <th class="p-4">Empresa (Personalizada)</th>
                                 <th class="p-4">Situação Web</th>
                                 <th class="p-4">Endereço</th>
+                                <th class="p-4">WhatsApp</th>
                                 <th class="p-4">Funil / Status</th>
                                 <th class="p-4 text-right">Ação</th>
                             </tr>
                         </thead>
                         <tbody id="leadsTableBody" class="divide-y divide-gray-700 text-sm">
                             <tr>
-                                <td colspan="5" class="p-8 text-center text-gray-500">
+                                <td colspan="6" class="p-8 text-center text-gray-500">
                                     <i class="fa-solid fa-arrow-up text-xl mb-2 block"></i>
-                                    Digite o nicho e a cidade acima para carregar as empresas reais.
+                                    Carregue a lista acima para puxar 50+ estabelecimentos reais.
                                 </td>
                             </tr>
                         </tbody>
@@ -184,43 +185,35 @@
             }
         }
 
-        function searchRealLeads() {
-            const niche = document.getElementById('inputNiche').value.trim() || "Oficina";
-            const city = document.getElementById('inputCity').value.trim() || "Guarulhos";
+        async function searchRealLeads() {
+            const niche = document.getElementById('inputNiche').value.trim();
+            const city = document.getElementById('inputCity').value.trim();
             const statusEl = document.getElementById('searchStatus');
 
-            statusEl.innerText = "A carregar empresas reais...";
+            if(!niche || !city) {
+                alert('Por favor, digite o nicho e a cidade.');
+                return;
+            }
 
-            // Base ampla e real de estabelecimentos mapeados em Guarulhos para garantir volume imediato
-            const baseGuarulhos = [
-                { name: `Auto Mecânica ${niche} Guarulhos`, address: `Av. Guarulhos, 1250 - Ponte Grande, Guarulhos - SP`, hasSite: false },
-                { name: `Oficina & ${niche} Irmãos ${city}`, address: `Av. Tiradentes, 420 - Centro, Guarulhos - SP`, hasSite: false },
-                { name: `Centro Automotivo ${niche} Prime`, address: `Rua Coronel Fernando Prestes, 89 - Vila Progresso, Guarulhos - SP`, hasSite: true },
-                { name: `Auto Elétrica e ${niche} Central`, address: `Av. Paulo Faccini, 750 - Macedo, Guarulhos - SP`, hasSite: false },
-                { name: `Mecânica Geral ${niche} SP`, address: `Rua 13 de Maio, 310 - Vila Augusta, Guarulhos - SP`, hasSite: false },
-                { name: `Studio ${niche} Av. Guarulhos`, address: `Av. Guarulhos, 3400 - Vila Leonor, Guarulhos - SP`, hasSite: false },
-                { name: `Express ${niche} Bonsucesso`, address: `Estrada do Água Chata, 1200 - Bonsucesso, Guarulhos - SP`, hasSite: true },
-                { name: `Funilaria e ${niche} Pimentas`, address: `Av. Juscelino Kubitschek de Oliveira, 2100 - Pimentas, Guarulhos - SP`, hasSite: false },
-                { name: `Auto Peças e ${niche} Taboão`, address: `Av. Otávio Braga de Mesquita, 1500 - Taboão, Guarulhos - SP`, hasSite: false },
-                { name: `Oficina Especializada ${niche} Gopoúva`, address: `Av. Emílio Ribas, 920 - Gopoúva, Guarulhos - SP`, hasSite: false },
-                { name: `Master ${niche} Torres Tibagy`, address: `Av. Torres Tibagy, 400 - Vila Tijuco, Guarulhos - SP`, hasSite: true },
-                { name: `Turbo ${niche} Cecap`, address: `Praça 8 de Dezembro, 150 - Parque Santo Antônio, Guarulhos - SP`, hasSite: false },
-                { name: `Soluções ${niche} Vila Galvão`, address: `Av. Dr. Timóteo Penteado, 1800 - Vila Galvão, Guarulhos - SP`, hasSite: false },
-                { name: `Alpha ${niche} Centro`, address: `Rua Dom Pedro II, 230 - Centro, Guarulhos - SP`, hasSite: false },
-                { name: `Nova ${niche} Bonsucesso`, address: `Estrada JK, 4500 - Bonsucesso, Guarulhos - SP`, hasSite: true }
-            ];
+            statusEl.innerText = "A buscar 50+ empresas reais no servidor...";
 
-            currentLeads = baseGuarulhos.map((item, idx) => ({
-                name: `${item.name} ${idx + 1}`,
-                address: item.address,
-                hasSite: item.hasSite,
-                phone: "119" + Math.floor(10000000 + Math.random() * 90000000),
-                status: "Novo"
-            }));
+            try {
+                // Consulta o servidor Node.js local que traz 50+ resultados sem barreiras
+                const response = await fetch(`http://localhost:3000/api/buscar-empresas?niche=${encodeURIComponent(niche)}&city=${encodeURIComponent(city)}`);
+                const data = await response.json();
 
-            updateStats();
-            renderTable();
-            statusEl.innerText = `${currentLeads.length} empresas carregadas!`;
+                if(data.success && data.leads) {
+                    currentLeads = data.leads;
+                    updateStats();
+                    renderTable();
+                    statusEl.innerText = `${currentLeads.length} empresas carregadas!`;
+                } else {
+                    statusEl.innerText = "Erro ao carregar leads.";
+                }
+            } catch (error) {
+                console.error(error);
+                statusEl.innerText = "Erro de conexão com o servidor local.";
+            }
         }
 
         function getPersonalizedMessage(companyName) {
@@ -252,6 +245,7 @@
                             }
                         </td>
                         <td class="p-4 text-xs text-gray-300 truncate max-w-xs">${lead.address}</td>
+                        <td class="p-4 text-xs text-gray-300">+55 (${lead.phone.slice(0,2)}) ${lead.phone.slice(2,7)}-${lead.phone.slice(7)}</td>
                         <td class="p-4">
                             <select onchange="updateLeadStatus(${index}, this.value)" class="bg-gray-900 border border-gray-700 rounded-lg text-xs p-1.5 text-indigo-300">
                                 <option value="Novo" ${lead.status === 'Novo' ? 'selected' : ''}>Novo Lead</option>
@@ -284,7 +278,7 @@
                 return;
             }
 
-            if(confirm(`Vai disparar mensagens personalizadas para ${targets.length} empresas de Guarulhos agora. Deseja iniciar?`)) {
+            if(confirm(`Vai disparar mensagens personalizadas para ${targets.length} empresas agora. Deseja iniciar?`)) {
                 targets.forEach((lead, i) => {
                     setTimeout(() => {
                         const messageUrl = getPersonalizedMessage(lead.name);
@@ -342,7 +336,7 @@
         function removeClient(idx) {
             if(confirm("Remover cliente?")) {
                 savedClients.splice(idx, 1);
-                localStorage.setItem('prosave_clients', JSON.stringify(savedClients));
+                localStorage.setItem('prospecta_io_clients', JSON.stringify(savedClients));
                 renderClients();
             }
         }
