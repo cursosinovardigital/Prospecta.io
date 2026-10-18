@@ -1,296 +1,150 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prospecta.io</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = { theme: { extend: {
-  fontFamily: { sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'] },
-  colors: { ink: '#14181F', paper: '#F5F6F8', line: '#E3E6EB', brand: '#0F766E', brandd: '#0B5D57', amber2: '#B45309' }
-}}};
-</script>
-<style>
-  body { font-feature-settings: "tnum"; }
-  :focus-visible { outline: 2px solid #0F766E; outline-offset: 2px; }
-  .col.over { background: #E6F2F1; }
-  dialog::backdrop { background: rgba(20,24,31,.45); }
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prospecta.io - Prospecção Real & IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-paper text-ink font-sans min-h-screen lg:flex">
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen pb-12">
 
-<!-- Navegação -->
-<aside class="lg:w-60 lg:min-h-screen bg-white border-b lg:border-b-0 lg:border-r border-line flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start gap-2 p-3 lg:p-5 lg:sticky lg:top-0 lg:h-screen">
-  <div class="font-extrabold text-lg tracking-tight lg:mb-6">Prospecta<span class="text-brand">.io</span></div>
-  <nav class="flex lg:flex-col gap-1 text-sm font-semibold" aria-label="Principal">
-    <button data-nav="leads" class="nav text-left px-3 py-2 rounded-lg">Prospectar</button>
-    <button data-nav="funil" class="nav text-left px-3 py-2 rounded-lg">Funil</button>
-    <button data-nav="clientes" class="nav text-left px-3 py-2 rounded-lg">Clientes</button>
-  </nav>
-  <div class="hidden lg:block mt-auto text-xs text-slate-500">Seus dados ficam neste navegador até o login por conta ser ativado.</div>
-</aside>
-
-<main class="flex-1 min-w-0 p-4 lg:p-8 space-y-6">
-
-<!-- ===== PROSPECTAR ===== -->
-<section id="v-leads" class="space-y-6">
-  <header>
-    <h1 class="text-2xl font-extrabold tracking-tight">Encontre negócios que ainda não têm site</h1>
-    <p class="text-sm text-slate-600 mt-1">Buscamos estabelecimentos com telefone cadastrado. A quantidade depende do que existe no mapa para a sua região.</p>
-  </header>
-
-  <form id="searchForm" class="bg-white border border-line rounded-xl p-4 grid gap-3 md:grid-cols-[1fr_1fr_auto] items-end">
-    <label class="text-xs font-semibold text-slate-600">Nicho
-      <input id="niche" required placeholder="pizzaria, oficina, barbearia" class="mt-1 w-full border border-line rounded-lg px-3 py-2.5 text-sm font-normal">
-    </label>
-    <label class="text-xs font-semibold text-slate-600">Cidade
-      <input id="city" required placeholder="Guarulhos, SP" class="mt-1 w-full border border-line rounded-lg px-3 py-2.5 text-sm font-normal">
-    </label>
-    <button id="searchBtn" class="bg-brand hover:bg-brandd text-white font-semibold text-sm rounded-lg px-5 py-2.5 transition">Buscar leads</button>
-  </form>
-
-  <div class="grid gap-6 xl:grid-cols-[1.1fr_1fr]">
-    <!-- Fila de abordagem: o foco da tela -->
-    <div class="bg-ink text-white rounded-2xl p-6 flex flex-col justify-between min-h-[260px]">
-      <div id="queueBody"></div>
-    </div>
-
-    <!-- Mensagem -->
-    <div class="bg-white border border-line rounded-xl p-4 space-y-3">
-      <div class="flex items-center justify-between gap-2">
-        <h2 class="font-bold text-sm">Mensagem de abordagem</h2>
-        <div class="flex gap-1.5 text-xs">
-          <button type="button" data-chip="{empresa}" class="px-2 py-1 rounded-md bg-paper border border-line font-semibold">{empresa}</button>
-          <button type="button" data-chip="{meu_nome}" class="px-2 py-1 rounded-md bg-paper border border-line font-semibold">{meu_nome}</button>
+    <header class="bg-gray-800 border-b border-gray-700 py-4 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wide">Prospecta.io <span class="text-emerald-400 text-xs uppercase px-2 py-0.5 bg-emerald-950 border border-emerald-800 rounded-full ml-2">Turbo Maps</span></h1>
+            <div class="flex bg-gray-900 p-1 rounded-lg border border-gray-700">
+                <button onclick="switchTab('search')" id="tab-search" class="px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white transition">Prospectar</button>
+                <button onclick="switchTab('clients')" id="tab-clients" class="px-4 py-1.5 rounded-md text-sm font-medium text-gray-400 hover:text-white transition">Clientes ($)</button>
+            </div>
         </div>
-      </div>
-      <label class="text-xs font-semibold text-slate-600 block">Seu nome
-        <input id="myName" placeholder="Como você se apresenta" class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm font-normal">
-      </label>
-      <textarea id="tpl" rows="5" aria-label="Texto da mensagem" class="w-full border border-line rounded-lg p-3 text-sm"></textarea>
-      <div class="text-xs text-slate-500">Prévia</div>
-      <div id="preview" class="text-sm bg-paper border border-line rounded-lg p-3 whitespace-pre-wrap"></div>
-    </div>
-  </div>
+    </header>
 
-  <div class="grid grid-cols-3 gap-3">
-    <div class="bg-white border border-line rounded-xl p-4"><div class="text-xs text-slate-500">Leads com telefone</div><div id="kTotal" class="text-2xl font-extrabold">0</div></div>
-    <div class="bg-white border border-line rounded-xl p-4"><div class="text-xs text-slate-500">Sem site</div><div id="kNoSite" class="text-2xl font-extrabold text-amber2">0</div></div>
-    <div class="bg-white border border-line rounded-xl p-4"><div class="text-xs text-slate-500">Já abordados</div><div id="kDone" class="text-2xl font-extrabold text-brand">0</div></div>
-  </div>
+    <main class="max-w-7xl mx-auto px-4 mt-8 space-y-6">
+        <section id="section-search" class="space-y-6">
+            <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Nicho</label>
+                        <input type="text" id="inputNiche" placeholder="Ex: pizzaria, oficina" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-400 mb-1">Cidade</label>
+                        <input type="text" id="inputCity" placeholder="Ex: Guarulhos" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
+                    </div>
+                    <div class="flex items-end">
+                        <button onclick="searchRealLeads()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg">
+                            <i class="fa-solid fa-magnifying-glass"></i> Buscar leads
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-  <div class="bg-white border border-line rounded-xl overflow-hidden">
-    <div class="overflow-x-auto max-h-[560px]">
-      <table class="w-full text-sm text-left">
-        <thead class="sticky top-0 bg-white border-b border-line text-xs text-slate-500">
-          <tr><th class="p-3 font-semibold">Empresa</th><th class="p-3 font-semibold">Site</th><th class="p-3 font-semibold">Telefone</th><th class="p-3 font-semibold">Etapa</th><th class="p-3"></th></tr>
-        </thead>
-        <tbody id="rows" class="divide-y divide-line"></tbody>
-      </table>
-    </div>
-  </div>
-</section>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
+                    <p class="text-xs text-gray-400">Total Encontrados</p>
+                    <h3 id="statTotal" class="text-2xl font-bold text-white">0</h3>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
+                    <p class="text-xs text-gray-400">Sem Site (Alvos)</p>
+                    <h3 id="statNoSite" class="text-2xl font-bold text-amber-400">0</h3>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-xl border border-gray-700">
+                    <p class="text-xs text-gray-400">Status</p>
+                    <h3 id="searchStatus" class="text-xs font-bold text-emerald-400 mt-2">Pronto</h3>
+                </div>
+            </div>
 
-<!-- ===== FUNIL ===== -->
-<section id="v-funil" class="hidden space-y-4">
-  <header><h1 class="text-2xl font-extrabold tracking-tight">Funil</h1><p class="text-sm text-slate-600 mt-1">Arraste os cartões entre as etapas.</p></header>
-  <div id="board" class="grid gap-3 md:grid-cols-4"></div>
-</section>
+            <div class="bg-gray-800 rounded-2xl border border-gray-700 shadow-xl overflow-hidden">
+                <div class="overflow-x-auto max-h-[500px]">
+                    <table class="w-full text-left border-collapse">
+                        <thead class="sticky top-0 bg-gray-900">
+                            <tr class="text-gray-400 text-xs border-b border-gray-700 uppercase">
+                                <th class="p-4">Empresa</th>
+                                <th class="p-4">Web</th>
+                                <th class="p-4">Endereço</th>
+                                <th class="p-4">WhatsApp</th>
+                                <th class="p-4 text-right">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody id="leadsTableBody" class="divide-y divide-gray-700 text-sm">
+                            <tr><td colspan="5" class="p-8 text-center text-gray-500">Faça uma busca acima para montar a sua fila.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
 
-<!-- ===== CLIENTES ===== -->
-<section id="v-clientes" class="hidden space-y-4">
-  <header class="flex flex-wrap items-end justify-between gap-3">
-    <div><h1 class="text-2xl font-extrabold tracking-tight">Clientes fechados</h1><p class="text-sm text-slate-600 mt-1">Total fechado: <strong id="sum" class="text-brand">R$ 0</strong></p></div>
-    <button id="addClient" class="bg-brand hover:bg-brandd text-white font-semibold text-sm rounded-lg px-4 py-2.5">Adicionar cliente</button>
-  </header>
-  <div class="bg-white border border-line rounded-xl overflow-hidden">
-    <table class="w-full text-sm text-left"><tbody id="clientRows" class="divide-y divide-line"></tbody></table>
-  </div>
-</section>
-</main>
+        <section id="section-clients" class="hidden space-y-6">
+            <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
+                <h2 class="text-lg font-bold">Clientes Fechados</h2>
+                <div id="clientsList" class="mt-4 text-gray-400 text-sm">Nenhum cliente registrado ainda.</div>
+            </div>
+        </section>
+    </main>
 
-<!-- Modal de fechamento -->
-<dialog id="dlg" class="rounded-2xl p-0 w-[92vw] max-w-sm">
-  <form method="dialog" id="dlgForm" class="p-5 space-y-3">
-    <h2 id="dlgTitle" class="font-bold">Registrar venda</h2>
-    <label class="text-xs font-semibold text-slate-600 block">Cliente
-      <input id="dName" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm font-normal"></label>
-    <label class="text-xs font-semibold text-slate-600 block">Serviço
-      <input id="dSvc" value="Site institucional" class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm font-normal"></label>
-    <label class="text-xs font-semibold text-slate-600 block">Valor (R$)
-      <input id="dVal" type="number" min="0" step="1" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm font-normal"></label>
-    <div class="flex justify-end gap-2 pt-1">
-      <button type="button" id="dCancel" class="px-4 py-2 text-sm font-semibold rounded-lg border border-line">Cancelar</button>
-      <button class="px-4 py-2 text-sm font-semibold rounded-lg bg-brand text-white">Salvar venda</button>
-    </div>
-  </form>
-</dialog>
+    <script>
+        let currentLeads = [];
 
-<div id="toast" role="status" class="fixed bottom-4 left-1/2 -translate-x-1/2 bg-ink text-white text-sm rounded-lg px-4 py-2.5 hidden"></div>
+        function switchTab(tab) {
+            document.getElementById('section-search').classList.toggle('hidden', tab !== 'search');
+            document.getElementById('section-clients').classList.toggle('hidden', tab !== 'clients');
+        }
 
-<script>
-const API = localStorage.getItem('api_base') || 'http://localhost:3000';
-const STAGES = ['Novo', 'Contatado', 'Respondeu', 'Negociação'];
-const DEFAULT_TPL = 'Olá! Estou falando com o responsável pela {empresa}? Aqui é {meu_nome}, desenvolvo sites para negócios da região. Vi que a {empresa} ainda não tem um site para ser encontrada no Google. Posso te mandar um exemplo de como ficaria?';
+        async function searchRealLeads() {
+            const niche = document.getElementById('inputNiche').value.trim();
+            const city = document.getElementById('inputCity').value.trim();
+            const statusEl = document.getElementById('searchStatus');
 
-const store = {
-  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
-  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
-};
-let leads = store.get('p_leads', []);
-let clients = store.get('p_clients', []);
-let tpl = store.get('p_tpl', DEFAULT_TPL);
-let myName = store.get('p_name', '');
-let pendingLead = null;
+            if(!niche || !city) {
+                alert('Preencha o nicho e a cidade.');
+                return;
+            }
 
-const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const brl = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
-const fmtPhone = (p) => p.length === 11 ? `(${p.slice(0,2)}) ${p.slice(2,7)}-${p.slice(7)}` : `(${p.slice(0,2)}) ${p.slice(2,6)}-${p.slice(6)}`;
-const persist = () => { store.set('p_leads', leads); store.set('p_clients', clients); };
+            statusEl.innerText = "Buscando no mapa real...";
 
-function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.remove('hidden'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.add('hidden'), 2800); }
+            try {
+                // Requisição limpa direto para a rota local do servidor
+                const res = await fetch(`/api/buscar-empresas?niche=${encodeURIComponent(niche)}&city=${encodeURIComponent(city)}`);
+                const data = await res.json();
 
-// ---------- navegação ----------
-function nav(v) {
-  ['leads', 'funil', 'clientes'].forEach((n) => $('v-' + n).classList.toggle('hidden', n !== v));
-  document.querySelectorAll('.nav').forEach((b) => {
-    const on = b.dataset.nav === v;
-    b.className = 'nav text-left px-3 py-2 rounded-lg ' + (on ? 'bg-ink text-white' : 'text-slate-600 hover:bg-paper');
-  });
-  if (v === 'funil') renderBoard();
-  if (v === 'clientes') renderClients();
-}
-document.querySelectorAll('.nav').forEach((b) => b.addEventListener('click', () => nav(b.dataset.nav)));
+                if(data.success && data.leads) {
+                    currentLeads = data.leads;
+                    document.getElementById('statTotal').innerText = currentLeads.length;
+                    document.getElementById('statNoSite').innerText = currentLeads.filter(l => !l.hasSite).length;
+                    renderTable();
+                    statusEl.innerText = `${currentLeads.length} encontrados!`;
+                } else {
+                    statusEl.innerText = data.error || "Nenhum resultado.";
+                }
+            } catch (err) {
+                console.error(err);
+                statusEl.innerText = "Erro ao conectar ao servidor.";
+            }
+        }
 
-// ---------- mensagem ----------
-function message(lead) {
-  return tpl.replace(/{empresa}/g, lead.name).replace(/{meu_nome}/g, myName || 'seu nome');
-}
-function waUrl(lead) { return `https://wa.me/55${lead.phone}?text=${encodeURIComponent(message(lead))}`; }
-function renderPreview() {
-  const sample = leads[0] || { name: 'Pizzaria Exemplo' };
-  $('preview').textContent = message(sample);
-}
-$('tpl').value = tpl; $('myName').value = myName;
-$('tpl').addEventListener('input', (e) => { tpl = e.target.value; store.set('p_tpl', tpl); renderPreview(); renderAll(); });
-$('myName').addEventListener('input', (e) => { myName = e.target.value; store.set('p_name', myName); renderPreview(); renderAll(); });
-document.querySelectorAll('[data-chip]').forEach((b) => b.addEventListener('click', () => {
-  const t = $('tpl'), s = t.selectionStart, c = b.dataset.chip;
-  t.value = t.value.slice(0, s) + c + t.value.slice(t.selectionEnd);
-  t.dispatchEvent(new Event('input')); t.focus(); t.setSelectionRange(s + c.length, s + c.length);
-}));
+        function renderTable() {
+            const tbody = document.getElementById('leadsTableBody');
+            tbody.innerHTML = '';
+            if(currentLeads.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-gray-500">Nenhum estabelecimento com telefone encontrado.</td></tr>`;
+                return;
+            }
 
-// ---------- busca ----------
-$('searchForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const btn = $('searchBtn'); btn.disabled = true; btn.textContent = 'Buscando…';
-  try {
-    const r = await fetch(`${API}/api/buscar-empresas?niche=${encodeURIComponent($('niche').value.trim())}&city=${encodeURIComponent($('city').value.trim())}`);
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.error || 'Erro na busca.');
-    const known = new Set(leads.map((l) => l.id));
-    const fresh = d.leads.filter((l) => !known.has(l.id));
-    leads = [...fresh, ...leads]; persist(); renderAll();
-    toast(d.total ? `${fresh.length} novos leads com telefone.` : 'Nada encontrado. Tente um termo mais simples, como "pizza".');
-  } catch (err) {
-    toast(err.message.includes('fetch') ? 'Não foi possível conectar ao servidor. Ele está rodando?' : err.message);
-  } finally { btn.disabled = false; btn.textContent = 'Buscar leads'; }
-});
-
-// ---------- ações ----------
-function approach(id) {
-  const l = leads.find((x) => x.id === id); if (!l || !l.isMobile) return;
-  window.open(waUrl(l), '_blank', 'noopener');
-  if (l.status === 'Novo') l.status = 'Contatado';
-  persist(); renderAll();
-}
-function setStage(id, s) { const l = leads.find((x) => x.id === id); if (l) { l.status = s; persist(); renderAll(); } }
-function openDeal(id) {
-  const l = leads.find((x) => x.id === id);
-  pendingLead = l; $('dName').value = l ? l.name : ''; $('dSvc').value = 'Site institucional'; $('dVal').value = '';
-  $('dlgTitle').textContent = l ? 'Registrar venda' : 'Adicionar cliente';
-  $('dlg').showModal();
-}
-$('dCancel').addEventListener('click', () => $('dlg').close());
-$('dlgForm').addEventListener('submit', () => {
-  clients.push({ name: $('dName').value.trim(), service: $('dSvc').value.trim(), value: Number($('dVal').value) || 0, at: Date.now() });
-  if (pendingLead) leads = leads.filter((l) => l.id !== pendingLead.id);
-  pendingLead = null; persist(); renderAll(); renderClients(); toast('Venda registrada.');
-});
-$('addClient').addEventListener('click', () => openDeal(null));
-
-// ---------- renderização ----------
-function nextTarget() {
-  const pool = leads.filter((l) => l.status === 'Novo' && l.isMobile);
-  return pool.find((l) => !l.hasSite) || pool[0];
-}
-function renderQueue() {
-  const l = nextTarget(), box = $('queueBody');
-  if (!l) {
-    box.innerHTML = `<p class="text-lg font-bold">Fila vazia</p><p class="text-sm text-slate-300 mt-2">Faça uma busca acima para montar a sua fila de abordagem. Leads sem celular não entram, porque não têm WhatsApp.</p>`;
-    return;
-  }
-  const left = leads.filter((x) => x.status === 'Novo' && x.isMobile).length;
-  box.innerHTML = `
-    <p class="text-xs text-slate-400">Próximo da fila · ${left} restantes</p>
-    <h2 class="text-3xl font-extrabold tracking-tight mt-2 leading-tight">${esc(l.name)}</h2>
-    <p class="text-sm text-slate-300 mt-2">${esc(l.address)}</p>
-    <p class="text-sm mt-1">${esc(fmtPhone(l.phone))} · ${l.hasSite ? 'já tem site' : '<span class="text-amber-300 font-semibold">sem site</span>'}</p>
-    <div class="flex flex-wrap gap-2 mt-6">
-      <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-semibold text-sm rounded-lg px-5 py-3">Abordar no WhatsApp</button>
-      <button onclick="setStage('${esc(l.id)}','Contatado')" class="border border-white/25 text-sm font-semibold rounded-lg px-4 py-3">Pular</button>
-    </div>`;
-}
-function renderRows() {
-  $('rows').innerHTML = leads.length ? leads.map((l) => `
-    <tr>
-      <td class="p-3 font-semibold">${esc(l.name)}<div class="text-xs font-normal text-slate-500 truncate max-w-xs">${esc(l.address)}</div></td>
-      <td class="p-3">${l.hasSite ? '<span class="text-xs text-slate-500">Tem site</span>' : '<span class="text-xs font-semibold text-amber2">Sem site</span>'}</td>
-      <td class="p-3 whitespace-nowrap">${esc(fmtPhone(l.phone))}${l.isMobile ? '' : '<div class="text-xs text-slate-500">Fixo, sem WhatsApp</div>'}</td>
-      <td class="p-3"><select aria-label="Etapa" onchange="setStage('${esc(l.id)}',this.value)" class="border border-line rounded-lg text-xs px-2 py-1.5">${STAGES.map((s) => `<option ${s === l.status ? 'selected' : ''}>${s}</option>`).join('')}</select></td>
-      <td class="p-3 text-right whitespace-nowrap">
-        <button ${l.isMobile ? '' : 'disabled'} onclick="approach('${esc(l.id)}')" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand text-white disabled:opacity-30">Abordar</button>
-        <button onclick="openDeal('${esc(l.id)}')" class="px-3 py-1.5 rounded-lg text-xs font-semibold border border-line">Fechou</button>
-      </td>
-    </tr>`).join('') : `<tr><td colspan="5" class="p-10 text-center text-slate-500">Nenhum lead ainda. Escolha um nicho e uma cidade para começar.</td></tr>`;
-}
-function renderKpis() {
-  $('kTotal').textContent = leads.length;
-  $('kNoSite').textContent = leads.filter((l) => !l.hasSite).length;
-  $('kDone').textContent = leads.filter((l) => l.status !== 'Novo').length;
-}
-function renderBoard() {
-  $('board').innerHTML = STAGES.map((s) => {
-    const items = leads.filter((l) => l.status === s);
-    return `<div class="col bg-white border border-line rounded-xl p-3 min-h-[200px]" data-stage="${s}">
-      <div class="text-sm font-bold mb-3">${s} <span class="text-slate-400 font-semibold">${items.length}</span></div>
-      <div class="space-y-2">${items.map((l) => `<div draggable="true" data-id="${esc(l.id)}" class="card cursor-grab bg-paper border border-line rounded-lg p-3 text-sm">
-        <div class="font-semibold">${esc(l.name)}</div><div class="text-xs text-slate-500">${esc(fmtPhone(l.phone))}</div></div>`).join('')}</div></div>`;
-  }).join('');
-  document.querySelectorAll('.card').forEach((c) => c.addEventListener('dragstart', (e) => e.dataTransfer.setData('id', c.dataset.id)));
-  document.querySelectorAll('.col').forEach((c) => {
-    c.addEventListener('dragover', (e) => { e.preventDefault(); c.classList.add('over'); });
-    c.addEventListener('dragleave', () => c.classList.remove('over'));
-    c.addEventListener('drop', (e) => { e.preventDefault(); c.classList.remove('over'); setStage(e.dataTransfer.getData('id'), c.dataset.stage); renderBoard(); });
-  });
-}
-function renderClients() {
-  $('sum').textContent = brl(clients.reduce((a, c) => a + c.value, 0));
-  $('clientRows').innerHTML = clients.length ? clients.map((c, i) => `
-    <tr><td class="p-4 font-semibold">${esc(c.name)}<div class="text-xs font-normal text-slate-500">${esc(c.service)}</div></td>
-    <td class="p-4 font-bold text-brand">${brl(c.value)}</td>
-    <td class="p-4 text-right"><button onclick="delClient(${i})" class="text-xs font-semibold text-red-700">Remover</button></td></tr>`).join('')
-    : `<tr><td class="p-10 text-center text-slate-500">Nenhum cliente fechado ainda. Quando uma abordagem virar venda, clique em "Fechou" no lead.</td></tr>`;
-}
-function delClient(i) { if (confirm('Remover este cliente?')) { clients.splice(i, 1); persist(); renderClients(); } }
-function renderAll() { renderQueue(); renderRows(); renderKpis(); renderPreview(); }
-
-renderAll(); nav('leads');
-</script>
+            currentLeads.forEach((lead) => {
+                const msg = encodeURIComponent(`Olá ${lead.name}, tudo bem? Sou desenvolvedor web aqui na região...`);
+                tbody.innerHTML += `
+                    <tr class="hover:bg-gray-750 border-b border-gray-700/50">
+                        <td class="p-4 font-medium text-white">${lead.name}</td>
+                        <td class="p-4">${lead.hasSite ? '<span class="text-emerald-400 text-xs">Com Site</span>' : '<span class="text-amber-400 text-xs font-bold">Sem Site</span>'}</td>
+                        <td class="p-4 text-xs text-gray-300">${lead.address}</td>
+                        <td class="p-4 text-xs text-gray-300">+55 ${lead.phone}</td>
+                        <td class="p-4 text-right">
+                            <a href="https://wa.me/55${lead.phone}?text=${msg}" target="_blank" class="px-3 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-medium">Abordar</a>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+    </script>
 </body>
 </html>
