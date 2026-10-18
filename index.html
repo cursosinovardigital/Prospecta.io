@@ -197,7 +197,7 @@
             statusEl.innerText = "A procurar estabelecimentos reais...";
 
             try {
-                const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(niche + ' ' + city)}&addressdetails=1&limit=40`;
+                const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(niche + ' ' + city)}&addressdetails=1&limit=100`;
                 const response = await fetch(url);
                 const data = await response.json();
 
