@@ -71,7 +71,7 @@
                     </button>
                 </div>
                 <div>
-                    <textarea id="customTemplate" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500 text-gray-200">Olá, tudo bem? Estou falando com o responsável pela {empresa}? Meu nome é Víctor, sou desenvolvedor web aqui da região. Notei que vocês ainda não possuem um site profissional para atrair clientes no Google. Posso te mandar um exemplo rápido de como ficaria?</textarea>
+                    <textarea id="customTemplate" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500 text-gray-200">Olá, tudo bem? Estou falando com o responsável pela {empresa}? Meu nome é Víctor, sou desenvolvedor de sites aqui da região. Notei que vocês ainda não possuem um site profissional para atrair clientes no Google. Posso te mandar um exemplo rápido de como ficaria?</textarea>
                 </div>
             </div>
 
@@ -197,15 +197,31 @@
             statusEl.innerText = "A procurar estabelecimentos reais...";
 
             try {
-                const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(niche + ' ' + city)}&addressdetails=1&limit=100`;
-                const response = await fetch(url);
-                const data = await response.json();
+                // Realiza múltiplas buscas paralelas combinando o nicho com termos comerciais para forçar volume máximo
+                const q1 = encodeURIComponent(`${niche} em ${city}`);
+                const q2 = encodeURIComponent(`${niche} ${city}`);
+                const q3 = encodeURIComponent(`comércio ${niche} ${city}`);
 
-                if(data && data.length > 0) {
-                    currentLeads = data.map((item, idx) => {
+                const url1 = `https://nominatim.openstreetmap.org/search?format=json&q=${q1}&addressdetails=1&limit=50`;
+                const url2 = `https://nominatim.openstreetmap.org/search?format=json&q=${q2}&addressdetails=1&limit=50`;
+                const url3 = `https://nominatim.openstreetmap.org/search?format=json&q=${q3}&addressdetails=1&limit=50`;
+
+                const [res1, res2, res3] = await Promise.all([fetch(url1), fetch(url2), fetch(url3)]);
+                const data1 = await res1.json();
+                const data2 = await res2.json();
+                const data3 = await res3.json();
+
+                // Junta todas as listas e remove duplicados com base no ID do mapa
+                const combined = [...data1, ...data2, ...data3];
+                const uniqueLeads = Array.from(new Set(combined.map(a => a.place_id)))
+                    .map(id => combined.find(a => a.place_id === id));
+
+                if(uniqueLeads && uniqueLeads.length > 0) {
+                    currentLeads = uniqueLeads.map((item, idx) => {
                         const hasSite = idx % 3 === 0 ? true : false;
+                        const cleanName = item.display_name.split(',')[0] || `${niche} ${idx}`;
                         return {
-                            name: item.display_name.split(',')[0] || `${niche} ${idx}`,
+                            name: cleanName,
                             address: item.display_name,
                             hasSite: hasSite,
                             phone: "119" + Math.floor(10000000 + Math.random() * 90000000),
@@ -310,7 +326,7 @@
                 details: `Landing Page - Valor: ${value}`
             });
             localStorage.setItem('prospecta_io_clients', JSON.stringify(savedClients));
-            alert(`Venda registada com sucesso! Foco total.`);
+            alert(`Venda registrada com sucesso! Foco total.`);
             switchTab('clients');
         }
 
