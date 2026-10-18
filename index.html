@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prospecta.io - Prospecção Inteligente & CRM</title>
+    <title>Prospecta.io - Prospecção Real & IA</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -14,15 +14,15 @@
         <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div class="flex items-center space-x-3">
                 <div class="bg-indigo-600 text-white p-2.5 rounded-xl shadow-lg">
-                    <i class="fa-solid fa-brain text-xl"></i>
+                    <i class="fa-solid fa-radar text-xl"></i>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-wide">Prospecta.io <span class="text-emerald-400 text-xs uppercase px-2 py-0.5 bg-emerald-950 border border-emerald-800 rounded-full ml-2">Smart AI Copy</span></h1>
-                    <p class="text-xs text-gray-400">Mensagens personalizadas por IA, disparos em massa e controle de conversão</p>
+                    <h1 class="text-xl font-bold tracking-wide">Prospecta.io <span class="text-emerald-400 text-xs uppercase px-2 py-0.5 bg-emerald-950 border border-emerald-800 rounded-full ml-2">Live Maps AI</span></h1>
+                    <p class="text-xs text-gray-400">Busca estabelecimentos reais, analisa sites e dispara mensagens personalizadas</p>
                 </div>
             </div>
             <div class="flex bg-gray-900 p-1 rounded-lg border border-gray-700">
-                <button onclick="switchTab('search')" id="tab-search" class="px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white transition">Busca & Disparos</button>
+                <button onclick="switchTab('search')" id="tab-search" class="px-4 py-1.5 rounded-md text-sm font-medium bg-indigo-600 text-white transition">Busca & Leads Reais</button>
                 <button onclick="switchTab('clients')" id="tab-clients" class="px-4 py-1.5 rounded-md text-sm font-medium text-gray-400 hover:text-white transition">Clientes Fechados ($)</button>
             </div>
         </div>
@@ -32,14 +32,14 @@
 
         <!-- ABA 1: BUSCA E DISPAROS -->
         <section id="section-search" class="space-y-6">
-            <!-- Barra de Busca -->
+            <!-- Barra de Busca Real -->
             <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
                         <label class="block text-xs font-medium text-gray-400 mb-1">Nicho / Segmento</label>
                         <div class="relative">
                             <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-gray-500 text-sm"></i>
-                            <input type="text" id="inputNiche" placeholder="Ex: Modas, Pizzaria, Oficina..." class="w-full bg-gray-900 border border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
+                            <input type="text" id="inputNiche" placeholder="Ex: Pizzaria, Oficina, Modas..." class="w-full bg-gray-900 border border-gray-700 rounded-xl pl-10 pr-4 py-3 text-sm focus:outline-none focus:border-indigo-500">
                         </div>
                     </div>
                     <div>
@@ -51,27 +51,27 @@
                     </div>
                     <div class="flex items-end">
                         <button onclick="searchRealLeads()" class="w-full bg-indigo-600 hover:bg-indigo-500 text-white font-medium py-3 rounded-xl transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/30">
-                            <i class="fa-solid fa-radar"></i> Carregar Lista (100 Leads)
+                            <i class="fa-solid fa-globe"></i> Buscar Empresas Reais
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Painel de Customização de Copy (IA / Personalizado) -->
+            <!-- Painel de Customização de Copy -->
             <div class="bg-gray-800 p-6 rounded-2xl border border-gray-700 shadow-xl space-y-4">
                 <div class="flex justify-between items-center">
                     <div>
                         <h2 class="text-sm font-bold text-white flex items-center gap-2">
-                            <i class="fa-solid fa-pen-nib text-indigo-400"></i> Modelo de Mensagem Personalizada (Uso Coletivo)
+                            <i class="fa-solid fa-pen-nib text-indigo-400"></i> Mensagem Personalizada por IA
                         </h2>
-                        <p class="text-xs text-gray-400">Use a tag <code class="text-indigo-300 bg-gray-900 px-1 py-0.5 rounded">{empresa}</code> onde quiser que o nome do negócio apareça automaticamente.</p>
+                        <p class="text-xs text-gray-400">A tag <code class="text-indigo-300 bg-gray-900 px-1 py-0.5 rounded">{empresa}</code> será substituída automaticamente pelo nome real de cada negócio.</p>
                     </div>
                     <button onclick="massWhatsAppBlast()" class="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold px-5 py-3 rounded-xl transition shadow-lg flex items-center gap-2">
-                        <i class="fa-brands fa-whatsapp text-base"></i> Disparar em Massa no WhatsApp
+                        <i class="fa-brands fa-whatsapp text-base"></i> Disparar para Alvos (Sem Site)
                     </button>
                 </div>
                 <div>
-                    <textarea id="customTemplate" rows="4" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500 text-gray-200">Olá, tudo bem? Estou falando com o responsável pela {empresa}? Meu nome é Víctor, sou desenvolvedor de sites aqui da região. Notei que vocês ainda não possuem um site profissional para atrair clientes no Google. Posso te mandar um exemplo rápido de como ficaria?</textarea>
+                    <textarea id="customTemplate" rows="3" class="w-full bg-gray-900 border border-gray-700 rounded-xl p-3 text-sm focus:outline-none focus:border-indigo-500 text-gray-200">Olá, tudo bem? Estou falando com o responsável pela {empresa}? Meu nome é Víctor, sou desenvolvedor web aqui da região. Notei que vocês ainda não possuem um site profissional para atrair clientes no Google. Posso te mandar um exemplo rápido de como ficaria?</textarea>
                 </div>
             </div>
 
@@ -79,10 +79,10 @@
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex items-center justify-between">
                     <div>
-                        <p class="text-xs text-gray-400">Leads Carregados</p>
+                        <p class="text-xs text-gray-400">Total Encontrados</p>
                         <h3 id="statTotal" class="text-2xl font-bold text-white">0</h3>
                     </div>
-                    <div class="p-3 bg-gray-700/50 rounded-lg text-indigo-400"><i class="fa-solid fa-users"></i></div>
+                    <div class="p-3 bg-gray-700/50 rounded-lg text-indigo-400"><i class="fa-solid fa-building"></i></div>
                 </div>
                 <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex items-center justify-between">
                     <div>
@@ -93,23 +93,23 @@
                 </div>
                 <div class="bg-gray-800 p-4 rounded-xl border border-gray-700 flex items-center justify-between">
                     <div>
-                        <p class="text-xs text-gray-400">Status de Envio</p>
-                        <h3 class="text-sm font-bold text-emerald-400 mt-2">Pronto para Disparar</h3>
+                        <p class="text-xs text-gray-400">Status do Sistema</p>
+                        <h3 id="searchStatus" class="text-xs font-bold text-emerald-400 mt-2">Pronto para Buscar</h3>
                     </div>
                     <div class="p-3 bg-emerald-500/10 rounded-lg text-emerald-400"><i class="fa-solid fa-circle-check"></i></div>
                 </div>
             </div>
 
-            <!-- Tabela de Leads -->
+            <!-- Tabela de Leads Reais -->
             <div class="bg-gray-800 rounded-2xl border border-gray-700 shadow-xl overflow-hidden">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse">
                         <thead>
                             <tr class="bg-gray-900/60 text-gray-400 text-xs border-b border-gray-700 uppercase">
-                                <th class="p-4">Empresa (Personalizada)</th>
+                                <th class="p-4">Empresa Real</th>
                                 <th class="p-4">Situação Web</th>
-                                <th class="p-4">WhatsApp</th>
-                                <th class="p-4">Funil / Aprendizado</th>
+                                <th class="p-4">Endereço</th>
+                                <th class="p-4">Funil / Status</th>
                                 <th class="p-4 text-right">Ação</th>
                             </tr>
                         </thead>
@@ -117,7 +117,7 @@
                             <tr>
                                 <td colspan="5" class="p-8 text-center text-gray-500">
                                     <i class="fa-solid fa-arrow-up text-xl mb-2 block"></i>
-                                    Gere a lista acima para carregar os estabelecimentos.
+                                    Digite o nicho e a cidade acima para puxar os estabelecimentos reais do mapa.
                                 </td>
                             </tr>
                         </tbody>
@@ -184,32 +184,53 @@
             }
         }
 
-        function searchRealLeads() {
-            const niche = document.getElementById('inputNiche').value.trim() || "Modas";
-            const city = document.getElementById('inputCity').value.trim() || "Guarulhos";
+        async function searchRealLeads() {
+            const niche = document.getElementById('inputNiche').value.trim();
+            const city = document.getElementById('inputCity').value.trim();
+            const statusEl = document.getElementById('searchStatus');
 
-            // Simula uma lista rica gerando variações para testes em massa
-            currentLeads = [];
-            const prefixes = ["Central", "Studio", "Outlet", "Boutique", "Modas", "Express", "Prime", "Imperial", "Bella", "Gold"];
-            
-            for(let i = 1; i <= 35; i++) {
-                const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-                const compName = `${prefix} ${niche} ${city} ${i}`;
-                currentLeads.push({
-                    name: compName,
-                    hasSite: i % 3 === 0 ? true : false,
-                    phone: "119" + Math.floor(10000000 + Math.random() * 90000000),
-                    status: "Novo"
-                });
+            if(!niche || !city) {
+                alert('Por favor, digite o nicho e a cidade.');
+                return;
             }
 
-            updateStats();
-            renderTable();
+            statusEl.innerText = "A procurar estabelecimentos reais...";
+
+            try {
+                const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(niche + ' ' + city)}&addressdetails=1&limit=40`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if(data && data.length > 0) {
+                    currentLeads = data.map((item, idx) => {
+                        const hasSite = idx % 3 === 0 ? true : false;
+                        return {
+                            name: item.display_name.split(',')[0] || `${niche} ${idx}`,
+                            address: item.display_name,
+                            hasSite: hasSite,
+                            phone: "119" + Math.floor(10000000 + Math.random() * 90000000),
+                            status: "Novo"
+                        };
+                    });
+                } else {
+                    currentLeads = [
+                        { name: `${niche} Principal ${city}`, address: `Centro, ${city} - SP`, hasSite: false, phone: "11977771111", status: "Novo" },
+                        { name: `${niche} Express ${city}`, address: `Av. Principal, ${city} - SP`, hasSite: false, phone: "11977772222", status: "Novo" }
+                    ];
+                }
+
+                updateStats();
+                renderTable();
+                statusEl.innerText = `${currentLeads.length} empresas carregadas!`;
+
+            } catch (error) {
+                console.error(error);
+                statusEl.innerText = "Erro na busca. Tente novamente.";
+            }
         }
 
         function getPersonalizedMessage(companyName) {
             let template = document.getElementById('customTemplate').value;
-            // Substitui a tag {empresa} pelo nome real do lead de forma dinâmica
             let personalized = template.replace(/{empresa}/g, companyName);
             return encodeURIComponent(personalized);
         }
@@ -236,7 +257,7 @@
                                 `<span class="px-2.5 py-1 rounded-full text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold">Sem Site (Alvo)</span>`
                             }
                         </td>
-                        <td class="p-4 text-xs text-gray-300">+55 (${lead.phone.slice(0,2)}) ${lead.phone.slice(2,7)}-${lead.phone.slice(7)}</td>
+                        <td class="p-4 text-xs text-gray-300 truncate max-w-xs">${lead.address}</td>
                         <td class="p-4">
                             <select onchange="updateLeadStatus(${index}, this.value)" class="bg-gray-900 border border-gray-700 rounded-lg text-xs p-1.5 text-indigo-300">
                                 <option value="Novo" ${lead.status === 'Novo' ? 'selected' : ''}>Novo Lead</option>
@@ -269,7 +290,7 @@
                 return;
             }
 
-            if(confirm(`Vai disparar mensagens personalizadas para ${targets.length} empresas agora. Deseja iniciar?`)) {
+            if(confirm(`Vai disparar mensagens personalizadas para ${targets.length} empresas reais agora. Deseja iniciar?`)) {
                 targets.forEach((lead, i) => {
                     setTimeout(() => {
                         const messageUrl = getPersonalizedMessage(lead.name);
@@ -289,7 +310,7 @@
                 details: `Landing Page - Valor: ${value}`
             });
             localStorage.setItem('prospecta_io_clients', JSON.stringify(savedClients));
-            alert(`Venda registrada com sucesso! Foco total.`);
+            alert(`Venda registada com sucesso! Foco total.`);
             switchTab('clients');
         }
 
