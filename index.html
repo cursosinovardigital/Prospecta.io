@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prospecta.io - Prospecção FBI</title>
+<title>Prospecta.io - Prospecção FBI com Disparo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
@@ -55,7 +55,7 @@ tailwind.config = { theme: { extend: {
   <!-- FORMULÁRIO COM SELETOR DE QUANTIDADE -->
   <form id="searchForm" class="bg-white border border-line rounded-2xl p-5 shadow-sm grid gap-4 md:grid-cols-[1.2fr_1fr_auto_auto] items-end">
     <label class="text-xs font-semibold text-slate-700">Nicho / Segmento
-      <input id="niche" required placeholder="Ex: mecânica, pizzaria, odontologia" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
+      <input id="niche" required placeholder="Ex: oficina mecanica, pizzaria, marcenaria" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
     </label>
     <label class="text-xs font-semibold text-slate-700">Cidade e Estado
       <input id="city" required placeholder="Ex: Guarulhos, SP" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
@@ -117,6 +117,31 @@ tailwind.config = { theme: { extend: {
     <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Pendentes na Fila</div><div id="kPending" class="text-2xl font-black text-slate-600">0</div></div>
   </div>
 
+  <!-- Barra de Ações em Massa / Disparo Sequencial -->
+  <div class="bg-slate-900 text-white rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-md">
+    <div class="flex items-center gap-3">
+      <span class="text-xs font-bold uppercase tracking-wider text-teal-400">Automação de Envio:</span>
+      <span id="selectedCountBadge" class="text-xs bg-slate-800 border border-slate-700 px-3 py-1 rounded-full font-semibold">0 selecionados</span>
+    </div>
+
+    <div class="flex items-center gap-3">
+      <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+        Intervalo:
+        <select id="dispatchDelay" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-white outline-none">
+          <option value="6">6 segundos</option>
+          <option value="10" selected>10 segundos (Recomendado)</option>
+          <option value="15">15 segundos</option>
+        </select>
+      </label>
+      <button id="btnStartDispatch" onclick="startBulkDispatch()" class="bg-brand hover:bg-brandd text-white font-extrabold text-xs px-5 py-2.5 rounded-lg transition shadow-lg shadow-teal-900/40">
+        Disparar Sequência
+      </button>
+      <button id="btnStopDispatch" onclick="stopBulkDispatch()" class="hidden bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2.5 rounded-lg transition">
+        Pausar
+      </button>
+    </div>
+  </div>
+
   <!-- Lista de Resultados e Disparador -->
   <div class="bg-white border border-line rounded-2xl overflow-hidden shadow-sm p-4 space-y-3">
     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
@@ -142,6 +167,9 @@ tailwind.config = { theme: { extend: {
       <table class="w-full text-sm text-left">
         <thead class="sticky top-0 bg-white border-b border-line text-xs font-bold text-slate-400 uppercase tracking-wider">
           <tr>
+            <th class="p-3 w-8">
+              <input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this.checked)" class="rounded text-brand focus:ring-0 cursor-pointer">
+            </th>
             <th class="p-3">Empresa</th>
             <th class="p-3">Website</th>
             <th class="p-3">Telefone</th>
@@ -195,7 +223,6 @@ tailwind.config = { theme: { extend: {
 <script>
 const STAGES = ['Novo', 'Contatado', 'Respondeu', 'Negociação'];
 
-// SCRIPTS BASEADOS NO MÉTODO FBI (CHRIS VOSS) E DO VÍDEO
 const PRESETS = {
   icebreaker: 'Oi, boa tarde!',
   fbi_pitch: 'Olá! Sou {meu_nome}. Estive olhando a {empresa} no Google e notei uma oportunidade para trazer novos clientes para cá com um site próprio.\n\nFicaria muito ruim se eu te enviasse uma prévia rápida de como ficaria?',
@@ -214,6 +241,9 @@ let myName = store.get('p_name', '');
 let apiKey = store.get('p_serper_key', '5bb258480651bddbe618fa9861500784a6f0c2a8');
 let filterSite = 'all';
 let hideDone = store.get('p_hide_done', false);
+let selectedLeadIds = new Set();
+let isDispatching = false;
+let dispatchTimer = null;
 let pendingLead = null;
 
 const $ = (id) => document.getElementById(id);
@@ -314,7 +344,7 @@ $('searchForm').addEventListener('submit', async (e) => {
 
   const btn = $('searchBtn');
   const targetQty = Number($('leadQty').value) || 50;
-  const pagesNeeded = Math.ceil(targetQty / 20); // 1 página traz até 20 locais
+  const pagesNeeded = Math.ceil(targetQty / 20);
 
   btn.disabled = true;
   btn.textContent = `Buscando ${targetQty} leads…`;
@@ -366,6 +396,71 @@ $('searchForm').addEventListener('submit', async (e) => {
   }
 });
 
+/* ===== GERENCIAMENTO DE SELEÇÃO E DISPARO SEQUENCIAL ===== */
+function updateSelectedBadge() {
+  $('selectedCountBadge').textContent = `${selectedLeadIds.size} selecionados`;
+}
+
+function toggleSelectLead(id, checked) {
+  if (checked) selectedLeadIds.add(id);
+  else selectedLeadIds.delete(id);
+  updateSelectedBadge();
+}
+
+function toggleSelectAll(checked) {
+  const visible = getVisibleLeads();
+  visible.forEach((l) => {
+    if (checked) selectedLeadIds.add(l.id);
+    else selectedLeadIds.delete(l.id);
+  });
+  updateSelectedBadge();
+  renderRows();
+}
+
+async function startBulkDispatch() {
+  if (selectedLeadIds.size === 0) {
+    alert('Selecione pelo menos um contacto nas caixas de seleção da tabela.');
+    return;
+  }
+
+  isDispatching = true;
+  $('btnStartDispatch').classList.add('hidden');$('btnStopDispatch').classList.remove('hidden');
+
+  const idsToProcess = Array.from(selectedLeadIds);
+  const delaySec = Number($('dispatchDelay').value) || 10;
+
+  for (let i = 0; i < idsToProcess.length; i++) {
+    if (!isDispatching) break;
+
+    const currentId = idsToProcess[i];
+    const lead = leads.find((l) => l.id === currentId);
+
+    if (lead) {
+      toast(`A disparar (${i + 1}/${idsToProcess.length}): ${lead.name}`);
+      window.open(waUrl(lead), '_blank', 'noopener');
+      lead.status = 'Contatado';
+      selectedLeadIds.delete(currentId);
+      persist();
+      renderAll();
+    }
+
+    if (i < idsToProcess.length - 1 && isDispatching) {
+      await new Promise((resolve) => {
+        dispatchTimer = setTimeout(resolve, delaySec * 1000);
+      });
+    }
+  }
+
+  stopBulkDispatch();
+  toast('Disparos da fila concluídos com sucesso!');
+}
+
+function stopBulkDispatch() {
+  isDispatching = false;
+  if (dispatchTimer) clearTimeout(dispatchTimer);
+  $('btnStartDispatch').classList.remove('hidden');$('btnStopDispatch').classList.add('hidden');
+}
+
 /* ===== GERENCIAMENTO DE LEADS (STATUS E EXCLUSÃO) ===== */
 function toggleDone(id) {
   const l = leads.find((x) => x.id === id);
@@ -383,15 +478,17 @@ function setStage(id, s) {
 
 function delLead(id) {
   leads = leads.filter((l) => l.id !== id);
+  selectedLeadIds.delete(id);
   persist();
   renderAll();
-  toast('Contato excluído.');
+  toast('Contacto excluído.');
   if (!$('v-funil').classList.contains('hidden')) renderBoard();
 }
 
 function clearAllLeads() {
   if (confirm('Deseja excluir todos os leads da lista?')) {
     leads = [];
+    selectedLeadIds.clear();
     persist();
     renderAll();
     toast('Lista limpa com sucesso.');
@@ -444,7 +541,7 @@ $('dCancel').addEventListener('click', () => $('dlg').close());$('dlgForm').addE
   persist();
   renderAll();
   renderClients();
-  toast('Venda registrada no funil!');
+  toast('Venda registada no funil!');
 });
 $('addClient').addEventListener('click', () => openDeal(null));
 
@@ -479,14 +576,23 @@ function renderQueue() {
     </div>`;
 }
 
-function renderRows() {
+function getVisibleLeads() {
   let list = [...leads];
   if (filterSite === 'no-site') list = list.filter((l) => !l.hasSite);
   if (filterSite === 'has-site') list = list.filter((l) => l.hasSite);
   if (hideDone) list = list.filter((l) => l.status === 'Novo');
+  return list;
+}
+
+function renderRows() {
+  const list = getVisibleLeads();
+  updateSelectedBadge();
 
   $('rows').innerHTML = list.length ? list.map((l) => `
     <tr class="${l.status !== 'Novo' ? 'bg-slate-50/60 opacity-75' : ''}">
+      <td class="p-3 w-8">
+        <input type="checkbox" onchange="toggleSelectLead('${esc(l.id)}', this.checked)" ${selectedLeadIds.has(l.id) ? 'checked' : ''} class="rounded text-brand focus:ring-0 cursor-pointer">
+      </td>
       <td class="p-3 font-semibold text-slate-800">
         ${esc(l.name)}
         <div class="text-[11px] font-normal text-slate-400 truncate max-w-xs">${esc(l.address)}</div>
@@ -511,7 +617,7 @@ function renderRows() {
         <button onclick="delLead('${esc(l.id)}')" title="Excluir" class="px-2 py-1.5 rounded-lg text-xs text-red-500 hover:bg-red-50">✕</button>
       </td>
     </tr>`).join('')
-  : `<tr><td colspan="5" class="p-8 text-center text-slate-400 text-sm">Nenhum lead encontrado com estes filtros.</td></tr>`;
+  : `<tr><td colspan="6" class="p-8 text-center text-slate-400 text-sm">Nenhum lead encontrado com estes filtros.</td></tr>`;
 }
 
 function renderKpis() {
@@ -556,11 +662,11 @@ function renderClients() {
       <td class="p-4 font-black text-brand text-base">${brl(c.value)}</td>
       <td class="p-4 text-right"><button onclick="delClient(${i})" class="text-xs font-semibold text-red-600 hover:underline">Remover</button></td>
     </tr>`).join('')
-    : `<tr><td class="p-8 text-center text-slate-400 text-sm">Nenhuma venda registrada ainda.</td></tr>`;
+    : `<tr><td class="p-8 text-center text-slate-400 text-sm">Nenhuma venda registada ainda.</td></tr>`;
 }
 
 function delClient(i) {
-  if (confirm('Remover este registro de venda?')) {
+  if (confirm('Remover este registo de venda?')) {
     clients.splice(i, 1);
     persist();
     renderClients();
