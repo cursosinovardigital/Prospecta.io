@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Prospecta.io - Prospecção FBI com Disparo</title>
+<title>Prospecta.io - Prospecção FBI + SiteCraft Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = { theme: { extend: {
   fontFamily: { sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'] },
-  colors: { ink: '#0F172A', paper: '#F8FAFC', line: '#E2E8F0', brand: '#0D9488', brandd: '#0F766E', amber2: '#D97706' }
+  colors: { ink: '#0F172A', paper: '#F8FAFC', line: '#E2E8F0', brand: '#0D9488', brandd: '#0F766E', amber2: '#D97706', craft: '#EF4D23', craftd: '#D93D14' }
 }}};
 </script>
 <style>
@@ -25,7 +25,10 @@ tailwind.config = { theme: { extend: {
 <!-- Navegação Lateral -->
 <aside class="lg:w-64 lg:min-h-screen bg-white border-b lg:border-b-0 lg:border-r border-line flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start gap-3 p-4 lg:p-6 lg:sticky lg:top-0 lg:h-screen">
   <div>
-    <div class="font-extrabold text-xl tracking-tight">Prospecta<span class="text-brand">.io</span></div>
+    <div class="flex items-center gap-2">
+      <div class="font-extrabold text-xl tracking-tight">Prospecta<span class="text-brand">.io</span></div>
+      <span class="text-[10px] font-extrabold bg-orange-50 text-craft border border-orange-200 px-2 py-0.5 rounded-full">+ SiteCraft</span>
+    </div>
     <span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase">Prospecção de Alta Conversão</span>
   </div>
 
@@ -33,10 +36,20 @@ tailwind.config = { theme: { extend: {
     <button data-nav="leads" class="nav text-left px-3.5 py-2.5 rounded-lg">Prospectar Leads</button>
     <button data-nav="funil" class="nav text-left px-3.5 py-2.5 rounded-lg">Funil de Vendas</button>
     <button data-nav="clientes" class="nav text-left px-3.5 py-2.5 rounded-lg">Clientes Fechados</button>
+    <button type="button" onclick="openSiteCraftHub()" class="text-left px-3.5 py-2.5 rounded-lg text-craft hover:bg-orange-50 font-bold flex items-center justify-between border border-orange-200/70 mt-2">
+      <span>⚡ Abrir SiteCraft</span>
+      <span class="text-xs">↗</span>
+    </button>
   </nav>
 
-  <div class="hidden lg:block mt-auto border-t border-line pt-4 space-y-2 text-xs">
-    <label class="block font-semibold text-slate-600">Sua Chave Serper.dev
+  <div class="hidden lg:block mt-auto border-t border-line pt-4 space-y-3 text-xs">
+    <label class="block font-semibold text-slate-600">Arquivo / URL do SiteCraft
+      <input id="sitecraftUrl" type="text" value="sitecraft.html" placeholder="sitecraft.html" class="mt-1 w-full border border-line rounded px-2.5 py-1.5 text-xs font-mono">
+    </label>
+    <button type="button" onclick="syncAllToSiteCraft()" class="w-full py-2 px-3 rounded-lg bg-orange-50 hover:bg-orange-100 text-craft font-bold border border-orange-200 transition text-center">
+      🔄 Sincronizar Fila c/ SiteCraft
+    </button>
+    <label class="block font-semibold text-slate-600 pt-1">Sua Chave Serper.dev
       <input id="apiKey" type="password" placeholder="Cole sua chave aqui" class="mt-1 w-full border border-line rounded px-2.5 py-2 text-xs">
     </label>
     <p class="text-[11px] text-slate-400">Cada 20 leads gastam apenas 1 busca do total de 2.500.</p>
@@ -47,15 +60,25 @@ tailwind.config = { theme: { extend: {
 
 <!-- ===== ABA PROSPECTAR ===== -->
 <section id="v-leads" class="space-y-6">
-  <header>
-    <h1 class="text-2xl font-extrabold tracking-tight">Buscar Empresas no Google Maps</h1>
-    <p class="text-sm text-slate-500 mt-0.5">Filtre estabelecimentos reais por região, telefone e presença de website.</p>
+  <header class="flex flex-wrap items-center justify-between gap-3">
+    <div>
+      <h1 class="text-2xl font-extrabold tracking-tight">Buscar Empresas no Google Maps</h1>
+      <p class="text-sm text-slate-500 mt-0.5">Filtre estabelecimentos reais por região, telefone, presença de website e gere a Landing Page em 1 clique.</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <button type="button" onclick="syncAllToSiteCraft()" class="bg-white hover:bg-slate-50 text-slate-700 border border-line font-bold text-xs rounded-lg px-3.5 py-2.5 shadow-sm">
+        🔄 Enviar Leads p/ SiteCraft
+      </button>
+      <button type="button" onclick="openSiteCraftHub()" class="bg-craft hover:bg-craftd text-white font-bold text-xs rounded-lg px-4 py-2.5 shadow-sm">
+        ⚡ Estúdio SiteCraft ↗
+      </button>
+    </div>
   </header>
 
   <!-- FORMULÁRIO COM SELETOR DE QUANTIDADE -->
   <form id="searchForm" class="bg-white border border-line rounded-2xl p-5 shadow-sm grid gap-4 md:grid-cols-[1.2fr_1fr_auto_auto] items-end">
     <label class="text-xs font-semibold text-slate-700">Nicho / Segmento
-      <input id="niche" required placeholder="Ex: oficina mecanica, pizzaria, marcenaria" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
+      <input id="niche" required placeholder="Ex: clinica odontologica, oficina mecanica, contabilidade" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
     </label>
     <label class="text-xs font-semibold text-slate-700">Cidade e Estado
       <input id="city" required placeholder="Ex: Guarulhos, SP" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
@@ -86,15 +109,16 @@ tailwind.config = { theme: { extend: {
       </div>
 
       <!-- Presets de Mensagem -->
-      <div class="grid grid-cols-3 gap-1.5 text-xs">
-        <button type="button" onclick="setPreset('icebreaker')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">1. Quebra-Gelo ("Oi")</button>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
+        <button type="button" onclick="setPreset('icebreaker')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">1. Quebra-Gelo</button>
         <button type="button" onclick="setPreset('fbi_pitch')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">2. Pergunta ao Não</button>
-        <button type="button" onclick="setPreset('curiosity')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">3. Dúvida Cliente</button>
+        <button type="button" onclick="setPreset('site_ready')" class="p-2 border border-orange-200 bg-orange-50/60 rounded-lg font-bold hover:bg-orange-100 text-craft text-center">⚡ 3. Site Pronto</button>
+        <button type="button" onclick="setPreset('curiosity')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">4. Dúvida Cliente</button>
       </div>
 
       <div class="grid grid-cols-2 gap-2 text-xs">
         <label class="font-semibold text-slate-600 block">Seu nome
-          <input id="myName" placeholder="Ex: Victor" class="mt-1 w-full border border-line rounded px-2.5 py-1.5 text-xs font-normal">
+          <input id="myName" placeholder="Ex: Víctor" class="mt-1 w-full border border-line rounded px-2.5 py-1.5 text-xs font-normal">
         </label>
         <div class="flex items-end gap-1">
           <button type="button" data-chip="{empresa}" class="w-full py-1.5 rounded bg-slate-100 border border-line font-medium text-slate-700">{empresa}</button>
@@ -112,7 +136,7 @@ tailwind.config = { theme: { extend: {
   <!-- Métricas Rápidas -->
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
     <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Total Encontrado</div><div id="kTotal" class="text-2xl font-black text-slate-800">0</div></div>
-    <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Sem Website</div><div id="kNoSite" class="text-2xl font-black text-amber2">0</div></div>
+    <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Sem Website (Ouro)</div><div id="kNoSite" class="text-2xl font-black text-amber2">0</div></div>
     <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Já Atendidos</div><div id="kDone" class="text-2xl font-black text-brand">0</div></div>
     <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Pendentes na Fila</div><div id="kPending" class="text-2xl font-black text-slate-600">0</div></div>
   </div>
@@ -163,7 +187,7 @@ tailwind.config = { theme: { extend: {
     </div>
 
     <!-- Tabela -->
-    <div class="overflow-x-auto max-h-[500px]">
+    <div class="overflow-x-auto max-h-[540px]">
       <table class="w-full text-sm text-left">
         <thead class="sticky top-0 bg-white border-b border-line text-xs font-bold text-slate-400 uppercase tracking-wider">
           <tr>
@@ -174,7 +198,7 @@ tailwind.config = { theme: { extend: {
             <th class="p-3">Website</th>
             <th class="p-3">Telefone</th>
             <th class="p-3">Status</th>
-            <th class="p-3 text-right">Ação Rápida</th>
+            <th class="p-3 text-right">Ação Rápida (SiteCraft + Whats)</th>
           </tr>
         </thead>
         <tbody id="rows" class="divide-y divide-line"></tbody>
@@ -185,7 +209,7 @@ tailwind.config = { theme: { extend: {
 
 <!-- ===== ABA FUNIL ===== -->
 <section id="v-funil" class="hidden space-y-4">
-  <header><h1 class="text-2xl font-extrabold tracking-tight">Funil de Vendas</h1><p class="text-sm text-slate-500">Acompanhe a evolução de cada oportunidade.</p></header>
+  <header><h1 class="text-2xl font-extrabold tracking-tight">Funil de Vendas</h1><p class="text-sm text-slate-500">Arraste os cards ou clique em ⚡ Gerar Site para abrir o modelo daquela empresa no SiteCraft.</p></header>
   <div id="board" class="grid gap-3 md:grid-cols-4"></div>
 </section>
 
@@ -208,7 +232,7 @@ tailwind.config = { theme: { extend: {
     <label class="text-xs font-semibold text-slate-600 block">Cliente
       <input id="dName" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
     <label class="text-xs font-semibold text-slate-600 block">Serviço Realizado
-      <input id="dSvc" value="Criação de Site Institucional" class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
+      <input id="dSvc" value="Criação de Landing Page (SiteCraft)" class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
     <label class="text-xs font-semibold text-slate-600 block">Valor Fechado (R$)
       <input id="dVal" type="number" min="0" step="1" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
     <div class="flex justify-end gap-2 pt-2">
@@ -226,6 +250,7 @@ const STAGES = ['Novo', 'Contatado', 'Respondeu', 'Negociação'];
 const PRESETS = {
   icebreaker: 'Oi, boa tarde!',
   fbi_pitch: 'Olá! Sou {meu_nome}. Estive olhando a {empresa} no Google e notei uma oportunidade para trazer novos clientes para cá com um site próprio.\n\nFicaria muito ruim se eu te enviasse uma prévia rápida de como ficaria?',
+  site_ready: 'Olá, equipe da {empresa}! Aqui é {meu_nome}.\n\nAcabei de montar uma prévia exclusiva de como ficaria o novo site de alta conversão de vocês integrado ao WhatsApp.\n\nPosso te mandar o link ou um print aqui para você avaliar sem compromisso?',
   curiosity: 'Olá, boa tarde! Gostaria de tirar uma dúvida sobre os serviços da {empresa}. Com quem posso falar?'
 };
 
@@ -237,8 +262,9 @@ const store = {
 let leads = store.get('p_leads', []);
 let clients = store.get('p_clients', []);
 let tpl = store.get('p_tpl', PRESETS.icebreaker);
-let myName = store.get('p_name', '');
+let myName = store.get('p_name', 'Víctor');
 let apiKey = store.get('p_serper_key', '5bb258480651bddbe618fa9861500784a6f0c2a8');
+let sitecraftUrl = store.get('p_sitecraft_url', 'sitecraft.html');
 let filterSite = 'all';
 let hideDone = store.get('p_hide_done', false);
 let selectedLeadIds = new Set();
@@ -249,6 +275,88 @@ let pendingLead = null;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const brl = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+
+/* =========================================================================
+   PONTE DE INTEGRAÇÃO INTELIGENTE: PROSPECTA.IO <-> SITECRAFT STUDIO
+   ========================================================================= */
+function mapNicheToSiteCraft(rawText) {
+  const s = String(rawText || '').toLowerCase();
+  if (/clinica|odonto|dentista|medic|estetica|fisio|psico|pilates|saude|salao|barbearia|veterinar|pet/.test(s)) {
+    return { nicho: 'clinica', tpl: 'nuvo' };
+  }
+  if (/advocacia|advogad|contabil|imobiliaria|corretor|seguro|financ|consultor|engenhari|arquitet/.test(s)) {
+    return { nicho: 'financas', tpl: 'signal' };
+  }
+  if (/restaurante|pizzaria|hamburgueria|bar|hotel|pousada|turismo|viagem|evento|buffet|academia|crossfit/.test(s)) {
+    return { nicho: 'turismo', tpl: 'wanderful' };
+  }
+  if (/escola|col[eé]gio|curso|idioma|infantil|creche|musica|violao|educa/.test(s)) {
+    return { nicho: 'educacao', tpl: 'meadowbell' };
+  }
+  if (/software|sistema|ti|informatica|celular|assistencia|tech|app/.test(s)) {
+    return { nicho: 'app', tpl: 'shipcraft' };
+  }
+  return { nicho: 'agencia', tpl: 'convix' };
+}
+
+function syncLeadsToSiteCraftStorage(priorityLead) {
+  const scLeads = leads.map(l => {
+    const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
+    return {
+      nome: l.name,
+      nicho: mapped.nicho,
+      cidade: l.city || l.address || 'Guarulhos - SP',
+      whats: '55' + l.phone,
+      tpl: mapped.tpl,
+      head: ''
+    };
+  });
+
+  if (priorityLead) {
+    const mapped = mapNicheToSiteCraft((priorityLead.niche || '') + ' ' + priorityLead.name);
+    const filtered = scLeads.filter(x => x.nome !== priorityLead.name);
+    filtered.unshift({
+      nome: priorityLead.name,
+      nicho: mapped.nicho,
+      cidade: priorityLead.city || priorityLead.address || 'Guarulhos - SP',
+      whats: '55' + priorityLead.phone,
+      tpl: mapped.tpl,
+      head: ''
+    });
+    store.set('sitecraft_prospecta_leads_v3', filtered);
+  } else if (scLeads.length > 0) {
+    store.set('sitecraft_prospecta_leads_v3', scLeads);
+  }
+}
+
+function openInSiteCraft(id) {
+  const l = leads.find(x => x.id === id);
+  if (!l) return;
+
+  syncLeadsToSiteCraftStorage(l);
+  const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
+  const baseUrl = ($('sitecraftUrl')?.value || 'sitecraft.html').trim();
+  const sep = baseUrl.includes('?') ? '&' : '?';
+  const targetUrl = `${baseUrl}${sep}empresa=${encodeURIComponent(l.name)}&nicho=${encodeURIComponent(mapped.nicho)}&tpl=${encodeURIComponent(mapped.tpl)}&whats=${encodeURIComponent('55' + l.phone)}&cidade=${encodeURIComponent(l.city || l.address || 'Guarulhos - SP')}`;
+
+  window.open(targetUrl, '_blank');
+  toast(`⚡ Abrindo SiteCraft com a página de "${l.name}"!`);
+}
+
+function syncAllToSiteCraft() {
+  if (!leads.length) {
+    toast('Busque alguns leads primeiro para sincronizar!');
+    return;
+  }
+  syncLeadsToSiteCraftStorage();
+  toast(`✓ ${leads.length} leads sincronizados com a fila do SiteCraft Studio!`);
+}
+
+function openSiteCraftHub() {
+  syncLeadsToSiteCraftStorage();
+  const baseUrl = ($('sitecraftUrl')?.value || 'sitecraft.html').trim();
+  window.open(baseUrl, '_blank');
+}
 
 function cleanPhone(raw) {
   if (!raw) return '';
@@ -269,6 +377,7 @@ const persist = () => {
   store.set('p_clients', clients);
   store.set('p_serper_key', apiKey);
   store.set('p_hide_done', hideDone);
+  store.set('p_sitecraft_url', sitecraftUrl);
 };
 
 function toast(msg) {
@@ -299,7 +408,7 @@ function nav(v) {
 document.querySelectorAll('.nav').forEach((b) => b.addEventListener('click', () => nav(b.dataset.nav)));
 
 function message(lead) {
-  return tpl.replace(/{empresa}/g, lead.name).replace(/{meu_nome}/g, myName || 'meu nome');
+  return tpl.replace(/{empresa}/g, lead.name).replace(/{meu_nome}/g, myName || 'Víctor');
 }
 function waUrl(lead) { return `https://wa.me/55${lead.phone}?text=${encodeURIComponent(message(lead))}`; }
 
@@ -311,10 +420,13 @@ function renderPreview() {
 $('tpl').value = tpl;
 $('myName').value = myName;
 $('apiKey').value = apiKey;
+$('sitecraftUrl').value = sitecraftUrl;
 $('chkHideDone').checked = hideDone;
 
 $('apiKey').addEventListener('input', (e) => { apiKey = e.target.value.trim(); persist(); });
-$('tpl').addEventListener('input', (e) => { tpl = e.target.value; store.set('p_tpl', tpl); renderPreview(); });$('myName').addEventListener('input', (e) => { myName = e.target.value; store.set('p_name', myName); renderPreview(); });
+$('sitecraftUrl').addEventListener('input', (e) => { sitecraftUrl = e.target.value.trim(); persist(); });
+$('tpl').addEventListener('input', (e) => { tpl = e.target.value; store.set('p_tpl', tpl); renderPreview(); });
+$('myName').addEventListener('input', (e) => { myName = e.target.value; store.set('p_name', myName); renderPreview(); });
 
 document.querySelectorAll('[data-chip]').forEach((b) => b.addEventListener('click', () => {
   const t = $('tpl'), s = t.selectionStart, c = b.dataset.chip;
@@ -374,6 +486,8 @@ $('searchForm').addEventListener('submit', async (e) => {
         fresh.push({
           id,
           name: p.title,
+          niche: niche,
+          city: city,
           address: p.address || city,
           phone: pPhone,
           hasSite: Boolean(p.website),
@@ -386,8 +500,9 @@ $('searchForm').addEventListener('submit', async (e) => {
 
     leads = [...fresh, ...leads];
     persist();
+    syncLeadsToSiteCraftStorage();
     renderAll();
-    toast(`${fresh.length} estabelecimentos reais adicionados com sucesso!`);
+    toast(`${fresh.length} empresas encontradas e já sincronizadas com o SiteCraft!`);
   } catch (err) {
     toast('Erro: ' + (err.message || 'Verifique sua conexão'));
   } finally {
@@ -419,12 +534,13 @@ function toggleSelectAll(checked) {
 
 async function startBulkDispatch() {
   if (selectedLeadIds.size === 0) {
-    alert('Selecione pelo menos um contacto nas caixas de seleção da tabela.');
+    alert('Selecione pelo menos um contato nas caixas de seleção da tabela.');
     return;
   }
 
   isDispatching = true;
-  $('btnStartDispatch').classList.add('hidden');$('btnStopDispatch').classList.remove('hidden');
+  $('btnStartDispatch').classList.add('hidden');
+  $('btnStopDispatch').classList.remove('hidden');
 
   const idsToProcess = Array.from(selectedLeadIds);
   const delaySec = Number($('dispatchDelay').value) || 10;
@@ -436,7 +552,7 @@ async function startBulkDispatch() {
     const lead = leads.find((l) => l.id === currentId);
 
     if (lead) {
-      toast(`A disparar (${i + 1}/${idsToProcess.length}): ${lead.name}`);
+      toast(`Disparando (${i + 1}/${idsToProcess.length}): ${lead.name}`);
       window.open(waUrl(lead), '_blank', 'noopener');
       lead.status = 'Contatado';
       selectedLeadIds.delete(currentId);
@@ -458,7 +574,8 @@ async function startBulkDispatch() {
 function stopBulkDispatch() {
   isDispatching = false;
   if (dispatchTimer) clearTimeout(dispatchTimer);
-  $('btnStartDispatch').classList.remove('hidden');$('btnStopDispatch').classList.add('hidden');
+  $('btnStartDispatch').classList.remove('hidden');
+  $('btnStopDispatch').classList.add('hidden');
 }
 
 /* ===== GERENCIAMENTO DE LEADS (STATUS E EXCLUSÃO) ===== */
@@ -481,7 +598,7 @@ function delLead(id) {
   selectedLeadIds.delete(id);
   persist();
   renderAll();
-  toast('Contacto excluído.');
+  toast('Contato excluído.');
   if (!$('v-funil').classList.contains('hidden')) renderBoard();
 }
 
@@ -524,12 +641,14 @@ function openDeal(id) {
   const l = leads.find((x) => x.id === id);
   pendingLead = l;
   $('dName').value = l ? l.name : '';
-  $('dSvc').value = 'Criação de Site Institucional';
-  $('dVal').value = '';$('dlgTitle').textContent = l ? 'Registrar Venda' : 'Adicionar Cliente';
+  $('dSvc').value = 'Criação de Landing Page (SiteCraft)';
+  $('dVal').value = '';
+  $('dlgTitle').textContent = l ? 'Registrar Venda' : 'Adicionar Cliente';
   $('dlg').showModal();
 }
 
-$('dCancel').addEventListener('click', () => $('dlg').close());$('dlgForm').addEventListener('submit', () => {
+$('dCancel').addEventListener('click', () => $('dlg').close());
+$('dlgForm').addEventListener('submit', () => {
   clients.push({
     name: $('dName').value.trim(),
     service: $('dSvc').value.trim(),
@@ -541,7 +660,7 @@ $('dCancel').addEventListener('click', () => $('dlg').close());$('dlgForm').addE
   persist();
   renderAll();
   renderClients();
-  toast('Venda registada no funil!');
+  toast('Venda registrada no funil!');
 });
 $('addClient').addEventListener('click', () => openDeal(null));
 
@@ -562,16 +681,21 @@ function renderQueue() {
   box.innerHTML = `
     <div>
       <div class="flex items-center justify-between">
-        <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">Próximo Alvo</span>
+        <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">Próximo Alvo Prioritário</span>
         <span class="text-xs bg-slate-800 text-teal-300 px-2 py-0.5 rounded-full font-bold">${left} pendentes</span>
       </div>
       <h2 class="text-3xl font-extrabold tracking-tight mt-2 leading-tight">${esc(l.name)}</h2>
       <p class="text-sm text-slate-300 mt-1">${esc(l.address)}</p>
-      <p class="text-sm mt-1 font-medium">${esc(fmtPhone(l.phone))} · ${l.hasSite ? '<span class="text-slate-400">Possui site</span>' : '<span class="text-amber-300 font-bold">Sem site</span>'}</p>
+      <p class="text-sm mt-1 font-medium">${esc(fmtPhone(l.phone))} · ${l.hasSite ? '<span class="text-slate-400">Possui site</span>' : '<span class="text-amber-300 font-bold">Sem site (Oportunidade!)</span>'}</p>
     </div>
     <div class="flex flex-wrap items-center gap-2 mt-6">
-      <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-6 py-3 transition">Abordar no WhatsApp</button>
-      <button onclick="toggleDone('${esc(l.id)}')" class="border border-white/20 hover:bg-white/10 text-sm font-semibold rounded-lg px-4 py-3">Pular / Atendido</button>
+      <button onclick="openInSiteCraft('${esc(l.id)}')" class="bg-craft hover:bg-craftd text-white font-extrabold text-sm rounded-lg px-5 py-3 transition shadow-lg shadow-orange-950/50">
+        ⚡ Gerar Site no SiteCraft
+      </button>
+      <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-5 py-3 transition">
+        Abordar no WhatsApp
+      </button>
+      <button onclick="toggleDone('${esc(l.id)}')" class="border border-white/20 hover:bg-white/10 text-sm font-semibold rounded-lg px-4 py-3">Pular</button>
       <button onclick="delLead('${esc(l.id)}')" class="text-xs text-red-400 hover:text-red-300 ml-auto">Excluir</button>
     </div>`;
 }
@@ -609,10 +733,13 @@ function renderRows() {
         </select>
       </td>
       <td class="p-3 text-right whitespace-nowrap space-x-1">
-        <button onclick="toggleDone('${esc(l.id)}')" title="Marcar/Desmarcar Atendido" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border ${l.status !== 'Novo' ? 'bg-teal-50 border-teal-200 text-teal-800' : 'border-line text-slate-600 hover:bg-slate-100'}">
-          ${l.status !== 'Novo' ? '✓ Atendido' : 'Marcar'}
+        <button onclick="openInSiteCraft('${esc(l.id)}')" title="Criar Landing Page personalizada no SiteCraft Studio" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-craft hover:bg-craftd text-white shadow-sm">
+          ⚡ Gerar Site
         </button>
         <button onclick="approach('${esc(l.id)}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand hover:bg-brandd text-white">Whats</button>
+        <button onclick="toggleDone('${esc(l.id)}')" title="Marcar/Desmarcar Atendido" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border ${l.status !== 'Novo' ? 'bg-teal-50 border-teal-200 text-teal-800' : 'border-line text-slate-600 hover:bg-slate-100'}">
+          ${l.status !== 'Novo' ? '✓' : 'Marcar'}
+        </button>
         <button onclick="openDeal('${esc(l.id)}')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-line hover:bg-slate-100">Venda</button>
         <button onclick="delLead('${esc(l.id)}')" title="Excluir" class="px-2 py-1.5 rounded-lg text-xs text-red-500 hover:bg-red-50">✕</button>
       </td>
@@ -636,7 +763,10 @@ function renderBoard() {
         <div draggable="true" data-id="${esc(l.id)}" class="card cursor-grab bg-slate-50 border border-line rounded-xl p-3 text-sm shadow-sm hover:border-slate-300">
           <div class="font-bold text-slate-800">${esc(l.name)}</div>
           <div class="text-xs text-slate-500 mt-0.5">${esc(fmtPhone(l.phone))}</div>
-          <div class="text-[11px] mt-1.5 ${l.hasSite ? 'text-slate-400' : 'text-amber2 font-bold'}">${l.hasSite ? 'Possui site' : '● Sem site'}</div>
+          <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/70">
+            <span class="text-[11px] ${l.hasSite ? 'text-slate-400' : 'text-amber2 font-bold'}">${l.hasSite ? 'Possui site' : '● Sem site'}</span>
+            <button onclick="openInSiteCraft('${esc(l.id)}')" class="text-[11px] font-bold text-craft hover:underline">⚡ Gerar Site ↗</button>
+          </div>
         </div>`).join('')}
       </div>
     </div>`;
@@ -656,17 +786,18 @@ function renderBoard() {
 }
 
 function renderClients() {
-  $('sum').textContent = brl(clients.reduce((a, c) => a + c.value, 0));$('clientRows').innerHTML = clients.length ? clients.map((c, i) => `
+  $('sum').textContent = brl(clients.reduce((a, c) => a + c.value, 0));
+  $('clientRows').innerHTML = clients.length ? clients.map((c, i) => `
     <tr>
       <td class="p-4 font-bold text-slate-800">${esc(c.name)}<div class="text-xs font-normal text-slate-500">${esc(c.service)}</div></td>
       <td class="p-4 font-black text-brand text-base">${brl(c.value)}</td>
       <td class="p-4 text-right"><button onclick="delClient(${i})" class="text-xs font-semibold text-red-600 hover:underline">Remover</button></td>
     </tr>`).join('')
-    : `<tr><td class="p-8 text-center text-slate-400 text-sm">Nenhuma venda registada ainda.</td></tr>`;
+    : `<tr><td class="p-8 text-center text-slate-400 text-sm">Nenhuma venda registrada ainda.</td></tr>`;
 }
 
 function delClient(i) {
-  if (confirm('Remover este registo de venda?')) {
+  if (confirm('Remover este registro de venda?')) {
     clients.splice(i, 1);
     persist();
     renderClients();
