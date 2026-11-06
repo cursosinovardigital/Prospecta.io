@@ -8,13 +8,15 @@
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
-tailwind.config = { theme: { extend: {
+tailwind.config = { 
+  darkMode: 'class', // Ativa o dark mode por classe
+  theme: { extend: {
   fontFamily: { sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'] },
   colors: { ink: '#0F172A', paper: '#F1F5F9', line: '#E2E8F0', brand: '#0D9488', brandd: '#0F766E', amber2: '#D97706', craft: '#EF4D23', craftd: '#D93D14' }
 }}};
 </script>
 <style>
-  body { font-feature-settings: "tnum"; background-color: #F1F5F9; }
+  body { font-feature-settings: "tnum"; transition: background-color 0.3s; }
   :focus-visible { outline: 2px solid #0D9488; outline-offset: 2px; }
   .col.over { background: #CCFBF1; }
   dialog::backdrop { background: rgba(15,23,42,.6); backdrop-filter: blur(4px); }
@@ -24,15 +26,20 @@ tailwind.config = { theme: { extend: {
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+  .dark ::-webkit-scrollbar-thumb { background: #475569; }
 </style>
 </head>
-<body class="text-ink font-sans min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
+<body class="text-ink dark:text-slate-200 bg-paper dark:bg-slate-950 font-sans min-h-screen flex flex-col lg:flex-row overflow-x-hidden transition-colors duration-300">
 
 <!-- ================= NAVEGAÇÃO LATERAL PRINCIPAL ================= -->
-<aside class="lg:w-64 lg:min-h-screen bg-white border-b lg:border-b-0 lg:border-r border-line flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start gap-3 p-4 lg:p-6 lg:sticky lg:top-0 lg:h-screen shrink-0 z-40">
+<aside class="lg:w-64 lg:min-h-screen bg-white dark:bg-slate-900 border-b lg:border-b-0 lg:border-r border-line dark:border-slate-800 flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start gap-3 p-4 lg:p-6 lg:sticky lg:top-0 lg:h-screen shrink-0 z-40 transition-colors">
   <div>
-    <div class="flex items-center gap-2">
-      <div class="font-extrabold text-2xl tracking-tight">Prospecta<span class="text-brand">.io</span></div>
+    <div class="flex items-center justify-between">
+      <div class="font-extrabold text-2xl tracking-tight dark:text-white">Prospecta<span class="text-brand">.io</span></div>
+      <!-- Botão Dark Mode -->
+      <button onclick="toggleDarkMode()" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-200 dark:hover:bg-slate-700 transition" title="Alternar Tema">
+        <span id="themeIcon">🌙</span>
+      </button>
     </div>
     <span class="text-[11px] font-bold tracking-wider text-slate-400 uppercase mt-1 block">Radar de Clientes Premium</span>
   </div>
@@ -41,22 +48,22 @@ tailwind.config = { theme: { extend: {
     <button data-nav="leads" class="nav text-left px-4 py-3 rounded-xl transition-colors">Prospectar Leads</button>
     <button data-nav="funil" class="nav text-left px-4 py-3 rounded-xl transition-colors">Funil de Vendas</button>
     <button data-nav="clientes" class="nav text-left px-4 py-3 rounded-xl transition-colors">Clientes Fechados</button>
-    <div class="h-px bg-line my-2 hidden lg:block"></div>
-    <button type="button" onclick="openSiteCraftHub()" class="text-left px-4 py-3 rounded-xl text-craft bg-orange-50 hover:bg-orange-100 font-extrabold flex items-center justify-between border border-orange-200 transition-colors mt-2 shadow-sm">
+    <div class="h-px bg-line dark:bg-slate-800 my-2 hidden lg:block"></div>
+    <button type="button" onclick="openSiteCraftHub()" class="text-left px-4 py-3 rounded-xl text-craft bg-orange-50 hover:bg-orange-100 dark:bg-orange-500/10 dark:hover:bg-orange-500/20 font-extrabold flex items-center justify-between border border-orange-200 dark:border-orange-500/30 transition-colors mt-2 shadow-sm">
       <span>⚡ Estúdio SiteCraft</span>
       <span>↗</span>
     </button>
   </nav>
 
-  <div class="hidden lg:block mt-auto border-t border-line pt-5 space-y-4 text-xs">
-    <label class="block font-semibold text-slate-600">URL do SiteCraft
-      <input id="sitecraftUrl" type="text" value="sitecraft.html" placeholder="sitecraft.html" class="mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-xs font-mono bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
+  <div class="hidden lg:block mt-auto border-t border-line dark:border-slate-800 pt-5 space-y-4 text-xs">
+    <label class="block font-semibold text-slate-600 dark:text-slate-400">URL do SiteCraft
+      <input id="sitecraftUrl" type="text" value="sitecraft.html" placeholder="sitecraft.html" class="mt-1.5 w-full border border-line dark:border-slate-700 rounded-lg px-3 py-2 text-xs font-mono bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 outline-none focus:border-brand dark:focus:border-brand transition">
     </label>
-    <button type="button" onclick="syncAllToSiteCraft()" class="w-full py-2.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold transition shadow-sm flex items-center justify-center gap-2">
+    <button type="button" onclick="syncAllToSiteCraft()" class="w-full py-2.5 px-3 rounded-lg bg-slate-800 dark:bg-slate-700 hover:bg-slate-700 dark:hover:bg-slate-600 text-white font-bold transition shadow-sm flex items-center justify-center gap-2">
       🔄 Sincronizar Base Inteira
     </button>
-    <label class="block font-semibold text-slate-600 pt-2">Chave Serper.dev
-      <input id="apiKey" type="password" placeholder="Cole sua chave aqui" class="mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-xs bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
+    <label class="block font-semibold text-slate-600 dark:text-slate-400 pt-2">Chave Serper.dev
+      <input id="apiKey" type="password" placeholder="Cole sua chave aqui" class="mt-1.5 w-full border border-line dark:border-slate-700 rounded-lg px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 outline-none focus:border-brand dark:focus:border-brand transition">
     </label>
     <p class="text-[10px] font-medium text-slate-400 leading-tight">Cada pesquisa consome 1 crédito. Limite gratuito: 2.500/mês.</p>
   </div>
@@ -69,21 +76,21 @@ tailwind.config = { theme: { extend: {
   
   <header class="flex flex-wrap items-end justify-between gap-4">
     <div>
-      <h1 class="text-3xl font-black tracking-tight text-slate-900">Radar de Prospecção</h1>
-      <p class="text-sm font-medium text-slate-500 mt-1">Busque empresas no Google Maps, enriqueça os dados e gere a Landing Page Rica.</p>
+      <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Radar de Prospecção</h1>
+      <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Busque empresas no Google Maps, enriqueça os dados e gere a Landing Page Premium.</p>
     </div>
     
     <!-- Métricas Rápidas no Topo -->
     <div class="flex items-center gap-3">
-      <div class="bg-white border border-line rounded-xl px-4 py-2 shadow-sm text-center">
+      <div class="bg-white dark:bg-slate-900 border border-line dark:border-slate-800 rounded-xl px-4 py-2 shadow-sm text-center">
         <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total</div>
-        <div id="kTotal" class="text-lg font-black text-slate-800 leading-none mt-0.5">0</div>
+        <div id="kTotal" class="text-lg font-black text-slate-800 dark:text-white leading-none mt-0.5">0</div>
       </div>
-      <div class="bg-white border border-amber-200 rounded-xl px-4 py-2 shadow-sm text-center bg-amber-50">
-        <div class="text-[10px] font-bold uppercase text-amber-600 tracking-wider">Ouro (Sem Site)</div>
-        <div id="kNoSite" class="text-lg font-black text-amber-700 leading-none mt-0.5">0</div>
+      <div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-xl px-4 py-2 shadow-sm text-center">
+        <div class="text-[10px] font-bold uppercase text-amber-600 dark:text-amber-500 tracking-wider">Ouro (Sem Site)</div>
+        <div id="kNoSite" class="text-lg font-black text-amber-700 dark:text-amber-400 leading-none mt-0.5">0</div>
       </div>
-      <div class="bg-slate-900 rounded-xl px-4 py-2 shadow-sm text-center text-white">
+      <div class="bg-slate-900 dark:bg-slate-800 rounded-xl px-4 py-2 shadow-sm text-center text-white">
         <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Fila</div>
         <div id="kPending" class="text-lg font-black text-white leading-none mt-0.5">0</div>
       </div>
@@ -93,42 +100,42 @@ tailwind.config = { theme: { extend: {
   <!-- FILA DE ATENDIMENTO E SCRIPT (TOPO) -->
   <div class="grid gap-6 xl:grid-cols-[1fr_1.3fr]">
     <!-- Alvo Prioritário -->
-    <div class="bg-slate-900 text-white rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden">
+    <div class="bg-slate-900 text-white rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden border border-slate-800">
       <div class="absolute -right-10 -top-10 w-40 h-40 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
       <div id="queueBody" class="relative z-10"></div>
     </div>
 
     <!-- Central de Abordagem FBI -->
-    <div class="bg-white border border-line rounded-3xl p-6 md:p-8 shadow-sm flex flex-col">
+    <div class="bg-white dark:bg-slate-900 border border-line dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col transition-colors">
       <div class="flex items-center justify-between mb-5">
-        <h2 class="font-extrabold text-lg text-slate-800">Arsenal de Abordagem</h2>
-        <span class="text-[10px] font-bold uppercase tracking-wider text-brand bg-teal-50 px-3 py-1 rounded-full border border-teal-200">Alta Conversão</span>
+        <h2 class="font-extrabold text-lg text-slate-800 dark:text-white">Arsenal de Abordagem</h2>
+        <span class="text-[10px] font-bold uppercase tracking-wider text-brand bg-teal-50 dark:bg-teal-900/30 px-3 py-1 rounded-full border border-teal-200 dark:border-teal-800/50">Alta Conversão</span>
       </div>
 
       <!-- Presets de Mensagem -->
       <div class="flex flex-wrap gap-2 text-xs mb-5">
-        <button type="button" onclick="setPreset('amostra_perda')" class="px-3 py-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700 transition">1. Dor</button>
-        <button type="button" onclick="setPreset('amostra_elogio')" class="px-3 py-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700 transition">2. Elogio</button>
-        <button type="button" onclick="setPreset('amostra_autoridade')" class="px-3 py-2 border border-orange-200 bg-orange-50 rounded-lg font-extrabold text-craft shadow-sm transition">3. Autoridade</button>
-        <button type="button" onclick="setPreset('amostra_direta')" class="px-3 py-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700 transition">4. Direta</button>
-        <button type="button" onclick="setPreset('amostra_exclusiva')" class="px-3 py-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700 transition">5. Exclusiva</button>
+        <button type="button" onclick="setPreset('amostra_perda')" class="px-3 py-2 border border-line dark:border-slate-700 rounded-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition">1. Dor</button>
+        <button type="button" onclick="setPreset('amostra_elogio')" class="px-3 py-2 border border-line dark:border-slate-700 rounded-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition">2. Elogio</button>
+        <button type="button" onclick="setPreset('amostra_autoridade')" class="px-3 py-2 border border-orange-200 dark:border-orange-500/30 bg-orange-50 dark:bg-orange-500/10 rounded-lg font-extrabold text-craft dark:text-orange-400 shadow-sm transition">3. Autoridade</button>
+        <button type="button" onclick="setPreset('amostra_direta')" class="px-3 py-2 border border-line dark:border-slate-700 rounded-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition">4. Direta</button>
+        <button type="button" onclick="setPreset('amostra_exclusiva')" class="px-3 py-2 border border-line dark:border-slate-700 rounded-lg font-bold hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 transition">5. Exclusiva</button>
       </div>
 
       <div class="grid grid-cols-2 gap-3 text-xs mb-4">
-        <label class="font-bold text-slate-600 block">Seu nome
-          <input id="myName" placeholder="Ex: Víctor" class="mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-xs bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
+        <label class="font-bold text-slate-600 dark:text-slate-400 block">Seu nome
+          <input id="myName" placeholder="Ex: Víctor" class="mt-1.5 w-full border border-line dark:border-slate-700 rounded-lg px-3 py-2 text-xs bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 outline-none focus:border-brand transition">
         </label>
         <div class="flex items-end gap-2">
-          <button type="button" data-chip="{empresa}" class="w-full py-2 rounded-lg bg-slate-100 border border-line font-bold text-slate-700 hover:bg-slate-200 transition">{empresa}</button>
-          <button type="button" data-chip="{meu_nome}" class="w-full py-2 rounded-lg bg-slate-100 border border-line font-bold text-slate-700 hover:bg-slate-200 transition">{meu_nome}</button>
+          <button type="button" data-chip="{empresa}" class="w-full py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-line dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">{empresa}</button>
+          <button type="button" data-chip="{meu_nome}" class="w-full py-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-line dark:border-slate-700 font-bold text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">{meu_nome}</button>
         </div>
       </div>
 
-      <textarea id="tpl" rows="3" class="w-full border border-line rounded-xl p-3.5 text-sm bg-slate-50 focus:bg-white focus:border-brand outline-none transition resize-none"></textarea>
+      <textarea id="tpl" rows="3" class="w-full border border-line dark:border-slate-700 rounded-xl p-3.5 text-sm bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 focus:border-brand outline-none transition resize-none"></textarea>
       
-      <div class="mt-4 bg-slate-50 border border-line rounded-xl p-4 flex-1">
+      <div class="mt-4 bg-slate-50 dark:bg-slate-800/50 border border-line dark:border-slate-700 rounded-xl p-4 flex-1">
         <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-2">Prévia no WhatsApp:</div>
-        <div id="preview" class="text-xs text-slate-700 whitespace-pre-wrap font-medium leading-relaxed"></div>
+        <div id="preview" class="text-xs text-slate-700 dark:text-slate-300 whitespace-pre-wrap font-medium leading-relaxed"></div>
       </div>
     </div>
   </div>
@@ -140,16 +147,16 @@ tailwind.config = { theme: { extend: {
     <div class="w-full xl:w-72 shrink-0 space-y-5 xl:sticky xl:top-6">
       
       <!-- Formulário de Busca -->
-      <form id="searchForm" class="bg-white border border-line rounded-3xl p-6 shadow-sm flex flex-col gap-4">
-        <h3 class="font-extrabold text-slate-800 text-sm mb-1">Nova Busca</h3>
-        <label class="text-xs font-bold text-slate-700">Nicho / Segmento
-          <input id="niche" required placeholder="Ex: clinica odontologica" class="mt-1.5 w-full border border-line rounded-xl px-3.5 py-2.5 text-sm outline-none focus:border-brand bg-slate-50 focus:bg-white transition">
+      <form id="searchForm" class="bg-white dark:bg-slate-900 border border-line dark:border-slate-800 rounded-3xl p-6 shadow-sm flex flex-col gap-4 transition-colors">
+        <h3 class="font-extrabold text-slate-800 dark:text-white text-sm mb-1">Nova Busca</h3>
+        <label class="text-xs font-bold text-slate-700 dark:text-slate-400">Nicho / Segmento
+          <input id="niche" required placeholder="Ex: clinica odontologica" class="mt-1.5 w-full border border-line dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm outline-none focus:border-brand bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 transition">
         </label>
-        <label class="text-xs font-bold text-slate-700">Cidade e Estado
-          <input id="city" required placeholder="Ex: Guarulhos, SP" class="mt-1.5 w-full border border-line rounded-xl px-3.5 py-2.5 text-sm outline-none focus:border-brand bg-slate-50 focus:bg-white transition">
+        <label class="text-xs font-bold text-slate-700 dark:text-slate-400">Cidade e Estado
+          <input id="city" required placeholder="Ex: Guarulhos, SP" class="mt-1.5 w-full border border-line dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm outline-none focus:border-brand bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 transition">
         </label>
-        <label class="text-xs font-bold text-slate-700">Quantidade
-          <select id="leadQty" class="mt-1.5 w-full border border-line rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:bg-white font-bold outline-none transition cursor-pointer">
+        <label class="text-xs font-bold text-slate-700 dark:text-slate-400">Quantidade
+          <select id="leadQty" class="mt-1.5 w-full border border-line dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 font-bold outline-none transition cursor-pointer">
             <option value="10" selected>10 leads</option>
             <option value="20">20 leads</option>
             <option value="50">50 leads</option>
@@ -159,19 +166,19 @@ tailwind.config = { theme: { extend: {
       </form>
 
       <!-- Painel de Filtros Visuais -->
-      <div class="bg-white border border-line rounded-3xl p-6 shadow-sm flex flex-col gap-4">
-        <h3 class="font-extrabold text-slate-800 text-sm mb-1">Filtros de Exibição</h3>
+      <div class="bg-white dark:bg-slate-900 border border-line dark:border-slate-800 rounded-3xl p-6 shadow-sm flex flex-col gap-4 transition-colors">
+        <h3 class="font-extrabold text-slate-800 dark:text-white text-sm mb-1">Filtros de Exibição</h3>
         <div class="flex flex-col gap-2">
-          <button onclick="setSiteFilter('all')" id="btnFilterAll" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-900 text-white transition-colors">Ver Todos</button>
-          <button onclick="setSiteFilter('no-site')" id="btnFilterNoSite" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">🔥 Apenas Sem Site</button>
-          <button onclick="setSiteFilter('has-site')" id="btnFilterHasSite" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">🌐 Possui Site</button>
+          <button onclick="setSiteFilter('all')" id="btnFilterAll" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-900 dark:bg-brand text-white transition-colors">Ver Todos</button>
+          <button onclick="setSiteFilter('no-site')" id="btnFilterNoSite" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">🔥 Apenas Sem Site</button>
+          <button onclick="setSiteFilter('has-site')" id="btnFilterHasSite" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">🌐 Possui Site</button>
         </div>
-        <div class="h-px bg-line my-1"></div>
-        <label class="flex items-center gap-3 text-xs font-bold cursor-pointer text-slate-700 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors">
-          <input type="checkbox" id="chkHideDone" onchange="toggleHideDone(this.checked)" class="w-4 h-4 rounded text-brand focus:ring-0 cursor-pointer border-slate-300"> 
+        <div class="h-px bg-line dark:bg-slate-800 my-1"></div>
+        <label class="flex items-center gap-3 text-xs font-bold cursor-pointer text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors">
+          <input type="checkbox" id="chkHideDone" onchange="toggleHideDone(this.checked)" class="w-4 h-4 rounded text-brand focus:ring-0 cursor-pointer border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900"> 
           Ocultar já abordados
         </label>
-        <button onclick="clearAllLeads()" class="mt-2 text-xs font-bold text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 py-2.5 rounded-xl transition-colors text-center w-full">Limpar Banco de Dados</button>
+        <button onclick="clearAllLeads()" class="mt-2 text-xs font-bold text-red-500 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 bg-red-50 dark:bg-red-900/20 hover:bg-red-100 dark:hover:bg-red-900/40 py-2.5 rounded-xl transition-colors text-center w-full">Limpar Banco de Dados</button>
       </div>
     </div>
 
@@ -179,22 +186,22 @@ tailwind.config = { theme: { extend: {
     <div class="flex-1 w-full flex flex-col gap-5">
       
       <!-- Barra de Ações em Massa -->
-      <div class="bg-white border border-line rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+      <div class="bg-white dark:bg-slate-900 border border-line dark:border-slate-800 rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-sm transition-colors">
         <div class="flex items-center gap-4 pl-2">
           <label class="flex items-center gap-2 cursor-pointer">
-            <input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this.checked)" class="w-5 h-5 rounded text-brand focus:ring-0 cursor-pointer border-slate-300">
-            <span class="text-xs font-extrabold text-slate-700">Selecionar Visíveis</span>
+            <input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this.checked)" class="w-5 h-5 rounded text-brand focus:ring-0 cursor-pointer border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-900">
+            <span class="text-xs font-extrabold text-slate-700 dark:text-slate-300">Selecionar Visíveis</span>
           </label>
-          <div class="h-6 w-px bg-line"></div>
-          <span id="selectedCountBadge" class="text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full font-bold">0 selecionados</span>
+          <div class="h-6 w-px bg-line dark:bg-slate-700"></div>
+          <span id="selectedCountBadge" class="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-3 py-1.5 rounded-full font-bold">0 selecionados</span>
         </div>
 
         <div class="flex items-center gap-3">
-          <select id="dispatchDelay" class="bg-slate-50 border border-line rounded-lg px-3 py-2 text-xs font-bold text-slate-600 outline-none cursor-pointer">
+          <select id="dispatchDelay" class="bg-slate-50 dark:bg-slate-800 border border-line dark:border-slate-700 rounded-lg px-3 py-2 text-xs font-bold text-slate-600 dark:text-slate-300 outline-none cursor-pointer">
             <option value="6">Pausa: 6s</option>
             <option value="10" selected>Pausa: 10s</option>
           </select>
-          <button id="btnStartDispatch" onclick="startBulkDispatch()" class="bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs px-6 py-2.5 rounded-xl transition shadow-sm">
+          <button id="btnStartDispatch" onclick="startBulkDispatch()" class="bg-slate-900 dark:bg-brand hover:bg-slate-800 dark:hover:bg-brandd text-white font-extrabold text-xs px-6 py-2.5 rounded-xl transition shadow-sm">
             ▶ Disparar Sequência
           </button>
           <button id="btnStopDispatch" onclick="stopBulkDispatch()" class="hidden bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-6 py-2.5 rounded-xl transition">
@@ -215,7 +222,7 @@ tailwind.config = { theme: { extend: {
 
 <!-- ===== ABA FUNIL ===== -->
 <section id="v-funil" class="hidden space-y-4">
-  <header><h1 class="text-3xl font-black tracking-tight text-slate-900">Funil de Vendas Visual</h1><p class="text-sm font-medium text-slate-500 mt-1">Arraste os cards para atualizar o status e gerenciar negociações.</p></header>
+  <header><h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Funil de Vendas Visual</h1><p class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Arraste os cards para atualizar o status e gerenciar negociações.</p></header>
   <div id="board" class="grid gap-4 md:grid-cols-4 mt-6"></div>
 </section>
 
@@ -223,50 +230,50 @@ tailwind.config = { theme: { extend: {
 <section id="v-clientes" class="hidden space-y-4">
   <header class="flex flex-wrap items-end justify-between gap-4">
     <div>
-      <h1 class="text-3xl font-black tracking-tight text-slate-900">Clientes & Faturamento</h1>
-      <p class="text-sm font-medium text-slate-500 mt-1">Histórico de projetos fechados.</p>
+      <h1 class="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Clientes & Faturamento</h1>
+      <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mt-1">Histórico de projetos fechados.</p>
     </div>
     <div class="flex items-center gap-4">
-      <div class="bg-teal-50 border border-teal-200 rounded-xl px-5 py-2.5 text-right">
-        <div class="text-[10px] font-bold uppercase text-teal-600 tracking-wider">Faturamento Total</div>
-        <div id="sum" class="text-xl font-black text-teal-700 leading-none mt-1">R$ 0</div>
+      <div class="bg-teal-50 dark:bg-teal-900/20 border border-teal-200 dark:border-teal-800/50 rounded-xl px-5 py-2.5 text-right">
+        <div class="text-[10px] font-bold uppercase text-teal-600 dark:text-teal-500 tracking-wider">Faturamento Total</div>
+        <div id="sum" class="text-xl font-black text-teal-700 dark:text-teal-400 leading-none mt-1">R$ 0</div>
       </div>
       <button id="addClient" class="bg-brand hover:bg-brandd text-white font-extrabold text-sm rounded-xl px-5 py-3.5 shadow-sm transition">➕ Nova Venda</button>
     </div>
   </header>
-  <div class="bg-white border border-line rounded-3xl overflow-hidden shadow-sm mt-6">
-    <table class="w-full text-sm text-left"><tbody id="clientRows" class="divide-y divide-line"></tbody></table>
+  <div class="bg-white dark:bg-slate-900 border border-line dark:border-slate-800 rounded-3xl overflow-hidden shadow-sm mt-6 transition-colors">
+    <table class="w-full text-sm text-left"><tbody id="clientRows" class="divide-y divide-line dark:divide-slate-800"></tbody></table>
   </div>
 </section>
 </main>
 
 <!-- Modal de Venda -->
-<dialog id="dlg" class="rounded-3xl p-0 w-[92vw] max-w-sm shadow-2xl border border-line overflow-hidden">
-  <form method="dialog" id="dlgForm" class="p-8 flex flex-col gap-5 bg-white">
+<dialog id="dlg" class="rounded-3xl p-0 w-[92vw] max-w-sm shadow-2xl border border-line dark:border-slate-700 overflow-hidden bg-white dark:bg-slate-900">
+  <form method="dialog" id="dlgForm" class="p-8 flex flex-col gap-5">
     <div>
-      <h2 id="dlgTitle" class="font-black text-2xl text-slate-900 tracking-tight">Registrar Venda</h2>
-      <p class="text-xs font-medium text-slate-500 mt-1">Adicione o projeto ao seu faturamento.</p>
+      <h2 id="dlgTitle" class="font-black text-2xl text-slate-900 dark:text-white tracking-tight">Registrar Venda</h2>
+      <p class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-1">Adicione o projeto ao seu faturamento.</p>
     </div>
     <div>
-      <label class="text-xs font-bold text-slate-700 block mb-1.5">Cliente (Empresa)</label>
-      <input id="dName" required class="w-full border border-line rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
+      <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">Cliente (Empresa)</label>
+      <input id="dName" required class="w-full border border-line dark:border-slate-700 rounded-xl px-4 py-3 text-sm bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 outline-none focus:border-brand transition">
     </div>
     <div>
-      <label class="text-xs font-bold text-slate-700 block mb-1.5">Serviço Realizado</label>
-      <input id="dSvc" value="Criação de Landing Page (SiteCraft)" class="w-full border border-line rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
+      <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">Serviço Realizado</label>
+      <input id="dSvc" value="Criação de Landing Page Premium" class="w-full border border-line dark:border-slate-700 rounded-xl px-4 py-3 text-sm bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 outline-none focus:border-brand transition">
     </div>
     <div>
-      <label class="text-xs font-bold text-slate-700 block mb-1.5">Valor Fechado (R$)</label>
-      <input id="dVal" type="number" min="0" step="1" required placeholder="Ex: 1000" class="w-full border border-line rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white outline-none focus:border-brand transition font-bold text-brand">
+      <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1.5">Valor Fechado (R$)</label>
+      <input id="dVal" type="number" min="0" step="1" required placeholder="Ex: 1000" class="w-full border border-line dark:border-slate-700 rounded-xl px-4 py-3 text-sm bg-slate-50 dark:bg-slate-800 dark:text-white focus:bg-white dark:focus:bg-slate-700 outline-none focus:border-brand transition font-bold text-brand">
     </div>
     <div class="flex justify-end gap-3 mt-3">
-      <button type="button" id="dCancel" class="px-5 py-3 text-sm font-bold rounded-xl border border-line hover:bg-slate-50 transition">Cancelar</button>
-      <button class="px-5 py-3 text-sm font-extrabold rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">💰 Confirmar</button>
+      <button type="button" id="dCancel" class="px-5 py-3 text-sm font-bold rounded-xl border border-line dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 dark:text-white transition">Cancelar</button>
+      <button class="px-5 py-3 text-sm font-extrabold rounded-xl bg-slate-900 dark:bg-brand hover:bg-slate-800 dark:hover:bg-brandd text-white transition shadow-sm">💰 Confirmar</button>
     </div>
   </form>
 </dialog>
 
-<div id="toast" role="status" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-bold rounded-2xl px-6 py-4 hidden shadow-2xl z-50 flex items-center gap-3 border border-slate-700"></div>
+<div id="toast" role="status" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 dark:bg-slate-800 text-white text-sm font-bold rounded-2xl px-6 py-4 hidden shadow-2xl z-50 flex items-center gap-3 border border-slate-700"></div>
 
 <script>
 const STAGES = ['Novo', 'Contatado', 'Respondeu', 'Negociação'];
@@ -292,6 +299,7 @@ let apiKey = store.get('p_serper_key', '5bb258480651bddbe618fa9861500784a6f0c2a8
 let sitecraftUrl = store.get('p_sitecraft_url', 'sitecraft.html');
 let filterSite = 'all';
 let hideDone = store.get('p_hide_done', false);
+let isDarkMode = store.get('p_dark_mode', false);
 let selectedLeadIds = new Set();
 let isDispatching = false;
 let dispatchTimer = null;
@@ -300,6 +308,24 @@ let pendingLead = null;
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const brl = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+
+/* =========================================================================
+   DARK MODE TOGGLE
+   ========================================================================= */
+function initTheme() {
+  if (isDarkMode) {
+    document.documentElement.classList.add('dark');
+    $('themeIcon').textContent = '☀️';
+  } else {
+    document.documentElement.classList.remove('dark');
+    $('themeIcon').textContent = '🌙';
+  }
+}
+function toggleDarkMode() {
+  isDarkMode = !isDarkMode;
+  store.set('p_dark_mode', isDarkMode);
+  initTheme();
+}
 
 /* =========================================================================
    PONTE DE INTEGRAÇÃO INTELIGENTE: PROSPECTA.IO <-> SITECRAFT STUDIO
@@ -337,6 +363,7 @@ function openInSiteCraft(id) {
   const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
   const baseUrl = ($('sitecraftUrl')?.value || 'sitecraft.html').trim();
   const sep = baseUrl.includes('?') ? '&' : '?';
+  // Foto extraída enviada na URL
   const targetUrl = `${baseUrl}${sep}empresa=${encodeURIComponent(l.name)}&nicho=${encodeURIComponent(mapped.nicho)}&tpl=${encodeURIComponent(mapped.tpl)}&whats=${encodeURIComponent('55' + l.phone)}&cidade=${encodeURIComponent(l.city || l.address || 'Guarulhos - SP')}&rating=${l.rating || 5}&reviews=${l.reviews || 0}&img=${encodeURIComponent(l.imageUrl || '')}`;
   window.open(targetUrl, '_blank');
   toast(`⚡ Abrindo SiteCraft com a página de "${l.name}"!`);
@@ -384,7 +411,7 @@ function nav(v) {
   ['leads', 'funil', 'clientes'].forEach((n) => $('v-' + n).classList.toggle('hidden', n !== v));
   document.querySelectorAll('.nav').forEach((b) => {
     const on = b.dataset.nav === v;
-    b.className = 'nav text-left px-4 py-3 rounded-xl transition-colors ' + (on ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-slate-100');
+    b.className = 'nav text-left px-4 py-3 rounded-xl transition-colors ' + (on ? 'bg-slate-900 dark:bg-slate-700 text-white shadow-md' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800');
   });
   if (v === 'funil') renderBoard();
   if (v === 'clientes') renderClients();
@@ -459,6 +486,7 @@ $('searchForm').addEventListener('submit', async (e) => {
           hasSite: Boolean(p.website), websiteUrl: p.website || null,
           rating: p.rating || 5.0, reviews: p.ratingCount || 0,
           imageUrl: p.imageUrl || p.thumbnailUrl || '', // Foto grátis pescada!
+          email: p.email || '', // Captura email caso o Serper traga
           status: 'Novo', createdAt: Date.now()
         });
       }
@@ -504,8 +532,8 @@ function clearAllLeads() { if (confirm('Atenção: Isso apagará TODOS os leads 
 
 function setSiteFilter(type) {
   filterSite = type;
-  const activeClass = 'bg-slate-900 text-white';
-  const inactiveClass = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+  const activeClass = 'bg-slate-900 dark:bg-brand text-white';
+  const inactiveClass = 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700';
   $('btnFilterAll').className = `text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-colors ${type === 'all' ? activeClass : inactiveClass}`;
   $('btnFilterNoSite').className = `text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-colors ${type === 'no-site' ? activeClass : inactiveClass}`;
   $('btnFilterHasSite').className = `text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-colors ${type === 'has-site' ? activeClass : inactiveClass}`;
@@ -523,7 +551,7 @@ function nextTarget() { const pool = leads.filter((l) => l.status === 'Novo'); r
 
 function renderQueue() {
   const l = nextTarget(); const box = $('queueBody');
-  if (!l) { box.innerHTML = `<div class="text-center py-10"><p class="text-2xl font-black">Radar Limpo!</p><p class="text-sm text-teal-200 mt-2 font-medium">Faça uma nova busca no painel para encontrar alvos.</p></div>`; return; }
+  if (!l) { box.innerHTML = `<div class="text-center py-10"><p class="text-2xl font-black text-white">Radar Limpo!</p><p class="text-sm text-teal-200 mt-2 font-medium">Faça uma nova busca no painel para encontrar alvos.</p></div>`; return; }
   const left = leads.filter((x) => x.status === 'Novo').length;
   
   // Imagem de preview (se tiver puxado a foto gratis do maps)
@@ -551,7 +579,7 @@ function renderQueue() {
     
     <div class="relative z-10 flex flex-wrap items-center gap-3 mt-8">
       <button onclick="openInSiteCraft('${esc(l.id)}')" class="bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-sm rounded-xl px-6 py-3.5 transition shadow-xl hover:-translate-y-1">
-        ⚡ Gerar LP Rica
+        ⚡ Gerar LP Premium
       </button>
       <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-xl px-6 py-3.5 transition shadow-lg shadow-teal-900/50">
         Disparar WhatsApp
@@ -573,55 +601,62 @@ function renderRows() {
   const list = getVisibleLeads();
   updateSelectedBadge();
 
-  $('rows').innerHTML = list.length ? list.map((l) => `
-    <div class="bg-white border border-line rounded-3xl p-5 flex flex-col gap-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative ${l.status !== 'Novo' ? 'opacity-60 bg-slate-50 grayscale-[30%]' : ''}">
+  $('rows').innerHTML = list.length ? list.map((l) => {
+    const emailBtn = l.email 
+      ? `<a href="mailto:${esc(l.email)}?subject=Projeto%20Premium%20para%20${esc(l.name)}" class="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex justify-center items-center">E-mail</a>`
+      : `<button disabled class="bg-slate-200 dark:bg-slate-700 text-slate-400 dark:text-slate-500 font-bold text-xs py-2.5 rounded-xl cursor-not-allowed flex justify-center items-center">E-mail</button>`;
+
+    return `
+    <div class="bg-white dark:bg-slate-900 border border-line dark:border-slate-800 rounded-3xl p-5 flex flex-col gap-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative ${l.status !== 'Novo' ? 'opacity-60 grayscale-[30%]' : ''}">
       
       <!-- Topo do Card -->
       <div class="flex items-start gap-3 relative">
-        <input type="checkbox" onchange="toggleSelectLead('${esc(l.id)}', this.checked)" ${selectedLeadIds.has(l.id) ? 'checked' : ''} class="mt-1 w-5 h-5 rounded border-slate-300 text-brand focus:ring-brand cursor-pointer shrink-0 transition">
+        <input type="checkbox" onchange="toggleSelectLead('${esc(l.id)}', this.checked)" ${selectedLeadIds.has(l.id) ? 'checked' : ''} class="mt-1 w-5 h-5 rounded border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-brand focus:ring-brand cursor-pointer shrink-0 transition">
         
         <div class="flex-1 min-w-0 pr-6">
-          <h3 class="font-extrabold text-slate-900 text-[15px] leading-tight line-clamp-2" title="${esc(l.name)}">${esc(l.name)}</h3>
-          <p class="text-[11px] text-slate-500 mt-1 line-clamp-1 font-medium">${esc(l.address)}</p>
+          <h3 class="font-extrabold text-slate-900 dark:text-white text-[15px] leading-tight line-clamp-2" title="${esc(l.name)}">${esc(l.name)}</h3>
+          <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-1 font-medium">${esc(l.address)}</p>
         </div>
 
-        <button onclick="delLead('${esc(l.id)}')" class="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:bg-red-100 hover:text-red-500 transition-colors" title="Excluir Lead">
+        <button onclick="delLead('${esc(l.id)}')" class="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 hover:bg-red-100 dark:hover:bg-red-900/50 hover:text-red-500 transition-colors" title="Excluir Lead">
           <span class="text-xs font-bold">✕</span>
         </button>
       </div>
       
       <!-- Badges Google e Site -->
-      <div class="flex items-center justify-between bg-slate-50/80 border border-slate-100 rounded-xl p-3 mt-1">
+      <div class="flex items-center justify-between bg-slate-50/80 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/50 rounded-xl p-3 mt-1">
         <div class="flex items-center gap-1.5 text-[13px] font-black text-amber-500">
-          ★ ${l.rating || '5.0'} <span class="text-slate-400 font-semibold text-[10px]">(${l.reviews || 0})</span>
+          ★ ${l.rating || '5.0'} <span class="text-slate-400 dark:text-slate-500 font-semibold text-[10px]">(${l.reviews || 0})</span>
         </div>
         ${!l.hasSite
-          ? '<span class="text-[10px] font-extrabold text-amber-700 bg-amber-100 border border-amber-200/60 px-2.5 py-1 rounded-full uppercase tracking-wide">Sem site</span>'
-          : `<a href="${esc(l.websiteUrl)}" target="_blank" class="text-[10px] font-extrabold text-slate-600 bg-slate-200 border border-slate-300/60 px-2.5 py-1 rounded-full uppercase tracking-wide hover:bg-slate-300 transition-colors">Visitar ↗</a>`
+          ? '<span class="text-[10px] font-extrabold text-amber-700 dark:text-amber-500 bg-amber-100 dark:bg-amber-900/30 border border-amber-200/60 dark:border-amber-700/50 px-2.5 py-1 rounded-full uppercase tracking-wide">Sem site</span>'
+          : `<a href="${esc(l.websiteUrl)}" target="_blank" class="text-[10px] font-extrabold text-slate-600 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 border border-slate-300/60 dark:border-slate-600 px-2.5 py-1 rounded-full uppercase tracking-wide hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">Visitar ↗</a>`
         }
       </div>
 
       <!-- Contato e Status -->
       <div class="flex items-center justify-between px-1">
-        <div class="text-[13px] font-bold text-slate-700 font-mono tracking-tight">${esc(fmtPhone(l.phone))}</div>
-        <select onchange="setStage('${esc(l.id)}', this.value)" class="bg-white border border-line rounded-lg text-[10px] font-bold text-slate-600 px-2.5 py-1.5 outline-none focus:border-brand cursor-pointer shadow-sm">
+        <div class="text-[13px] font-bold text-slate-700 dark:text-slate-300 font-mono tracking-tight">${esc(fmtPhone(l.phone))}</div>
+        <select onchange="setStage('${esc(l.id)}', this.value)" class="bg-white dark:bg-slate-800 border border-line dark:border-slate-700 rounded-lg text-[10px] font-bold text-slate-600 dark:text-slate-300 px-2.5 py-1.5 outline-none focus:border-brand cursor-pointer shadow-sm">
           ${STAGES.map((s) => `<option ${s === l.status ? 'selected' : ''}>${s}</option>`).join('')}
         </select>
       </div>
 
       <!-- Ações Inferiores -->
-      <div class="mt-auto grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
-        <button onclick="openInSiteCraft('${esc(l.id)}')" class="col-span-2 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs py-2.5 rounded-xl transition shadow-sm flex justify-center items-center gap-1.5">
-          <span>⚡</span> Gerar LP Rica
+      <div class="mt-auto grid grid-cols-3 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+        <button onclick="openInSiteCraft('${esc(l.id)}')" class="col-span-3 bg-slate-900 dark:bg-brand hover:bg-slate-800 dark:hover:bg-brandd text-white font-extrabold text-xs py-2.5 rounded-xl transition shadow-sm flex justify-center items-center gap-1.5">
+          <span>⚡</span> Gerar LP Premium
         </button>
-        <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-xs py-2.5 rounded-xl transition flex justify-center items-center">WhatsApp</button>
-        <button onclick="openDeal('${esc(l.id)}')" class="bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-extrabold text-xs py-2 rounded-xl transition flex justify-center items-center">💸 Vender</button>
+        <button onclick="approach('${esc(l.id)}')" class="bg-green-600 hover:bg-green-700 text-white font-bold text-xs py-2.5 rounded-xl transition flex justify-center items-center">Whats</button>
+        ${emailBtn}
+        <button onclick="openDeal('${esc(l.id)}')" class="bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600 text-slate-700 dark:text-slate-300 font-extrabold text-xs py-2 rounded-xl transition flex justify-center items-center">💸 Vender</button>
       </div>
-    </div>`).join('')
-  : `<div class="col-span-full bg-white border border-line rounded-3xl p-10 flex flex-col items-center justify-center text-center">
+    </div>`
+  }).join('')
+  : `<div class="col-span-full bg-white dark:bg-slate-900 border border-line dark:border-slate-800 rounded-3xl p-10 flex flex-col items-center justify-center text-center">
        <span class="text-4xl mb-3">📭</span>
-       <h3 class="font-extrabold text-slate-800 text-lg">Nenhum alvo encontrado</h3>
-       <p class="text-sm text-slate-500 font-medium mt-1">Altere os filtros ou faça uma nova busca no Google Maps.</p>
+       <h3 class="font-extrabold text-slate-800 dark:text-white text-lg">Nenhum alvo encontrado</h3>
+       <p class="text-sm text-slate-500 dark:text-slate-400 font-medium mt-1">Altere os filtros ou faça uma nova busca no Google Maps.</p>
      </div>`;
 }
 
@@ -634,15 +669,15 @@ function renderKpis() {
 function renderBoard() {
   $('board').innerHTML = STAGES.map((s) => {
     const items = leads.filter((l) => l.status === s);
-    return `<div class="col bg-slate-50 border border-line rounded-3xl p-5 min-h-[300px]" data-stage="${s}">
-      <div class="text-[11px] uppercase font-black text-slate-500 mb-4 flex justify-between items-center tracking-wider">${s} <span class="bg-white border border-line text-slate-700 px-2.5 py-1 rounded-full">${items.length}</span></div>
+    return `<div class="col bg-slate-50 dark:bg-slate-900/50 border border-line dark:border-slate-800 rounded-3xl p-5 min-h-[300px]" data-stage="${s}">
+      <div class="text-[11px] uppercase font-black text-slate-500 dark:text-slate-400 mb-4 flex justify-between items-center tracking-wider">${s} <span class="bg-white dark:bg-slate-800 border border-line dark:border-slate-700 text-slate-700 dark:text-slate-300 px-2.5 py-1 rounded-full">${items.length}</span></div>
       <div class="space-y-3">${items.map((l) => `
-        <div draggable="true" data-id="${esc(l.id)}" class="card cursor-grab bg-white border border-line rounded-2xl p-4 text-sm shadow-sm hover:shadow-md transition-shadow">
-          <div class="font-extrabold text-slate-800 leading-snug">${esc(l.name)}</div>
-          <div class="text-[11px] font-mono text-slate-500 mt-1">${esc(fmtPhone(l.phone))}</div>
-          <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-            <span class="text-[10px] uppercase font-bold ${l.hasSite ? 'text-slate-400' : 'text-amber-600 bg-amber-50 px-2 py-0.5 rounded'}">${l.hasSite ? 'Possui site' : 'Sem site'}</span>
-            <button onclick="openInSiteCraft('${esc(l.id)}')" class="text-[11px] font-black text-slate-900 hover:text-brand transition-colors">⚡ LP Rica ↗</button>
+        <div draggable="true" data-id="${esc(l.id)}" class="card cursor-grab bg-white dark:bg-slate-800 border border-line dark:border-slate-700 rounded-2xl p-4 text-sm shadow-sm hover:shadow-md transition-shadow">
+          <div class="font-extrabold text-slate-800 dark:text-white leading-snug">${esc(l.name)}</div>
+          <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 mt-1">${esc(fmtPhone(l.phone))}</div>
+          <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-100 dark:border-slate-700">
+            <span class="text-[10px] uppercase font-bold ${l.hasSite ? 'text-slate-400 dark:text-slate-500' : 'text-amber-600 dark:text-amber-500 bg-amber-50 dark:bg-amber-900/30 px-2 py-0.5 rounded'}">${l.hasSite ? 'Possui site' : 'Sem site'}</span>
+            <button onclick="openInSiteCraft('${esc(l.id)}')" class="text-[11px] font-black text-slate-900 dark:text-white hover:text-brand transition-colors">⚡ LP Premium ↗</button>
           </div>
         </div>`).join('')}
       </div>
@@ -665,17 +700,17 @@ function renderBoard() {
 function renderClients() {
   $('sum').textContent = brl(clients.reduce((a, c) => a + c.value, 0));
   $('clientRows').innerHTML = clients.length ? clients.map((c, i) => `
-    <tr class="hover:bg-slate-50 transition-colors">
+    <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
       <td class="p-5">
-        <div class="font-extrabold text-slate-900 text-[15px]">${esc(c.name)}</div>
-        <div class="text-xs font-medium text-slate-500 mt-0.5">${esc(c.service)}</div>
+        <div class="font-extrabold text-slate-900 dark:text-white text-[15px]">${esc(c.name)}</div>
+        <div class="text-xs font-medium text-slate-500 dark:text-slate-400 mt-0.5">${esc(c.service)}</div>
       </td>
       <td class="p-5 font-black text-brand text-lg text-right">${brl(c.value)}</td>
       <td class="p-5 text-right w-20">
-        <button onclick="delClient(${i})" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 text-slate-400 hover:bg-red-100 hover:text-red-500 transition-colors" title="Remover Venda">✕</button>
+        <button onclick="delClient(${i})" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-400 hover:bg-red-100 dark:hover:bg-red-900/50 hover:text-red-500 transition-colors" title="Remover Venda">✕</button>
       </td>
     </tr>`).join('')
-    : `<tr><td colspan="3" class="p-12 text-center text-slate-400 text-sm font-medium">Nenhuma venda registrada no histórico.</td></tr>`;
+    : `<tr><td colspan="3" class="p-12 text-center text-slate-400 dark:text-slate-500 text-sm font-medium">Nenhuma venda registrada no histórico.</td></tr>`;
 }
 
 function delClient(i) {
@@ -693,6 +728,7 @@ function renderAll() {
   renderPreview();
 }
 
+initTheme(); // Inicializa tema logo na abertura
 renderAll();
 nav('leads');
 </script>
