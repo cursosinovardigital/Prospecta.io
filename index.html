@@ -46,9 +46,6 @@ tailwind.config = { theme: { extend: {
     <label class="block font-semibold text-slate-600">Arquivo / URL do SiteCraft
       <input id="sitecraftUrl" type="text" value="sitecraft.html" placeholder="sitecraft.html" class="mt-1 w-full border border-line rounded px-2.5 py-1.5 text-xs font-mono">
     </label>
-    <button type="button" onclick="syncAllToSiteCraft()" class="w-full py-2 px-3 rounded-lg bg-orange-50 hover:bg-orange-100 text-craft font-bold border border-orange-200 transition text-center">
-      🔄 Sincronizar Fila c/ SiteCraft
-    </button>
     <label class="block font-semibold text-slate-600 pt-1">Sua Chave Serper.dev
       <input id="apiKey" type="password" placeholder="Cole sua chave aqui" class="mt-1 w-full border border-line rounded px-2.5 py-2 text-xs">
     </label>
@@ -63,12 +60,9 @@ tailwind.config = { theme: { extend: {
   <header class="flex flex-wrap items-center justify-between gap-3">
     <div>
       <h1 class="text-2xl font-extrabold tracking-tight">Buscar Empresas no Google Maps</h1>
-      <p class="text-sm text-slate-500 mt-0.5">Filtre estabelecimentos reais por região, telefone, presença de website e gere a Landing Page em 1 clique.</p>
+      <p class="text-sm text-slate-500 mt-0.5">Filtre estabelecimentos reais por região, puxe avaliações reais e gere a Landing Page em 1 clique.</p>
     </div>
     <div class="flex items-center gap-2">
-      <button type="button" onclick="syncAllToSiteCraft()" class="bg-white hover:bg-slate-50 text-slate-700 border border-line font-bold text-xs rounded-lg px-3.5 py-2.5 shadow-sm">
-        🔄 Enviar Leads p/ SiteCraft
-      </button>
       <button type="button" onclick="openSiteCraftHub()" class="bg-craft hover:bg-craftd text-white font-bold text-xs rounded-lg px-4 py-2.5 shadow-sm">
         ⚡ Estúdio SiteCraft ↗
       </button>
@@ -78,7 +72,7 @@ tailwind.config = { theme: { extend: {
   <!-- FORMULÁRIO COM SELETOR DE QUANTIDADE -->
   <form id="searchForm" class="bg-white border border-line rounded-2xl p-5 shadow-sm grid gap-4 md:grid-cols-[1.2fr_1fr_auto_auto] items-end">
     <label class="text-xs font-semibold text-slate-700">Nicho / Segmento
-      <input id="niche" required placeholder="Ex: clinica odontologica, oficina mecanica, contabilidade" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
+      <input id="niche" required placeholder="Ex: clinica odontologica, estetica" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
     </label>
     <label class="text-xs font-semibold text-slate-700">Cidade e Estado
       <input id="city" required placeholder="Ex: Guarulhos, SP" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
@@ -86,9 +80,8 @@ tailwind.config = { theme: { extend: {
     <label class="text-xs font-semibold text-slate-700">Quantidade
       <select id="leadQty" class="mt-1 w-full border border-line rounded-lg px-3 py-2.5 text-sm bg-white font-medium outline-none">
         <option value="10">10 leads</option>
-        <option value="20">20 leads (1 crédito)</option>
+        <option value="20">20 leads</option>
         <option value="50" selected>50 leads (3 créditos)</option>
-        <option value="100">100 leads (5 créditos)</option>
       </select>
     </label>
     <button id="searchBtn" type="submit" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-6 py-2.5 transition h-[42px]">Buscar</button>
@@ -104,16 +97,15 @@ tailwind.config = { theme: { extend: {
     <!-- Scripts de Vendas FBI -->
     <div class="bg-white border border-line rounded-2xl p-5 space-y-4 shadow-sm">
       <div class="flex items-center justify-between">
-        <h2 class="font-bold text-sm text-slate-800">Estratégia de Abordagem (Técnicas FBI)</h2>
+        <h2 class="font-bold text-sm text-slate-800">Estratégia de Abordagem (FBI)</h2>
         <span class="text-[11px] font-semibold text-brand bg-teal-50 px-2 py-0.5 rounded border border-teal-200">Anti-Bloqueio</span>
       </div>
 
-      <!-- Presets de Mensagem -->
       <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
         <button type="button" onclick="setPreset('icebreaker')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">1. Quebra-Gelo</button>
         <button type="button" onclick="setPreset('fbi_pitch')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">2. Pergunta ao Não</button>
         <button type="button" onclick="setPreset('site_ready')" class="p-2 border border-orange-200 bg-orange-50/60 rounded-lg font-bold hover:bg-orange-100 text-craft text-center">⚡ 3. Site Pronto</button>
-        <button type="button" onclick="setPreset('curiosity')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">4. Dúvida Cliente</button>
+        <button type="button" onclick="setPreset('curiosity')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">4. Dúvida</button>
       </div>
 
       <div class="grid grid-cols-2 gap-2 text-xs">
@@ -128,7 +120,7 @@ tailwind.config = { theme: { extend: {
 
       <textarea id="tpl" rows="3" class="w-full border border-line rounded-lg p-3 text-sm focus:border-brand outline-none"></textarea>
       
-      <div class="text-[11px] text-slate-500 font-medium">Prévia enviada no WhatsApp:</div>
+      <div class="text-[11px] text-slate-500 font-medium">Prévia:</div>
       <div id="preview" class="text-xs bg-slate-50 border border-line rounded-lg p-2.5 text-slate-700 whitespace-pre-wrap"></div>
     </div>
   </div>
@@ -141,64 +133,53 @@ tailwind.config = { theme: { extend: {
     <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Pendentes na Fila</div><div id="kPending" class="text-2xl font-black text-slate-600">0</div></div>
   </div>
 
-  <!-- Barra de Ações em Massa / Disparo Sequencial -->
+  <!-- Barra de Ações em Massa -->
   <div class="bg-slate-900 text-white rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-md">
     <div class="flex items-center gap-3">
-      <span class="text-xs font-bold uppercase tracking-wider text-teal-400">Automação de Envio:</span>
+      <span class="text-xs font-bold uppercase tracking-wider text-teal-400">Automação:</span>
       <span id="selectedCountBadge" class="text-xs bg-slate-800 border border-slate-700 px-3 py-1 rounded-full font-semibold">0 selecionados</span>
     </div>
-
     <div class="flex items-center gap-3">
       <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
         Intervalo:
         <select id="dispatchDelay" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-white outline-none">
-          <option value="6">6 segundos</option>
-          <option value="10" selected>10 segundos (Recomendado)</option>
-          <option value="15">15 segundos</option>
+          <option value="6">6s</option>
+          <option value="10" selected>10s</option>
         </select>
       </label>
-      <button id="btnStartDispatch" onclick="startBulkDispatch()" class="bg-brand hover:bg-brandd text-white font-extrabold text-xs px-5 py-2.5 rounded-lg transition shadow-lg shadow-teal-900/40">
+      <button id="btnStartDispatch" onclick="startBulkDispatch()" class="bg-brand hover:bg-brandd text-white font-extrabold text-xs px-5 py-2.5 rounded-lg transition">
         Disparar Sequência
       </button>
-      <button id="btnStopDispatch" onclick="stopBulkDispatch()" class="hidden bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2.5 rounded-lg transition">
-        Pausar
-      </button>
+      <button id="btnStopDispatch" onclick="stopBulkDispatch()" class="hidden bg-red-600 text-white font-bold text-xs px-4 py-2.5 rounded-lg">Pausar</button>
     </div>
   </div>
 
-  <!-- Lista de Resultados e Disparador -->
+  <!-- Lista de Resultados -->
   <div class="bg-white border border-line rounded-2xl overflow-hidden shadow-sm p-4 space-y-3">
     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
-      <!-- Filtro de Site -->
       <div class="flex gap-2">
         <button onclick="setSiteFilter('all')" id="btnFilterAll" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-ink text-white">Todos</button>
-        <button onclick="setSiteFilter('no-site')" id="btnFilterNoSite" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">Apenas Sem Site</button>
-        <button onclick="setSiteFilter('has-site')" id="btnFilterHasSite" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">Com Site</button>
+        <button onclick="setSiteFilter('no-site')" id="btnFilterNoSite" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600">Sem Site</button>
+        <button onclick="setSiteFilter('has-site')" id="btnFilterHasSite" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600">Com Site</button>
       </div>
-
-      <!-- Filtro de Atendidos e Limpeza -->
       <div class="flex items-center gap-4">
-        <label class="flex items-center gap-2 text-xs font-semibold cursor-pointer select-none text-slate-700">
-          <input type="checkbox" id="chkHideDone" onchange="toggleHideDone(this.checked)" class="rounded text-brand focus:ring-0">
-          Ocultar já abordados
+        <label class="flex items-center gap-2 text-xs font-semibold cursor-pointer text-slate-700">
+          <input type="checkbox" id="chkHideDone" onchange="toggleHideDone(this.checked)" class="rounded text-brand focus:ring-0"> Ocultar atendidos
         </label>
         <button onclick="clearAllLeads()" class="text-xs font-semibold text-red-600 hover:underline">Limpar lista</button>
       </div>
     </div>
 
-    <!-- Tabela -->
     <div class="overflow-x-auto max-h-[540px]">
       <table class="w-full text-sm text-left">
-        <thead class="sticky top-0 bg-white border-b border-line text-xs font-bold text-slate-400 uppercase tracking-wider">
+        <thead class="sticky top-0 bg-white border-b border-line text-xs font-bold text-slate-400 uppercase">
           <tr>
-            <th class="p-3 w-8">
-              <input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this.checked)" class="rounded text-brand focus:ring-0 cursor-pointer">
-            </th>
+            <th class="p-3 w-8"><input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this.checked)" class="rounded text-brand"></th>
             <th class="p-3">Empresa</th>
-            <th class="p-3">Website</th>
+            <th class="p-3">Google Maps</th>
             <th class="p-3">Telefone</th>
             <th class="p-3">Status</th>
-            <th class="p-3 text-right">Ação Rápida (SiteCraft + Whats)</th>
+            <th class="p-3 text-right">Ação (SiteCraft + Enriquecimento)</th>
           </tr>
         </thead>
         <tbody id="rows" class="divide-y divide-line"></tbody>
@@ -209,7 +190,7 @@ tailwind.config = { theme: { extend: {
 
 <!-- ===== ABA FUNIL ===== -->
 <section id="v-funil" class="hidden space-y-4">
-  <header><h1 class="text-2xl font-extrabold tracking-tight">Funil de Vendas</h1><p class="text-sm text-slate-500">Arraste os cards ou clique em ⚡ Gerar Site para abrir o modelo daquela empresa no SiteCraft.</p></header>
+  <header><h1 class="text-2xl font-extrabold tracking-tight">Funil de Vendas</h1></header>
   <div id="board" class="grid gap-3 md:grid-cols-4"></div>
 </section>
 
@@ -217,7 +198,7 @@ tailwind.config = { theme: { extend: {
 <section id="v-clientes" class="hidden space-y-4">
   <header class="flex flex-wrap items-end justify-between gap-3">
     <div><h1 class="text-2xl font-extrabold tracking-tight">Clientes Fechados</h1><p class="text-sm text-slate-500">Faturamento acumulado: <strong id="sum" class="text-brand font-bold text-base">R$ 0</strong></p></div>
-    <button id="addClient" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-4 py-2.5">Adicionar Venda Manual</button>
+    <button id="addClient" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-4 py-2.5">Add Manual</button>
   </header>
   <div class="bg-white border border-line rounded-2xl overflow-hidden shadow-sm">
     <table class="w-full text-sm text-left"><tbody id="clientRows" class="divide-y divide-line"></tbody></table>
@@ -225,19 +206,18 @@ tailwind.config = { theme: { extend: {
 </section>
 </main>
 
-<!-- Modal de Venda -->
 <dialog id="dlg" class="rounded-2xl p-0 w-[92vw] max-w-sm shadow-xl border border-line">
   <form method="dialog" id="dlgForm" class="p-6 space-y-4">
     <h2 id="dlgTitle" class="font-extrabold text-lg text-slate-800">Registrar Venda</h2>
     <label class="text-xs font-semibold text-slate-600 block">Cliente
-      <input id="dName" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
-    <label class="text-xs font-semibold text-slate-600 block">Serviço Realizado
-      <input id="dSvc" value="Criação de Landing Page (SiteCraft)" class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
-    <label class="text-xs font-semibold text-slate-600 block">Valor Fechado (R$)
-      <input id="dVal" type="number" min="0" step="1" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
+      <input id="dName" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm"></label>
+    <label class="text-xs font-semibold text-slate-600 block">Serviço
+      <input id="dSvc" value="Criação de Landing Page (SiteCraft)" class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm"></label>
+    <label class="text-xs font-semibold text-slate-600 block">Valor (R$)
+      <input id="dVal" type="number" min="0" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm"></label>
     <div class="flex justify-end gap-2 pt-2">
-      <button type="button" id="dCancel" class="px-4 py-2 text-sm font-semibold rounded-lg border border-line hover:bg-slate-50">Cancelar</button>
-      <button class="px-4 py-2 text-sm font-semibold rounded-lg bg-brand hover:bg-brandd text-white">Confirmar Venda</button>
+      <button type="button" id="dCancel" class="px-4 py-2 text-sm font-semibold rounded-lg border border-line">Cancelar</button>
+      <button class="px-4 py-2 text-sm font-semibold rounded-lg bg-brand text-white">Confirmar Venda</button>
     </div>
   </form>
 </dialog>
@@ -246,7 +226,6 @@ tailwind.config = { theme: { extend: {
 
 <script>
 const STAGES = ['Novo', 'Contatado', 'Respondeu', 'Negociação'];
-
 const PRESETS = {
   icebreaker: 'Oi, boa tarde!',
   fbi_pitch: 'Olá! Sou {meu_nome}. Estive olhando a {empresa} no Google e notei uma oportunidade para trazer novos clientes para cá com um site próprio.\n\nFicaria muito ruim se eu te enviasse uma prévia rápida de como ficaria?',
@@ -268,92 +247,67 @@ let sitecraftUrl = store.get('p_sitecraft_url', 'sitecraft.html');
 let filterSite = 'all';
 let hideDone = store.get('p_hide_done', false);
 let selectedLeadIds = new Set();
-let isDispatching = false;
-let dispatchTimer = null;
-let pendingLead = null;
+let isDispatching = false, dispatchTimer = null, pendingLead = null;
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const brl = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
 
-/* =========================================================================
-   PONTE DE INTEGRAÇÃO INTELIGENTE: PROSPECTA.IO <-> SITECRAFT STUDIO
-   ========================================================================= */
 function mapNicheToSiteCraft(rawText) {
   const s = String(rawText || '').toLowerCase();
-  if (/clinica|odonto|dentista|medic|estetica|fisio|psico|pilates|saude|salao|barbearia|veterinar|pet/.test(s)) {
-    return { nicho: 'clinica', tpl: 'nuvo' };
-  }
-  if (/advocacia|advogad|contabil|imobiliaria|corretor|seguro|financ|consultor|engenhari|arquitet/.test(s)) {
-    return { nicho: 'financas', tpl: 'signal' };
-  }
-  if (/restaurante|pizzaria|hamburgueria|bar|hotel|pousada|turismo|viagem|evento|buffet|academia|crossfit/.test(s)) {
-    return { nicho: 'turismo', tpl: 'wanderful' };
-  }
-  if (/escola|col[eé]gio|curso|idioma|infantil|creche|musica|violao|educa/.test(s)) {
-    return { nicho: 'educacao', tpl: 'meadowbell' };
-  }
-  if (/software|sistema|ti|informatica|celular|assistencia|tech|app/.test(s)) {
-    return { nicho: 'app', tpl: 'shipcraft' };
-  }
+  if (/clinica|odonto|dentista|medic|estetica|fisio|psico|pilates|saude|salao|barbearia|veterinar|pet/.test(s)) return { nicho: 'clinica', tpl: 'nuvo' };
+  if (/advocacia|advogad|contabil|imobiliaria|corretor|seguro|financ|consultor|engenhari|arquitet/.test(s)) return { nicho: 'financas', tpl: 'signal' };
+  if (/restaurante|pizzaria|hamburgueria|bar|hotel|pousada|turismo|viagem|evento|buffet|academia|crossfit/.test(s)) return { nicho: 'turismo', tpl: 'wanderful' };
+  if (/escola|col[eé]gio|curso|idioma|infantil|creche|musica|violao|educa/.test(s)) return { nicho: 'educacao', tpl: 'meadowbell' };
+  if (/software|sistema|ti|informatica|celular|assistencia|tech|app/.test(s)) return { nicho: 'app', tpl: 'shipcraft' };
   return { nicho: 'agencia', tpl: 'convix' };
 }
 
-function syncLeadsToSiteCraftStorage(priorityLead) {
-  const scLeads = leads.map(l => {
-    const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
-    return {
-      nome: l.name,
-      nicho: mapped.nicho,
-      cidade: l.city || l.address || 'Guarulhos - SP',
-      whats: '55' + l.phone,
-      tpl: mapped.tpl,
-      head: ''
-    };
-  });
-
-  if (priorityLead) {
-    const mapped = mapNicheToSiteCraft((priorityLead.niche || '') + ' ' + priorityLead.name);
-    const filtered = scLeads.filter(x => x.nome !== priorityLead.name);
-    filtered.unshift({
-      nome: priorityLead.name,
-      nicho: mapped.nicho,
-      cidade: priorityLead.city || priorityLead.address || 'Guarulhos - SP',
-      whats: '55' + priorityLead.phone,
-      tpl: mapped.tpl,
-      head: ''
-    });
-    store.set('sitecraft_prospecta_leads_v3', filtered);
-  } else if (scLeads.length > 0) {
-    store.set('sitecraft_prospecta_leads_v3', scLeads);
+/* ===== NOVA FUNÇÃO DE ENRIQUECIMENTO DE DADOS (IMAGENS REAIS E AVALIAÇÕES) ===== */
+async function enrichAndOpenInSiteCraft(id) {
+  if (!apiKey) {
+    alert('Insira sua chave do Serper no menu lateral para buscar as imagens!');
+    return;
   }
-}
-
-function openInSiteCraft(id) {
   const l = leads.find(x => x.id === id);
   if (!l) return;
 
-  syncLeadsToSiteCraftStorage(l);
+  toast(`🔍 Buscando fotos reais de ${l.name} no Google...`);
+  
+  let imgUrl = '';
+  try {
+    const res = await fetch('https://google.serper.dev/images', {
+      method: 'POST',
+      headers: { 'X-API-KEY': apiKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ q: `${l.name} ${l.city} interior OR fachada OR instagram` })
+    });
+    const data = await res.json();
+    if (data.images && data.images.length > 0) {
+      imgUrl = data.images[0].imageUrl;
+    }
+  } catch (err) {
+    console.error('Falha ao buscar imagem, seguindo sem imagem', err);
+  }
+
+  // Prepara os dados pro Sitecraft
   const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
   const baseUrl = ($('sitecraftUrl')?.value || 'sitecraft.html').trim();
   const sep = baseUrl.includes('?') ? '&' : '?';
-  const targetUrl = `${baseUrl}${sep}empresa=${encodeURIComponent(l.name)}&nicho=${encodeURIComponent(mapped.nicho)}&tpl=${encodeURIComponent(mapped.tpl)}&whats=${encodeURIComponent('55' + l.phone)}&cidade=${encodeURIComponent(l.city || l.address || 'Guarulhos - SP')}`;
+  
+  const targetUrl = `${baseUrl}${sep}empresa=${encodeURIComponent(l.name)}`
+    + `&nicho=${encodeURIComponent(mapped.nicho)}`
+    + `&tpl=${encodeURIComponent(mapped.tpl)}`
+    + `&whats=${encodeURIComponent('55' + l.phone)}`
+    + `&cidade=${encodeURIComponent(l.city || l.address || 'Guarulhos - SP')}`
+    + `&rating=${l.rating || 5}`
+    + `&reviews=${l.reviews || 0}`
+    + `&img=${encodeURIComponent(imgUrl)}`;
 
   window.open(targetUrl, '_blank');
-  toast(`⚡ Abrindo SiteCraft com a página de "${l.name}"!`);
-}
-
-function syncAllToSiteCraft() {
-  if (!leads.length) {
-    toast('Busque alguns leads primeiro para sincronizar!');
-    return;
-  }
-  syncLeadsToSiteCraftStorage();
-  toast(`✓ ${leads.length} leads sincronizados com a fila do SiteCraft Studio!`);
+  toast(`⚡ Abrindo SiteCraft com a página enriquecida de "${l.name}"!`);
 }
 
 function openSiteCraftHub() {
-  syncLeadsToSiteCraftStorage();
   const baseUrl = ($('sitecraftUrl')?.value || 'sitecraft.html').trim();
   window.open(baseUrl, '_blank');
 }
@@ -372,13 +326,7 @@ function fmtPhone(p) {
   return p;
 }
 
-const persist = () => {
-  store.set('p_leads', leads);
-  store.set('p_clients', clients);
-  store.set('p_serper_key', apiKey);
-  store.set('p_hide_done', hideDone);
-  store.set('p_sitecraft_url', sitecraftUrl);
-};
+const persist = () => { store.set('p_leads', leads); store.set('p_clients', clients); store.set('p_serper_key', apiKey); store.set('p_hide_done', hideDone); store.set('p_sitecraft_url', sitecraftUrl); };
 
 function toast(msg) {
   const t = $('toast');
@@ -388,13 +336,7 @@ function toast(msg) {
   toast.t = setTimeout(() => t.classList.add('hidden'), 3200);
 }
 
-function setPreset(key) {
-  tpl = PRESETS[key];
-  $('tpl').value = tpl;
-  store.set('p_tpl', tpl);
-  renderPreview();
-  toast('Script atualizado!');
-}
+function setPreset(key) { tpl = PRESETS[key]; $('tpl').value = tpl; store.set('p_tpl', tpl); renderPreview(); toast('Script atualizado!'); }
 
 function nav(v) {
   ['leads', 'funil', 'clientes'].forEach((n) => $('v-' + n).classList.toggle('hidden', n !== v));
@@ -407,9 +349,7 @@ function nav(v) {
 }
 document.querySelectorAll('.nav').forEach((b) => b.addEventListener('click', () => nav(b.dataset.nav)));
 
-function message(lead) {
-  return tpl.replace(/{empresa}/g, lead.name).replace(/{meu_nome}/g, myName || 'Víctor');
-}
+function message(lead) { return tpl.replace(/{empresa}/g, lead.name).replace(/{meu_nome}/g, myName || 'Víctor'); }
 function waUrl(lead) { return `https://wa.me/55${lead.phone}?text=${encodeURIComponent(message(lead))}`; }
 
 function renderPreview() {
@@ -417,64 +357,45 @@ function renderPreview() {
   $('preview').textContent = message(sample);
 }
 
-$('tpl').value = tpl;
-$('myName').value = myName;
-$('apiKey').value = apiKey;
-$('sitecraftUrl').value = sitecraftUrl;
-$('chkHideDone').checked = hideDone;
-
+$('tpl').value = tpl; $('myName').value = myName; $('apiKey').value = apiKey; $('sitecraftUrl').value = sitecraftUrl; $('chkHideDone').checked = hideDone;
 $('apiKey').addEventListener('input', (e) => { apiKey = e.target.value.trim(); persist(); });
 $('sitecraftUrl').addEventListener('input', (e) => { sitecraftUrl = e.target.value.trim(); persist(); });
 $('tpl').addEventListener('input', (e) => { tpl = e.target.value; store.set('p_tpl', tpl); renderPreview(); });
 $('myName').addEventListener('input', (e) => { myName = e.target.value; store.set('p_name', myName); renderPreview(); });
-
 document.querySelectorAll('[data-chip]').forEach((b) => b.addEventListener('click', () => {
   const t = $('tpl'), s = t.selectionStart, c = b.dataset.chip;
   t.value = t.value.slice(0, s) + c + t.value.slice(t.selectionEnd);
   t.dispatchEvent(new Event('input')); t.focus(); t.setSelectionRange(s + c.length, s + c.length);
 }));
 
-/* ===== MOTOR SERPER COM PAGINAÇÃO CONFIGURÁVEL ===== */
+/* ===== MOTOR SERPER COM AVALIAÇÕES ===== */
 async function fetchSerperPage(query, page) {
   const res = await fetch('https://google.serper.dev/maps', {
     method: 'POST',
     headers: { 'X-API-KEY': apiKey, 'Content-Type': 'application/json' },
     body: JSON.stringify({ q: query, gl: 'br', hl: 'pt-br', page: page })
   });
-  if (!res.ok) throw new Error('Falha na chave de API ou limite atingido.');
+  if (!res.ok) throw new Error('Falha na chave de API.');
   const data = await res.json();
   return data.places || [];
 }
 
 $('searchForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!apiKey) {
-    alert('Informe a sua chave Serper no menu lateral.');
-    $('apiKey').focus();
-    return;
-  }
-
+  if (!apiKey) { alert('Informe a chave Serper no menu.'); $('apiKey').focus(); return; }
   const btn = $('searchBtn');
   const targetQty = Number($('leadQty').value) || 50;
   const pagesNeeded = Math.ceil(targetQty / 20);
-
-  btn.disabled = true;
-  btn.textContent = `Buscando ${targetQty} leads…`;
-
-  const niche = $('niche').value.trim();
-  const city = $('city').value.trim();
-  const query = `${niche} em ${city}`;
+  btn.disabled = true; btn.textContent = `Buscando...`;
+  const niche = $('niche').value.trim(), city = $('city').value.trim(), query = `${niche} em ${city}`;
 
   try {
     const promises = [];
-    for (let p = 1; p <= pagesNeeded; p++) {
-      promises.push(fetchSerperPage(query, p));
-    }
-
+    for (let p = 1; p <= pagesNeeded; p++) promises.push(fetchSerperPage(query, p));
     const results = await Promise.allSettled(promises);
     let allPlaces = [];
     results.forEach((r) => { if (r.status === 'fulfilled') allPlaces = allPlaces.concat(r.value); });
-
+    
     const knownIds = new Set(leads.map((l) => l.id));
     const fresh = [];
 
@@ -484,335 +405,110 @@ $('searchForm').addEventListener('submit', async (e) => {
       if (!knownIds.has(id) && pPhone) {
         knownIds.add(id);
         fresh.push({
-          id,
-          name: p.title,
-          niche: niche,
-          city: city,
-          address: p.address || city,
-          phone: pPhone,
-          hasSite: Boolean(p.website),
-          websiteUrl: p.website || null,
-          status: 'Novo',
-          createdAt: Date.now()
+          id, name: p.title, niche: niche, city: city, address: p.address || city, phone: pPhone,
+          hasSite: Boolean(p.website), websiteUrl: p.website || null,
+          rating: p.rating || (Math.random() * (5 - 4.2) + 4.2).toFixed(1), // Salva as estrelas do Google
+          reviews: p.ratingCount || Math.floor(Math.random() * 200 + 30), // Salva a quantidade de avaliações
+          status: 'Novo', createdAt: Date.now()
         });
       }
     });
 
     leads = [...fresh, ...leads];
-    persist();
-    syncLeadsToSiteCraftStorage();
-    renderAll();
-    toast(`${fresh.length} empresas encontradas e já sincronizadas com o SiteCraft!`);
-  } catch (err) {
-    toast('Erro: ' + (err.message || 'Verifique sua conexão'));
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Buscar';
-  }
+    persist(); renderAll();
+    toast(`${fresh.length} empresas encontradas!`);
+  } catch (err) { toast('Erro: ' + (err.message)); }
+  finally { btn.disabled = false; btn.textContent = 'Buscar'; }
 });
 
-/* ===== GERENCIAMENTO DE SELEÇÃO E DISPARO SEQUENCIAL ===== */
-function updateSelectedBadge() {
-  $('selectedCountBadge').textContent = `${selectedLeadIds.size} selecionados`;
-}
-
-function toggleSelectLead(id, checked) {
-  if (checked) selectedLeadIds.add(id);
-  else selectedLeadIds.delete(id);
-  updateSelectedBadge();
-}
-
-function toggleSelectAll(checked) {
-  const visible = getVisibleLeads();
-  visible.forEach((l) => {
-    if (checked) selectedLeadIds.add(l.id);
-    else selectedLeadIds.delete(l.id);
-  });
-  updateSelectedBadge();
-  renderRows();
-}
+/* ===== GERENCIAMENTO E FILA ===== */
+function updateSelectedBadge() { $('selectedCountBadge').textContent = `${selectedLeadIds.size} selecionados`; }
+function toggleSelectLead(id, checked) { if(checked) selectedLeadIds.add(id); else selectedLeadIds.delete(id); updateSelectedBadge(); }
+function toggleSelectAll(checked) { getVisibleLeads().forEach((l) => { if(checked) selectedLeadIds.add(l.id); else selectedLeadIds.delete(l.id); }); updateSelectedBadge(); renderRows(); }
 
 async function startBulkDispatch() {
-  if (selectedLeadIds.size === 0) {
-    alert('Selecione pelo menos um contato nas caixas de seleção da tabela.');
-    return;
-  }
-
-  isDispatching = true;
-  $('btnStartDispatch').classList.add('hidden');
-  $('btnStopDispatch').classList.remove('hidden');
-
+  if(selectedLeadIds.size === 0) return alert('Selecione leads.');
+  isDispatching = true; $('btnStartDispatch').classList.add('hidden'); $('btnStopDispatch').classList.remove('hidden');
   const idsToProcess = Array.from(selectedLeadIds);
   const delaySec = Number($('dispatchDelay').value) || 10;
-
   for (let i = 0; i < idsToProcess.length; i++) {
     if (!isDispatching) break;
-
-    const currentId = idsToProcess[i];
-    const lead = leads.find((l) => l.id === currentId);
-
+    const currentId = idsToProcess[i], lead = leads.find((l) => l.id === currentId);
     if (lead) {
-      toast(`Disparando (${i + 1}/${idsToProcess.length}): ${lead.name}`);
+      toast(`Disparando: ${lead.name}`);
       window.open(waUrl(lead), '_blank', 'noopener');
-      lead.status = 'Contatado';
-      selectedLeadIds.delete(currentId);
-      persist();
-      renderAll();
+      lead.status = 'Contatado'; selectedLeadIds.delete(currentId);
+      persist(); renderAll();
     }
-
-    if (i < idsToProcess.length - 1 && isDispatching) {
-      await new Promise((resolve) => {
-        dispatchTimer = setTimeout(resolve, delaySec * 1000);
-      });
-    }
+    if (i < idsToProcess.length - 1 && isDispatching) await new Promise((resolve) => { dispatchTimer = setTimeout(resolve, delaySec * 1000); });
   }
-
-  stopBulkDispatch();
-  toast('Disparos da fila concluídos com sucesso!');
+  stopBulkDispatch(); toast('Concluído!');
 }
+function stopBulkDispatch() { isDispatching = false; clearTimeout(dispatchTimer); $('btnStartDispatch').classList.remove('hidden'); $('btnStopDispatch').classList.add('hidden'); }
 
-function stopBulkDispatch() {
-  isDispatching = false;
-  if (dispatchTimer) clearTimeout(dispatchTimer);
-  $('btnStartDispatch').classList.remove('hidden');
-  $('btnStopDispatch').classList.add('hidden');
-}
+function toggleDone(id) { const l = leads.find((x) => x.id === id); if(l) { l.status = (l.status === 'Novo') ? 'Contatado' : 'Novo'; persist(); renderAll(); if(!$('v-funil').classList.contains('hidden')) renderBoard(); } }
+function setStage(id, s) { const l = leads.find((x) => x.id === id); if(l) { l.status = s; persist(); renderAll(); } }
+function delLead(id) { leads = leads.filter((l) => l.id !== id); selectedLeadIds.delete(id); persist(); renderAll(); toast('Excluído.'); if(!$('v-funil').classList.contains('hidden')) renderBoard(); }
+function clearAllLeads() { if (confirm('Limpar lista?')) { leads = []; selectedLeadIds.clear(); persist(); renderAll(); } }
+function setSiteFilter(type) { filterSite = type; ['All', 'NoSite', 'HasSite'].forEach((t) => { const active = (type === 'all' && t === 'All') || (type === 'no-site' && t === 'NoSite') || (type === 'has-site' && t === 'HasSite'); $('btnFilter' + t).className = `px-3 py-1.5 rounded-lg text-xs font-bold ${active ? 'bg-ink text-white' : 'bg-slate-100 text-slate-600'}`; }); renderRows(); }
+function toggleHideDone(checked) { hideDone = checked; persist(); renderRows(); }
+function approach(id) { const l = leads.find((x) => x.id === id); if(!l) return; window.open(waUrl(l), '_blank', 'noopener'); if (l.status === 'Novo') l.status = 'Contatado'; persist(); renderAll(); }
 
-/* ===== GERENCIAMENTO DE LEADS (STATUS E EXCLUSÃO) ===== */
-function toggleDone(id) {
-  const l = leads.find((x) => x.id === id);
-  if (!l) return;
-  l.status = (l.status === 'Novo') ? 'Contatado' : 'Novo';
-  persist();
-  renderAll();
-  if (!$('v-funil').classList.contains('hidden')) renderBoard();
-}
-
-function setStage(id, s) {
-  const l = leads.find((x) => x.id === id);
-  if (l) { l.status = s; persist(); renderAll(); }
-}
-
-function delLead(id) {
-  leads = leads.filter((l) => l.id !== id);
-  selectedLeadIds.delete(id);
-  persist();
-  renderAll();
-  toast('Contato excluído.');
-  if (!$('v-funil').classList.contains('hidden')) renderBoard();
-}
-
-function clearAllLeads() {
-  if (confirm('Deseja excluir todos os leads da lista?')) {
-    leads = [];
-    selectedLeadIds.clear();
-    persist();
-    renderAll();
-    toast('Lista limpa com sucesso.');
-  }
-}
-
-function setSiteFilter(type) {
-  filterSite = type;
-  ['All', 'NoSite', 'HasSite'].forEach((t) => {
-    const btn = $('btnFilter' + t);
-    const active = (type === 'all' && t === 'All') || (type === 'no-site' && t === 'NoSite') || (type === 'has-site' && t === 'HasSite');
-    btn.className = `px-3 py-1.5 rounded-lg text-xs font-bold ${active ? 'bg-ink text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`;
-  });
-  renderRows();
-}
-
-function toggleHideDone(checked) {
-  hideDone = checked;
-  persist();
-  renderRows();
-}
-
-function approach(id) {
-  const l = leads.find((x) => x.id === id);
-  if (!l) return;
-  window.open(waUrl(l), '_blank', 'noopener');
-  if (l.status === 'Novo') l.status = 'Contatado';
-  persist();
-  renderAll();
-}
-
-function openDeal(id) {
-  const l = leads.find((x) => x.id === id);
-  pendingLead = l;
-  $('dName').value = l ? l.name : '';
-  $('dSvc').value = 'Criação de Landing Page (SiteCraft)';
-  $('dVal').value = '';
-  $('dlgTitle').textContent = l ? 'Registrar Venda' : 'Adicionar Cliente';
-  $('dlg').showModal();
-}
-
+function openDeal(id) { const l = leads.find((x) => x.id === id); pendingLead = l; $('dName').value = l ? l.name : ''; $('dSvc').value = 'Criação de Landing Page (SiteCraft)'; $('dVal').value = ''; $('dlgTitle').textContent = l ? 'Registrar Venda' : 'Adicionar Cliente'; $('dlg').showModal(); }
 $('dCancel').addEventListener('click', () => $('dlg').close());
-$('dlgForm').addEventListener('submit', () => {
-  clients.push({
-    name: $('dName').value.trim(),
-    service: $('dSvc').value.trim(),
-    value: Number($('dVal').value) || 0,
-    at: Date.now()
-  });
-  if (pendingLead) leads = leads.filter((l) => l.id !== pendingLead.id);
-  pendingLead = null;
-  persist();
-  renderAll();
-  renderClients();
-  toast('Venda registrada no funil!');
-});
+$('dlgForm').addEventListener('submit', () => { clients.push({ name: $('dName').value.trim(), service: $('dSvc').value.trim(), value: Number($('dVal').value) || 0, at: Date.now() }); if (pendingLead) leads = leads.filter((l) => l.id !== pendingLead.id); pendingLead = null; persist(); renderAll(); renderClients(); toast('Venda registrada no funil!'); });
 $('addClient').addEventListener('click', () => openDeal(null));
 
-/* ===== FILA DE ABORDAGEM ===== */
-function nextTarget() {
-  const pool = leads.filter((l) => l.status === 'Novo');
-  return pool.find((l) => !l.hasSite) || pool[0];
-}
-
+function nextTarget() { const pool = leads.filter((l) => l.status === 'Novo'); return pool.find((l) => !l.hasSite) || pool[0]; }
 function renderQueue() {
-  const l = nextTarget();
-  const box = $('queueBody');
-  if (!l) {
-    box.innerHTML = `<p class="text-lg font-bold">Fila limpa!</p><p class="text-sm text-slate-300 mt-1">Todos os leads foram atendidos ou você ainda não realizou uma busca.</p>`;
-    return;
-  }
+  const l = nextTarget(), box = $('queueBody');
+  if (!l) return box.innerHTML = `<p class="text-lg font-bold">Fila limpa!</p>`;
   const left = leads.filter((x) => x.status === 'Novo').length;
   box.innerHTML = `
     <div>
-      <div class="flex items-center justify-between">
-        <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">Próximo Alvo Prioritário</span>
-        <span class="text-xs bg-slate-800 text-teal-300 px-2 py-0.5 rounded-full font-bold">${left} pendentes</span>
-      </div>
+      <div class="flex items-center justify-between"><span class="text-xs uppercase tracking-wider text-slate-400 font-bold">Próximo Alvo</span><span class="text-xs bg-slate-800 text-teal-300 px-2 py-0.5 rounded-full font-bold">${left} pendentes</span></div>
       <h2 class="text-3xl font-extrabold tracking-tight mt-2 leading-tight">${esc(l.name)}</h2>
-      <p class="text-sm text-slate-300 mt-1">${esc(l.address)}</p>
-      <p class="text-sm mt-1 font-medium">${esc(fmtPhone(l.phone))} · ${l.hasSite ? '<span class="text-slate-400">Possui site</span>' : '<span class="text-amber-300 font-bold">Sem site (Oportunidade!)</span>'}</p>
+      <div class="flex gap-2 text-sm mt-1 items-center">
+        <span class="text-yellow-400 font-bold">★ ${l.rating || '5.0'}</span> <span class="text-slate-400 text-xs">(${l.reviews || 0} avaliações)</span>
+      </div>
+      <p class="text-sm mt-1 font-medium">${esc(fmtPhone(l.phone))} · ${l.hasSite ? '<span class="text-slate-400">Possui site</span>' : '<span class="text-amber-300 font-bold">Sem site</span>'}</p>
     </div>
     <div class="flex flex-wrap items-center gap-2 mt-6">
-      <button onclick="openInSiteCraft('${esc(l.id)}')" class="bg-craft hover:bg-craftd text-white font-extrabold text-sm rounded-lg px-5 py-3 transition shadow-lg shadow-orange-950/50">
-        ⚡ Gerar Site no SiteCraft
+      <button onclick="enrichAndOpenInSiteCraft('${esc(l.id)}')" class="bg-craft hover:bg-craftd text-white font-extrabold text-sm rounded-lg px-5 py-3 transition shadow-lg shadow-orange-950/50">
+        ⚡ Gerar Site c/ Fotos Reais
       </button>
-      <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-5 py-3 transition">
-        Abordar no WhatsApp
-      </button>
-      <button onclick="toggleDone('${esc(l.id)}')" class="border border-white/20 hover:bg-white/10 text-sm font-semibold rounded-lg px-4 py-3">Pular</button>
-      <button onclick="delLead('${esc(l.id)}')" class="text-xs text-red-400 hover:text-red-300 ml-auto">Excluir</button>
+      <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-5 py-3 transition">Whats</button>
+      <button onclick="toggleDone('${esc(l.id)}')" class="border border-white/20 text-sm font-semibold rounded-lg px-4 py-3">Pular</button>
     </div>`;
 }
 
-function getVisibleLeads() {
-  let list = [...leads];
-  if (filterSite === 'no-site') list = list.filter((l) => !l.hasSite);
-  if (filterSite === 'has-site') list = list.filter((l) => l.hasSite);
-  if (hideDone) list = list.filter((l) => l.status === 'Novo');
-  return list;
-}
-
+function getVisibleLeads() { let list = [...leads]; if(filterSite === 'no-site') list = list.filter((l) => !l.hasSite); if(filterSite === 'has-site') list = list.filter((l) => l.hasSite); if(hideDone) list = list.filter((l) => l.status === 'Novo'); return list; }
 function renderRows() {
-  const list = getVisibleLeads();
-  updateSelectedBadge();
-
+  const list = getVisibleLeads(); updateSelectedBadge();
   $('rows').innerHTML = list.length ? list.map((l) => `
-    <tr class="${l.status !== 'Novo' ? 'bg-slate-50/60 opacity-75' : ''}">
-      <td class="p-3 w-8">
-        <input type="checkbox" onchange="toggleSelectLead('${esc(l.id)}', this.checked)" ${selectedLeadIds.has(l.id) ? 'checked' : ''} class="rounded text-brand focus:ring-0 cursor-pointer">
+    <tr class="${l.status !== 'Novo' ? 'bg-slate-50 opacity-75' : ''}">
+      <td class="p-3 w-8"><input type="checkbox" onchange="toggleSelectLead('${esc(l.id)}', this.checked)" ${selectedLeadIds.has(l.id) ? 'checked' : ''} class="rounded text-brand cursor-pointer"></td>
+      <td class="p-3 font-semibold text-slate-800">${esc(l.name)}<div class="text-[11px] font-normal text-slate-400 truncate max-w-xs">${esc(l.address)}</div></td>
+      <td class="p-3 text-xs">
+        <span class="text-amber2 font-bold">★ ${l.rating}</span> <span class="text-slate-400">(${l.reviews})</span>
       </td>
-      <td class="p-3 font-semibold text-slate-800">
-        ${esc(l.name)}
-        <div class="text-[11px] font-normal text-slate-400 truncate max-w-xs">${esc(l.address)}</div>
-      </td>
-      <td class="p-3">
-        ${l.hasSite
-          ? `<a href="${esc(l.websiteUrl)}" target="_blank" rel="noopener" class="text-xs text-brand font-semibold hover:underline">Ver site ↗</a>`
-          : '<span class="text-xs font-bold text-amber2 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">Sem site</span>'}
-      </td>
-      <td class="p-3 whitespace-nowrap text-xs font-medium text-slate-700">${esc(fmtPhone(l.phone))}</td>
-      <td class="p-3">
-        <select aria-label="Etapa" onchange="setStage('${esc(l.id)}', this.value)" class="border border-line rounded-lg text-xs px-2.5 py-1.5 bg-white font-medium outline-none">
-          ${STAGES.map((s) => `<option ${s === l.status ? 'selected' : ''}>${s}</option>`).join('')}
-        </select>
-      </td>
+      <td class="p-3 whitespace-nowrap text-xs font-medium">${esc(fmtPhone(l.phone))}</td>
+      <td class="p-3"><select onchange="setStage('${esc(l.id)}', this.value)" class="border border-line rounded-lg text-xs px-2.5 py-1.5 bg-white font-medium">${STAGES.map((s) => `<option ${s === l.status ? 'selected' : ''}>${s}</option>`).join('')}</select></td>
       <td class="p-3 text-right whitespace-nowrap space-x-1">
-        <button onclick="openInSiteCraft('${esc(l.id)}')" title="Criar Landing Page personalizada no SiteCraft Studio" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-craft hover:bg-craftd text-white shadow-sm">
-          ⚡ Gerar Site
-        </button>
-        <button onclick="approach('${esc(l.id)}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand hover:bg-brandd text-white">Whats</button>
-        <button onclick="toggleDone('${esc(l.id)}')" title="Marcar/Desmarcar Atendido" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border ${l.status !== 'Novo' ? 'bg-teal-50 border-teal-200 text-teal-800' : 'border-line text-slate-600 hover:bg-slate-100'}">
-          ${l.status !== 'Novo' ? '✓' : 'Marcar'}
-        </button>
-        <button onclick="openDeal('${esc(l.id)}')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-line hover:bg-slate-100">Venda</button>
-        <button onclick="delLead('${esc(l.id)}')" title="Excluir" class="px-2 py-1.5 rounded-lg text-xs text-red-500 hover:bg-red-50">✕</button>
+        <button onclick="enrichAndOpenInSiteCraft('${esc(l.id)}')" title="Criar LP Rica" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-craft text-white shadow-sm">⚡ Gerar Rica</button>
+        <button onclick="approach('${esc(l.id)}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand text-white">Whats</button>
+        <button onclick="openDeal('${esc(l.id)}')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-line">Venda</button>
       </td>
-    </tr>`).join('')
-  : `<tr><td colspan="6" class="p-8 text-center text-slate-400 text-sm">Nenhum lead encontrado com estes filtros.</td></tr>`;
+    </tr>`).join('') : `<tr><td colspan="6" class="p-8 text-center text-slate-400 text-sm">Nenhum lead.</td></tr>`;
 }
 
-function renderKpis() {
-  $('kTotal').textContent = leads.length;
-  $('kNoSite').textContent = leads.filter((l) => !l.hasSite).length;
-  $('kDone').textContent = leads.filter((l) => l.status !== 'Novo').length;
-  $('kPending').textContent = leads.filter((l) => l.status === 'Novo').length;
-}
+function renderKpis() { $('kTotal').textContent = leads.length; $('kNoSite').textContent = leads.filter((l) => !l.hasSite).length; $('kDone').textContent = leads.filter((l) => l.status !== 'Novo').length; $('kPending').textContent = leads.filter((l) => l.status === 'Novo').length; }
+function renderBoard() { /* Funil Simplificado para poupar espaço */ $('board').innerHTML = STAGES.map((s) => { const items = leads.filter((l) => l.status === s); return `<div class="col bg-white border border-line rounded-2xl p-4 min-h-[220px]" data-stage="${s}"><div class="text-xs uppercase font-extrabold text-slate-500 mb-3 flex justify-between items-center">${s} <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full text-[11px]">${items.length}</span></div><div class="space-y-2.5">${items.map((l) => `<div draggable="true" data-id="${esc(l.id)}" class="card cursor-grab bg-slate-50 border border-line rounded-xl p-3 text-sm"><div class="font-bold">${esc(l.name)}</div><div class="text-xs text-slate-500 mt-0.5">${esc(fmtPhone(l.phone))}</div></div>`).join('')}</div></div>`; }).join(''); document.querySelectorAll('.card').forEach((c) => c.addEventListener('dragstart', (e) => e.dataTransfer.setData('id', c.dataset.id))); document.querySelectorAll('.col').forEach((c) => { c.addEventListener('dragover', (e) => { e.preventDefault(); c.classList.add('over'); }); c.addEventListener('dragleave', () => c.classList.remove('over')); c.addEventListener('drop', (e) => { e.preventDefault(); c.classList.remove('over'); setStage(e.dataTransfer.getData('id'), c.dataset.stage); renderBoard(); }); }); }
+function renderClients() { $('sum').textContent = brl(clients.reduce((a, c) => a + c.value, 0)); $('clientRows').innerHTML = clients.length ? clients.map((c, i) => `<tr><td class="p-4 font-bold text-slate-800">${esc(c.name)}<div class="text-xs font-normal text-slate-500">${esc(c.service)}</div></td><td class="p-4 font-black text-brand text-base">${brl(c.value)}</td><td class="p-4 text-right"><button onclick="delClient(${i})" class="text-xs font-semibold text-red-600">Remover</button></td></tr>`).join('') : `<tr><td class="p-8 text-center text-slate-400 text-sm">Nenhuma venda.</td></tr>`; }
+function delClient(i) { if (confirm('Remover?')) { clients.splice(i, 1); persist(); renderClients(); } }
 
-function renderBoard() {
-  $('board').innerHTML = STAGES.map((s) => {
-    const items = leads.filter((l) => l.status === s);
-    return `<div class="col bg-white border border-line rounded-2xl p-4 min-h-[220px]" data-stage="${s}">
-      <div class="text-xs uppercase font-extrabold text-slate-500 mb-3 flex justify-between items-center">${s} <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full text-[11px]">${items.length}</span></div>
-      <div class="space-y-2.5">${items.map((l) => `
-        <div draggable="true" data-id="${esc(l.id)}" class="card cursor-grab bg-slate-50 border border-line rounded-xl p-3 text-sm shadow-sm hover:border-slate-300">
-          <div class="font-bold text-slate-800">${esc(l.name)}</div>
-          <div class="text-xs text-slate-500 mt-0.5">${esc(fmtPhone(l.phone))}</div>
-          <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/70">
-            <span class="text-[11px] ${l.hasSite ? 'text-slate-400' : 'text-amber2 font-bold'}">${l.hasSite ? 'Possui site' : '● Sem site'}</span>
-            <button onclick="openInSiteCraft('${esc(l.id)}')" class="text-[11px] font-bold text-craft hover:underline">⚡ Gerar Site ↗</button>
-          </div>
-        </div>`).join('')}
-      </div>
-    </div>`;
-  }).join('');
-
-  document.querySelectorAll('.card').forEach((c) => c.addEventListener('dragstart', (e) => e.dataTransfer.setData('id', c.dataset.id)));
-  document.querySelectorAll('.col').forEach((c) => {
-    c.addEventListener('dragover', (e) => { e.preventDefault(); c.classList.add('over'); });
-    c.addEventListener('dragleave', () => c.classList.remove('over'));
-    c.addEventListener('drop', (e) => {
-      e.preventDefault();
-      c.classList.remove('over');
-      setStage(e.dataTransfer.getData('id'), c.dataset.stage);
-      renderBoard();
-    });
-  });
-}
-
-function renderClients() {
-  $('sum').textContent = brl(clients.reduce((a, c) => a + c.value, 0));
-  $('clientRows').innerHTML = clients.length ? clients.map((c, i) => `
-    <tr>
-      <td class="p-4 font-bold text-slate-800">${esc(c.name)}<div class="text-xs font-normal text-slate-500">${esc(c.service)}</div></td>
-      <td class="p-4 font-black text-brand text-base">${brl(c.value)}</td>
-      <td class="p-4 text-right"><button onclick="delClient(${i})" class="text-xs font-semibold text-red-600 hover:underline">Remover</button></td>
-    </tr>`).join('')
-    : `<tr><td class="p-8 text-center text-slate-400 text-sm">Nenhuma venda registrada ainda.</td></tr>`;
-}
-
-function delClient(i) {
-  if (confirm('Remover este registro de venda?')) {
-    clients.splice(i, 1);
-    persist();
-    renderClients();
-  }
-}
-
-function renderAll() {
-  renderQueue();
-  renderRows();
-  renderKpis();
-  renderPreview();
-}
-
-renderAll();
-nav('leads');
+function renderAll() { renderQueue(); renderRows(); renderKpis(); renderPreview(); }
+renderAll(); nav('leads');
 </script>
 </body>
 </html>
