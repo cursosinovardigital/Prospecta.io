@@ -5,256 +5,277 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Prospecta.io - Prospecção FBI + SiteCraft Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
 tailwind.config = { theme: { extend: {
   fontFamily: { sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'] },
-  colors: { ink: '#0F172A', paper: '#F8FAFC', line: '#E2E8F0', brand: '#0D9488', brandd: '#0F766E', amber2: '#D97706', craft: '#EF4D23', craftd: '#D93D14' }
+  colors: { ink: '#0F172A', paper: '#F1F5F9', line: '#E2E8F0', brand: '#0D9488', brandd: '#0F766E', amber2: '#D97706', craft: '#EF4D23', craftd: '#D93D14' }
 }}};
 </script>
 <style>
-  body { font-feature-settings: "tnum"; }
+  body { font-feature-settings: "tnum"; background-color: #F1F5F9; }
   :focus-visible { outline: 2px solid #0D9488; outline-offset: 2px; }
   .col.over { background: #CCFBF1; }
-  dialog::backdrop { background: rgba(15,23,42,.5); }
+  dialog::backdrop { background: rgba(15,23,42,.6); backdrop-filter: blur(4px); }
+  
+  /* Scrollbar customizada para o Grid */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 </style>
 </head>
-<body class="bg-paper text-ink font-sans min-h-screen lg:flex">
+<body class="text-ink font-sans min-h-screen flex flex-col lg:flex-row overflow-x-hidden">
 
-<!-- Navegação Lateral -->
-<aside class="lg:w-64 lg:min-h-screen bg-white border-b lg:border-b-0 lg:border-r border-line flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start gap-3 p-4 lg:p-6 lg:sticky lg:top-0 lg:h-screen">
+<!-- ================= NAVEGAÇÃO LATERAL PRINCIPAL ================= -->
+<aside class="lg:w-64 lg:min-h-screen bg-white border-b lg:border-b-0 lg:border-r border-line flex lg:flex-col items-center lg:items-stretch justify-between lg:justify-start gap-3 p-4 lg:p-6 lg:sticky lg:top-0 lg:h-screen shrink-0 z-40">
   <div>
     <div class="flex items-center gap-2">
-      <div class="font-extrabold text-xl tracking-tight">Prospecta<span class="text-brand">.io</span></div>
-      <span class="text-[10px] font-extrabold bg-orange-50 text-craft border border-orange-200 px-2 py-0.5 rounded-full">+ SiteCraft</span>
+      <div class="font-extrabold text-2xl tracking-tight">Prospecta<span class="text-brand">.io</span></div>
     </div>
-    <span class="text-[11px] font-semibold tracking-wider text-slate-400 uppercase">Prospecção de Alta Conversão</span>
+    <span class="text-[11px] font-bold tracking-wider text-slate-400 uppercase mt-1 block">Radar de Clientes Premium</span>
   </div>
 
-  <nav class="flex lg:flex-col gap-1.5 text-sm font-semibold w-full mt-4" aria-label="Principal">
-    <button data-nav="leads" class="nav text-left px-3.5 py-2.5 rounded-lg">Prospectar Leads</button>
-    <button data-nav="funil" class="nav text-left px-3.5 py-2.5 rounded-lg">Funil de Vendas</button>
-    <button data-nav="clientes" class="nav text-left px-3.5 py-2.5 rounded-lg">Clientes Fechados</button>
-    <button type="button" onclick="openSiteCraftHub()" class="text-left px-3.5 py-2.5 rounded-lg text-craft hover:bg-orange-50 font-bold flex items-center justify-between border border-orange-200/70 mt-2">
-      <span>⚡ Abrir SiteCraft</span>
-      <span class="text-xs">↗</span>
+  <nav class="flex lg:flex-col gap-2 text-sm font-semibold w-full mt-6" aria-label="Principal">
+    <button data-nav="leads" class="nav text-left px-4 py-3 rounded-xl transition-colors">Prospectar Leads</button>
+    <button data-nav="funil" class="nav text-left px-4 py-3 rounded-xl transition-colors">Funil de Vendas</button>
+    <button data-nav="clientes" class="nav text-left px-4 py-3 rounded-xl transition-colors">Clientes Fechados</button>
+    <div class="h-px bg-line my-2 hidden lg:block"></div>
+    <button type="button" onclick="openSiteCraftHub()" class="text-left px-4 py-3 rounded-xl text-craft bg-orange-50 hover:bg-orange-100 font-extrabold flex items-center justify-between border border-orange-200 transition-colors mt-2 shadow-sm">
+      <span>⚡ Estúdio SiteCraft</span>
+      <span>↗</span>
     </button>
   </nav>
 
-  <div class="hidden lg:block mt-auto border-t border-line pt-4 space-y-3 text-xs">
-    <label class="block font-semibold text-slate-600">Arquivo / URL do SiteCraft
-      <input id="sitecraftUrl" type="text" value="sitecraft.html" placeholder="sitecraft.html" class="mt-1 w-full border border-line rounded px-2.5 py-1.5 text-xs font-mono">
+  <div class="hidden lg:block mt-auto border-t border-line pt-5 space-y-4 text-xs">
+    <label class="block font-semibold text-slate-600">URL do SiteCraft
+      <input id="sitecraftUrl" type="text" value="sitecraft.html" placeholder="sitecraft.html" class="mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-xs font-mono bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
     </label>
-    <button type="button" onclick="syncAllToSiteCraft()" class="w-full py-2 px-3 rounded-lg bg-orange-50 hover:bg-orange-100 text-craft font-bold border border-orange-200 transition text-center">
-      🔄 Sincronizar Fila c/ SiteCraft
+    <button type="button" onclick="syncAllToSiteCraft()" class="w-full py-2.5 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-bold transition shadow-sm flex items-center justify-center gap-2">
+      🔄 Sincronizar Base Inteira
     </button>
-    <label class="block font-semibold text-slate-600 pt-1">Sua Chave Serper.dev
-      <input id="apiKey" type="password" placeholder="Cole sua chave aqui" class="mt-1 w-full border border-line rounded px-2.5 py-2 text-xs">
+    <label class="block font-semibold text-slate-600 pt-2">Chave Serper.dev
+      <input id="apiKey" type="password" placeholder="Cole sua chave aqui" class="mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-xs bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
     </label>
-    <p class="text-[11px] text-slate-400">Cada 20 leads gastam 1 busca do total de 2.500.</p>
+    <p class="text-[10px] font-medium text-slate-400 leading-tight">Cada pesquisa consome 1 crédito. Limite gratuito: 2.500/mês.</p>
   </div>
 </aside>
 
-<main class="flex-1 min-w-0 p-4 lg:p-8 space-y-6">
+<main class="flex-1 min-w-0 p-4 lg:p-6 xl:p-8 space-y-6">
 
-<!-- ===== ABA PROSPECTAR ===== -->
+<!-- ================= ABA PROSPECTAR ================= -->
 <section id="v-leads" class="space-y-6">
-  <header class="flex flex-wrap items-center justify-between gap-3">
+  
+  <header class="flex flex-wrap items-end justify-between gap-4">
     <div>
-      <h1 class="text-2xl font-extrabold tracking-tight">Buscar Empresas no Google Maps</h1>
-      <p class="text-sm text-slate-500 mt-0.5">Filtre estabelecimentos reais por região, telefone, avaliações e gere a Landing Page em 1 clique.</p>
+      <h1 class="text-3xl font-black tracking-tight text-slate-900">Radar de Prospecção</h1>
+      <p class="text-sm font-medium text-slate-500 mt-1">Busque empresas no Google Maps, enriqueça os dados e gere a Landing Page Rica.</p>
     </div>
-    <div class="flex items-center gap-2">
-      <button type="button" onclick="syncAllToSiteCraft()" class="bg-white hover:bg-slate-50 text-slate-700 border border-line font-bold text-xs rounded-lg px-3.5 py-2.5 shadow-sm">
-        🔄 Enviar Leads p/ SiteCraft
-      </button>
-      <button type="button" onclick="openSiteCraftHub()" class="bg-craft hover:bg-craftd text-white font-bold text-xs rounded-lg px-4 py-2.5 shadow-sm">
-        ⚡ Estúdio SiteCraft ↗
-      </button>
+    
+    <!-- Métricas Rápidas no Topo -->
+    <div class="flex items-center gap-3">
+      <div class="bg-white border border-line rounded-xl px-4 py-2 shadow-sm text-center">
+        <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Total</div>
+        <div id="kTotal" class="text-lg font-black text-slate-800 leading-none mt-0.5">0</div>
+      </div>
+      <div class="bg-white border border-amber-200 rounded-xl px-4 py-2 shadow-sm text-center bg-amber-50">
+        <div class="text-[10px] font-bold uppercase text-amber-600 tracking-wider">Ouro (Sem Site)</div>
+        <div id="kNoSite" class="text-lg font-black text-amber-700 leading-none mt-0.5">0</div>
+      </div>
+      <div class="bg-slate-900 rounded-xl px-4 py-2 shadow-sm text-center text-white">
+        <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider">Fila</div>
+        <div id="kPending" class="text-lg font-black text-white leading-none mt-0.5">0</div>
+      </div>
     </div>
   </header>
 
-  <!-- FORMULÁRIO COM SELETOR DE QUANTIDADE -->
-  <form id="searchForm" class="bg-white border border-line rounded-2xl p-5 shadow-sm grid gap-4 md:grid-cols-[1.2fr_1fr_auto_auto] items-end">
-    <label class="text-xs font-semibold text-slate-700">Nicho / Segmento
-      <input id="niche" required placeholder="Ex: clinica odontologica, oficina mecanica" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
-    </label>
-    <label class="text-xs font-semibold text-slate-700">Cidade e Estado
-      <input id="city" required placeholder="Ex: Guarulhos, SP" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
-    </label>
-    <label class="text-xs font-semibold text-slate-700">Quantidade Máxima
-      <select id="leadQty" class="mt-1 w-full border border-line rounded-lg px-3 py-2.5 text-sm bg-white font-medium outline-none">
-        <option value="10" selected>10 leads</option>
-        <option value="20">20 leads (1 crédito)</option>
-        <option value="50">50 leads (3 créditos)</option>
-      </select>
-    </label>
-    <button id="searchBtn" type="submit" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-6 py-2.5 transition h-[42px]">Buscar</button>
-  </form>
-
-  <!-- FILA E SCRIPT DE ABORDAGEM -->
-  <div class="grid gap-6 xl:grid-cols-[1.1fr_1fr]">
-    <!-- Próximo Alvo -->
-    <div class="bg-ink text-white rounded-2xl p-6 flex flex-col justify-between shadow-md">
-      <div id="queueBody"></div>
+  <!-- FILA DE ATENDIMENTO E SCRIPT (TOPO) -->
+  <div class="grid gap-6 xl:grid-cols-[1fr_1.3fr]">
+    <!-- Alvo Prioritário -->
+    <div class="bg-slate-900 text-white rounded-3xl p-6 md:p-8 flex flex-col justify-between shadow-xl relative overflow-hidden">
+      <div class="absolute -right-10 -top-10 w-40 h-40 bg-teal-500/20 rounded-full blur-3xl pointer-events-none"></div>
+      <div id="queueBody" class="relative z-10"></div>
     </div>
 
-    <!-- Scripts de Vendas (Novas Abordagens) -->
-    <div class="bg-white border border-line rounded-2xl p-5 space-y-4 shadow-sm">
-      <div class="flex items-center justify-between">
-        <h2 class="font-bold text-sm text-slate-800">Abordagem: Amostra Irresistível</h2>
-        <span class="text-[11px] font-semibold text-brand bg-teal-50 px-2 py-0.5 rounded border border-teal-200">Alta Conversão</span>
+    <!-- Central de Abordagem FBI -->
+    <div class="bg-white border border-line rounded-3xl p-6 md:p-8 shadow-sm flex flex-col">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="font-extrabold text-lg text-slate-800">Arsenal de Abordagem</h2>
+        <span class="text-[10px] font-bold uppercase tracking-wider text-brand bg-teal-50 px-3 py-1 rounded-full border border-teal-200">Alta Conversão</span>
       </div>
 
       <!-- Presets de Mensagem -->
-      <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-[11px]">
-        <button type="button" onclick="setPreset('amostra_perda')" class="p-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700">1. Dor</button>
-        <button type="button" onclick="setPreset('amostra_elogio')" class="p-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700">2. Elogio</button>
-        <button type="button" onclick="setPreset('amostra_autoridade')" class="p-2 border border-orange-200 bg-orange-50 rounded-lg font-bold text-craft shadow-sm">3. Autoridade</button>
-        <button type="button" onclick="setPreset('amostra_direta')" class="p-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700">4. Direta</button>
-        <button type="button" onclick="setPreset('amostra_exclusiva')" class="p-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700">5. Exclusiva</button>
+      <div class="flex flex-wrap gap-2 text-xs mb-5">
+        <button type="button" onclick="setPreset('amostra_perda')" class="px-3 py-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700 transition">1. Dor</button>
+        <button type="button" onclick="setPreset('amostra_elogio')" class="px-3 py-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700 transition">2. Elogio</button>
+        <button type="button" onclick="setPreset('amostra_autoridade')" class="px-3 py-2 border border-orange-200 bg-orange-50 rounded-lg font-extrabold text-craft shadow-sm transition">3. Autoridade</button>
+        <button type="button" onclick="setPreset('amostra_direta')" class="px-3 py-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700 transition">4. Direta</button>
+        <button type="button" onclick="setPreset('amostra_exclusiva')" class="px-3 py-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700 transition">5. Exclusiva</button>
       </div>
 
-      <div class="grid grid-cols-2 gap-2 text-xs">
-        <label class="font-semibold text-slate-600 block">Seu nome
-          <input id="myName" placeholder="Ex: Víctor" class="mt-1 w-full border border-line rounded px-2.5 py-1.5 text-xs font-normal">
+      <div class="grid grid-cols-2 gap-3 text-xs mb-4">
+        <label class="font-bold text-slate-600 block">Seu nome
+          <input id="myName" placeholder="Ex: Víctor" class="mt-1.5 w-full border border-line rounded-lg px-3 py-2 text-xs bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
         </label>
-        <div class="flex items-end gap-1">
-          <button type="button" data-chip="{empresa}" class="w-full py-1.5 rounded bg-slate-100 border border-line font-medium text-slate-700">{empresa}</button>
-          <button type="button" data-chip="{meu_nome}" class="w-full py-1.5 rounded bg-slate-100 border border-line font-medium text-slate-700">{meu_nome}</button>
+        <div class="flex items-end gap-2">
+          <button type="button" data-chip="{empresa}" class="w-full py-2 rounded-lg bg-slate-100 border border-line font-bold text-slate-700 hover:bg-slate-200 transition">{empresa}</button>
+          <button type="button" data-chip="{meu_nome}" class="w-full py-2 rounded-lg bg-slate-100 border border-line font-bold text-slate-700 hover:bg-slate-200 transition">{meu_nome}</button>
         </div>
       </div>
 
-      <textarea id="tpl" rows="4" class="w-full border border-line rounded-lg p-3 text-sm focus:border-brand outline-none"></textarea>
+      <textarea id="tpl" rows="3" class="w-full border border-line rounded-xl p-3.5 text-sm bg-slate-50 focus:bg-white focus:border-brand outline-none transition resize-none"></textarea>
       
-      <div class="text-[11px] text-slate-500 font-medium">Prévia enviada no WhatsApp:</div>
-      <div id="preview" class="text-[11px] bg-slate-50 border border-line rounded-lg p-2.5 text-slate-700 whitespace-pre-wrap"></div>
-    </div>
-  </div>
-
-  <!-- Métricas Rápidas -->
-  <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-    <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Total Encontrado</div><div id="kTotal" class="text-2xl font-black text-slate-800">0</div></div>
-    <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Sem Website (Ouro)</div><div id="kNoSite" class="text-2xl font-black text-amber2">0</div></div>
-    <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Já Atendidos</div><div id="kDone" class="text-2xl font-black text-brand">0</div></div>
-    <div class="bg-white border border-line rounded-xl p-4 shadow-sm"><div class="text-xs text-slate-500">Pendentes na Fila</div><div id="kPending" class="text-2xl font-black text-slate-600">0</div></div>
-  </div>
-
-  <!-- Barra de Ações em Massa / Disparo Sequencial -->
-  <div class="bg-slate-900 text-white rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-md">
-    <div class="flex items-center gap-3">
-      <span class="text-xs font-bold uppercase tracking-wider text-teal-400">Automação de Envio:</span>
-      <span id="selectedCountBadge" class="text-xs bg-slate-800 border border-slate-700 px-3 py-1 rounded-full font-semibold">0 selecionados</span>
-    </div>
-
-    <div class="flex items-center gap-3">
-      <label class="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
-        Intervalo:
-        <select id="dispatchDelay" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-white outline-none">
-          <option value="6">6 segundos</option>
-          <option value="10" selected>10 segundos (Recomendado)</option>
-        </select>
-      </label>
-      <button id="btnStartDispatch" onclick="startBulkDispatch()" class="bg-brand hover:bg-brandd text-white font-extrabold text-xs px-5 py-2.5 rounded-lg transition shadow-lg shadow-teal-900/40">
-        Disparar Sequência
-      </button>
-      <button id="btnStopDispatch" onclick="stopBulkDispatch()" class="hidden bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-4 py-2.5 rounded-lg transition">
-        Pausar
-      </button>
-    </div>
-  </div>
-
-  <!-- Lista de Resultados e Disparador -->
-  <div class="bg-white border border-line rounded-2xl overflow-hidden shadow-sm p-4 space-y-3">
-    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-line pb-3">
-      <!-- Filtro de Site -->
-      <div class="flex gap-2">
-        <button onclick="setSiteFilter('all')" id="btnFilterAll" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-ink text-white">Todos</button>
-        <button onclick="setSiteFilter('no-site')" id="btnFilterNoSite" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">Apenas Sem Site</button>
-        <button onclick="setSiteFilter('has-site')" id="btnFilterHasSite" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200">Com Site</button>
+      <div class="mt-4 bg-slate-50 border border-line rounded-xl p-4 flex-1">
+        <div class="text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-2">Prévia no WhatsApp:</div>
+        <div id="preview" class="text-xs text-slate-700 whitespace-pre-wrap font-medium leading-relaxed"></div>
       </div>
+    </div>
+  </div>
 
-      <!-- Filtro de Atendidos e Limpeza -->
-      <div class="flex items-center gap-4">
-        <label class="flex items-center gap-2 text-xs font-semibold cursor-pointer select-none text-slate-700">
-          <input type="checkbox" id="chkHideDone" onchange="toggleHideDone(this.checked)" class="rounded text-brand focus:ring-0">
+  <!-- CONTAINER INFERIOR (SIDEBAR DE FILTROS + GRID DE CARDS) -->
+  <div class="flex flex-col xl:flex-row gap-6 items-start mt-8">
+    
+    <!-- BARRA LATERAL DE FILTROS (ESQUERDA) -->
+    <div class="w-full xl:w-72 shrink-0 space-y-5 xl:sticky xl:top-6">
+      
+      <!-- Formulário de Busca -->
+      <form id="searchForm" class="bg-white border border-line rounded-3xl p-6 shadow-sm flex flex-col gap-4">
+        <h3 class="font-extrabold text-slate-800 text-sm mb-1">Nova Busca</h3>
+        <label class="text-xs font-bold text-slate-700">Nicho / Segmento
+          <input id="niche" required placeholder="Ex: clinica odontologica" class="mt-1.5 w-full border border-line rounded-xl px-3.5 py-2.5 text-sm outline-none focus:border-brand bg-slate-50 focus:bg-white transition">
+        </label>
+        <label class="text-xs font-bold text-slate-700">Cidade e Estado
+          <input id="city" required placeholder="Ex: Guarulhos, SP" class="mt-1.5 w-full border border-line rounded-xl px-3.5 py-2.5 text-sm outline-none focus:border-brand bg-slate-50 focus:bg-white transition">
+        </label>
+        <label class="text-xs font-bold text-slate-700">Quantidade
+          <select id="leadQty" class="mt-1.5 w-full border border-line rounded-xl px-3.5 py-2.5 text-sm bg-slate-50 focus:bg-white font-bold outline-none transition cursor-pointer">
+            <option value="10" selected>10 leads</option>
+            <option value="20">20 leads</option>
+            <option value="50">50 leads</option>
+          </select>
+        </label>
+        <button id="searchBtn" type="submit" class="mt-2 bg-brand hover:bg-brandd text-white font-extrabold text-sm rounded-xl py-3 transition shadow-sm shadow-teal-500/30">🔍 Mapear Região</button>
+      </form>
+
+      <!-- Painel de Filtros Visuais -->
+      <div class="bg-white border border-line rounded-3xl p-6 shadow-sm flex flex-col gap-4">
+        <h3 class="font-extrabold text-slate-800 text-sm mb-1">Filtros de Exibição</h3>
+        <div class="flex flex-col gap-2">
+          <button onclick="setSiteFilter('all')" id="btnFilterAll" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-900 text-white transition-colors">Ver Todos</button>
+          <button onclick="setSiteFilter('no-site')" id="btnFilterNoSite" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">🔥 Apenas Sem Site</button>
+          <button onclick="setSiteFilter('has-site')" id="btnFilterHasSite" class="text-left px-4 py-2.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors">🌐 Possui Site</button>
+        </div>
+        <div class="h-px bg-line my-1"></div>
+        <label class="flex items-center gap-3 text-xs font-bold cursor-pointer text-slate-700 bg-slate-50 p-3 rounded-xl hover:bg-slate-100 transition-colors">
+          <input type="checkbox" id="chkHideDone" onchange="toggleHideDone(this.checked)" class="w-4 h-4 rounded text-brand focus:ring-0 cursor-pointer border-slate-300"> 
           Ocultar já abordados
         </label>
-        <button onclick="clearAllLeads()" class="text-xs font-semibold text-red-600 hover:underline">Limpar lista</button>
+        <button onclick="clearAllLeads()" class="mt-2 text-xs font-bold text-red-500 hover:text-red-700 bg-red-50 hover:bg-red-100 py-2.5 rounded-xl transition-colors text-center w-full">Limpar Banco de Dados</button>
       </div>
     </div>
 
-    <!-- Tabela -->
-    <div class="overflow-x-auto max-h-[540px]">
-      <table class="w-full text-sm text-left">
-        <thead class="sticky top-0 bg-white border-b border-line text-xs font-bold text-slate-400 uppercase tracking-wider">
-          <tr>
-            <th class="p-3 w-8">
-              <input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this.checked)" class="rounded text-brand focus:ring-0 cursor-pointer">
-            </th>
-            <th class="p-3">Empresa</th>
-            <th class="p-3">Website</th>
-            <th class="p-3">Telefone</th>
-            <th class="p-3">Status</th>
-            <th class="p-3 text-right">Ação Rápida (SiteCraft + Whats)</th>
-          </tr>
-        </thead>
-        <tbody id="rows" class="divide-y divide-line"></tbody>
-      </table>
+    <!-- AREA DIREITA: AUTOMAÇÃO E GRID DE CARDS -->
+    <div class="flex-1 w-full flex flex-col gap-5">
+      
+      <!-- Barra de Ações em Massa -->
+      <div class="bg-white border border-line rounded-2xl p-4 flex flex-wrap items-center justify-between gap-4 shadow-sm">
+        <div class="flex items-center gap-4 pl-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="chkSelectAll" onchange="toggleSelectAll(this.checked)" class="w-5 h-5 rounded text-brand focus:ring-0 cursor-pointer border-slate-300">
+            <span class="text-xs font-extrabold text-slate-700">Selecionar Visíveis</span>
+          </label>
+          <div class="h-6 w-px bg-line"></div>
+          <span id="selectedCountBadge" class="text-xs bg-slate-100 text-slate-600 px-3 py-1.5 rounded-full font-bold">0 selecionados</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <select id="dispatchDelay" class="bg-slate-50 border border-line rounded-lg px-3 py-2 text-xs font-bold text-slate-600 outline-none cursor-pointer">
+            <option value="6">Pausa: 6s</option>
+            <option value="10" selected>Pausa: 10s</option>
+          </select>
+          <button id="btnStartDispatch" onclick="startBulkDispatch()" class="bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs px-6 py-2.5 rounded-xl transition shadow-sm">
+            ▶ Disparar Sequência
+          </button>
+          <button id="btnStopDispatch" onclick="stopBulkDispatch()" class="hidden bg-red-600 hover:bg-red-700 text-white font-bold text-xs px-6 py-2.5 rounded-xl transition">
+            ⏸ Pausar
+          </button>
+        </div>
+      </div>
+
+      <!-- ================= GRID DE CARDS PREMIUM ================= -->
+      <div id="rows" class="grid grid-cols-1 sm:grid-cols-2 2xl:grid-cols-3 gap-5">
+        <!-- Cards gerados pelo JS -->
+      </div>
+      <!-- Fim do Grid -->
+
     </div>
   </div>
 </section>
 
 <!-- ===== ABA FUNIL ===== -->
 <section id="v-funil" class="hidden space-y-4">
-  <header><h1 class="text-2xl font-extrabold tracking-tight">Funil de Vendas</h1><p class="text-sm text-slate-500">Arraste os cards ou clique em ⚡ Gerar Site para abrir o modelo daquela empresa no SiteCraft.</p></header>
-  <div id="board" class="grid gap-3 md:grid-cols-4"></div>
+  <header><h1 class="text-3xl font-black tracking-tight text-slate-900">Funil de Vendas Visual</h1><p class="text-sm font-medium text-slate-500 mt-1">Arraste os cards para atualizar o status e gerenciar negociações.</p></header>
+  <div id="board" class="grid gap-4 md:grid-cols-4 mt-6"></div>
 </section>
 
 <!-- ===== ABA CLIENTES ===== -->
 <section id="v-clientes" class="hidden space-y-4">
-  <header class="flex flex-wrap items-end justify-between gap-3">
-    <div><h1 class="text-2xl font-extrabold tracking-tight">Clientes Fechados</h1><p class="text-sm text-slate-500">Faturamento acumulado: <strong id="sum" class="text-brand font-bold text-base">R$ 0</strong></p></div>
-    <button id="addClient" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-4 py-2.5">Adicionar Venda Manual</button>
+  <header class="flex flex-wrap items-end justify-between gap-4">
+    <div>
+      <h1 class="text-3xl font-black tracking-tight text-slate-900">Clientes & Faturamento</h1>
+      <p class="text-sm font-medium text-slate-500 mt-1">Histórico de projetos fechados.</p>
+    </div>
+    <div class="flex items-center gap-4">
+      <div class="bg-teal-50 border border-teal-200 rounded-xl px-5 py-2.5 text-right">
+        <div class="text-[10px] font-bold uppercase text-teal-600 tracking-wider">Faturamento Total</div>
+        <div id="sum" class="text-xl font-black text-teal-700 leading-none mt-1">R$ 0</div>
+      </div>
+      <button id="addClient" class="bg-brand hover:bg-brandd text-white font-extrabold text-sm rounded-xl px-5 py-3.5 shadow-sm transition">➕ Nova Venda</button>
+    </div>
   </header>
-  <div class="bg-white border border-line rounded-2xl overflow-hidden shadow-sm">
+  <div class="bg-white border border-line rounded-3xl overflow-hidden shadow-sm mt-6">
     <table class="w-full text-sm text-left"><tbody id="clientRows" class="divide-y divide-line"></tbody></table>
   </div>
 </section>
 </main>
 
 <!-- Modal de Venda -->
-<dialog id="dlg" class="rounded-2xl p-0 w-[92vw] max-w-sm shadow-xl border border-line">
-  <form method="dialog" id="dlgForm" class="p-6 space-y-4">
-    <h2 id="dlgTitle" class="font-extrabold text-lg text-slate-800">Registrar Venda</h2>
-    <label class="text-xs font-semibold text-slate-600 block">Cliente
-      <input id="dName" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
-    <label class="text-xs font-semibold text-slate-600 block">Serviço Realizado
-      <input id="dSvc" value="Criação de Landing Page (SiteCraft)" class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
-    <label class="text-xs font-semibold text-slate-600 block">Valor Fechado (R$)
-      <input id="dVal" type="number" min="0" step="1" required class="mt-1 w-full border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-brand"></label>
-    <div class="flex justify-end gap-2 pt-2">
-      <button type="button" id="dCancel" class="px-4 py-2 text-sm font-semibold rounded-lg border border-line hover:bg-slate-50">Cancelar</button>
-      <button class="px-4 py-2 text-sm font-semibold rounded-lg bg-brand hover:bg-brandd text-white">Confirmar Venda</button>
+<dialog id="dlg" class="rounded-3xl p-0 w-[92vw] max-w-sm shadow-2xl border border-line overflow-hidden">
+  <form method="dialog" id="dlgForm" class="p-8 flex flex-col gap-5 bg-white">
+    <div>
+      <h2 id="dlgTitle" class="font-black text-2xl text-slate-900 tracking-tight">Registrar Venda</h2>
+      <p class="text-xs font-medium text-slate-500 mt-1">Adicione o projeto ao seu faturamento.</p>
+    </div>
+    <div>
+      <label class="text-xs font-bold text-slate-700 block mb-1.5">Cliente (Empresa)</label>
+      <input id="dName" required class="w-full border border-line rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
+    </div>
+    <div>
+      <label class="text-xs font-bold text-slate-700 block mb-1.5">Serviço Realizado</label>
+      <input id="dSvc" value="Criação de Landing Page (SiteCraft)" class="w-full border border-line rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white outline-none focus:border-brand transition">
+    </div>
+    <div>
+      <label class="text-xs font-bold text-slate-700 block mb-1.5">Valor Fechado (R$)</label>
+      <input id="dVal" type="number" min="0" step="1" required placeholder="Ex: 1000" class="w-full border border-line rounded-xl px-4 py-3 text-sm bg-slate-50 focus:bg-white outline-none focus:border-brand transition font-bold text-brand">
+    </div>
+    <div class="flex justify-end gap-3 mt-3">
+      <button type="button" id="dCancel" class="px-5 py-3 text-sm font-bold rounded-xl border border-line hover:bg-slate-50 transition">Cancelar</button>
+      <button class="px-5 py-3 text-sm font-extrabold rounded-xl bg-slate-900 hover:bg-slate-800 text-white transition shadow-sm">💰 Confirmar</button>
     </div>
   </form>
 </dialog>
 
-<div id="toast" role="status" class="fixed bottom-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-xs font-medium rounded-xl px-5 py-3 hidden shadow-2xl z-50"></div>
+<div id="toast" role="status" class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm font-bold rounded-2xl px-6 py-4 hidden shadow-2xl z-50 flex items-center gap-3 border border-slate-700"></div>
 
 <script>
 const STAGES = ['Novo', 'Contatado', 'Respondeu', 'Negociação'];
 
 const PRESETS = {
   amostra_perda: 'Oi, equipe da {empresa}! Sou o {meu_nome}, trabalho com tecnologia focada no setor de vocês.\n\nAcompanho o trabalho de vocês e a qualidade é fantástica. Mas notei que a presença digital atual não reflete esse alto padrão, e isso faz perder clientes de alto valor todos os dias para a concorrência.\n\nComo detesto enrolação, montei uma estrutura premium completa para a marca de vocês, focada em captar clientes direto pro WhatsApp. Dá uma olhada: [SEU LINK]\n\nSe gostarem do nível, podemos colocar no ar hoje. O que acharam?',
-
   amostra_elogio: 'Olá! Tudo bem? Aqui é o {meu_nome}.\n\nEstava analisando o Instagram da {empresa} e os serviços são de altíssimo nível. Porém, percebi que a falta de um site premium dificulta o agendamento rápido dos clientes.\n\nTomei a liberdade de criar um protótipo de alta conversão, já com a identidade visual de vocês. Veja como ficou prático: [SEU LINK]\n\nPosso transferir pro domínio de vocês hoje se gostarem. Faz sentido conversarmos?',
-
   amostra_autoridade: 'Oi, pessoal da {empresa}, tudo bem? Sou o {meu_nome}.\n\nNo mercado de alto padrão, a primeira impressão digital é o que define se o cliente pede orçamento ou vai embora.\n\nCriei uma página exclusiva e super moderna para a {empresa} se destacar ainda mais e facilitar o contato via WhatsApp. Olha o resultado: [SEU LINK]\n\nSem compromisso, o que acharam do design e da velocidade?',
-
   amostra_direta: 'Fala, pessoal da {empresa}! Aqui é o {meu_nome}.\n\nFiz um estudo rápido da presença digital de vocês e vi uma oportunidade gigante de aumentar os contatos diários.\n\nConstruí essa página premium aqui [SEU LINK] sob medida para vocês. Ela carrega muito rápido e manda o cliente direto pro WhatsApp de atendimento.\n\nConseguem dar uma olhadinha e me dizer o que acharam?',
-
   amostra_exclusiva: 'Olá! Sou o {meu_nome}, especialista em plataformas de captação.\n\nSelecionei a {empresa} porque o trabalho de vocês tem muita qualidade, mas precisa de uma vitrine digital à altura para fechar contratos maiores.\n\nDesenvolvi este projeto aqui [SEU LINK] 100% focado na marca de vocês. É clicar e o cliente já cai no WhatsApp de vocês.\n\nSe fizer sentido, libero o acesso oficial hoje. Gostaram da estrutura?'
 };
 
@@ -285,48 +306,24 @@ const brl = (n) => n.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL
    ========================================================================= */
 function mapNicheToSiteCraft(rawText) {
   const s = String(rawText || '').toLowerCase();
-  if (/clinica|odonto|dentista|medic|estetica|fisio|psico|pilates|saude|salao|barbearia|veterinar|pet/.test(s)) {
-    return { nicho: 'clinica', tpl: 'nuvo' };
-  }
-  if (/advocacia|advogad|contabil|imobiliaria|corretor|seguro|financ|consultor|engenhari|arquitet/.test(s)) {
-    return { nicho: 'financas', tpl: 'signal' };
-  }
-  if (/restaurante|pizzaria|hamburgueria|bar|hotel|pousada|turismo|viagem|evento|buffet|academia|crossfit/.test(s)) {
-    return { nicho: 'turismo', tpl: 'wanderful' };
-  }
-  if (/escola|col[eé]gio|curso|idioma|infantil|creche|musica|violao|educa/.test(s)) {
-    return { nicho: 'educacao', tpl: 'meadowbell' };
-  }
-  if (/software|sistema|ti|informatica|celular|assistencia|tech|app/.test(s)) {
-    return { nicho: 'app', tpl: 'shipcraft' };
-  }
+  if (/clinica|odonto|dentista|medic|estetica|fisio|psico|pilates|saude|salao|barbearia|veterinar|pet/.test(s)) return { nicho: 'clinica', tpl: 'nuvo' };
+  if (/advocacia|advogad|contabil|imobiliaria|corretor|seguro|financ|consultor|engenhari|arquitet/.test(s)) return { nicho: 'financas', tpl: 'signal' };
+  if (/restaurante|pizzaria|hamburgueria|bar|hotel|pousada|turismo|viagem|evento|buffet|academia|crossfit/.test(s)) return { nicho: 'turismo', tpl: 'wanderful' };
+  if (/escola|col[eé]gio|curso|idioma|infantil|creche|musica|violao|educa/.test(s)) return { nicho: 'educacao', tpl: 'meadowbell' };
+  if (/software|sistema|ti|informatica|celular|assistencia|tech|app/.test(s)) return { nicho: 'app', tpl: 'shipcraft' };
   return { nicho: 'agencia', tpl: 'convix' };
 }
 
 function syncLeadsToSiteCraftStorage(priorityLead) {
   const scLeads = leads.map(l => {
     const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
-    return {
-      nome: l.name,
-      nicho: mapped.nicho,
-      cidade: l.city || l.address || 'Guarulhos - SP',
-      whats: '55' + l.phone,
-      tpl: mapped.tpl,
-      head: ''
-    };
+    return { nome: l.name, nicho: mapped.nicho, cidade: l.city || l.address || 'Guarulhos - SP', whats: '55' + l.phone, tpl: mapped.tpl, head: '' };
   });
 
   if (priorityLead) {
     const mapped = mapNicheToSiteCraft((priorityLead.niche || '') + ' ' + priorityLead.name);
     const filtered = scLeads.filter(x => x.nome !== priorityLead.name);
-    filtered.unshift({
-      nome: priorityLead.name,
-      nicho: mapped.nicho,
-      cidade: priorityLead.city || priorityLead.address || 'Guarulhos - SP',
-      whats: '55' + priorityLead.phone,
-      tpl: mapped.tpl,
-      head: ''
-    });
+    filtered.unshift({ nome: priorityLead.name, nicho: mapped.nicho, cidade: priorityLead.city || priorityLead.address || 'Guarulhos - SP', whats: '55' + priorityLead.phone, tpl: mapped.tpl, head: '' });
     store.set('sitecraft_prospecta_leads_v3', filtered);
   } else if (scLeads.length > 0) {
     store.set('sitecraft_prospecta_leads_v3', scLeads);
@@ -336,24 +333,17 @@ function syncLeadsToSiteCraftStorage(priorityLead) {
 function openInSiteCraft(id) {
   const l = leads.find(x => x.id === id);
   if (!l) return;
-
   syncLeadsToSiteCraftStorage(l);
   const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
   const baseUrl = ($('sitecraftUrl')?.value || 'sitecraft.html').trim();
   const sep = baseUrl.includes('?') ? '&' : '?';
-  
-  // Envia as avaliações e a imagem (se existir) na URL
   const targetUrl = `${baseUrl}${sep}empresa=${encodeURIComponent(l.name)}&nicho=${encodeURIComponent(mapped.nicho)}&tpl=${encodeURIComponent(mapped.tpl)}&whats=${encodeURIComponent('55' + l.phone)}&cidade=${encodeURIComponent(l.city || l.address || 'Guarulhos - SP')}&rating=${l.rating || 5}&reviews=${l.reviews || 0}&img=${encodeURIComponent(l.imageUrl || '')}`;
-
   window.open(targetUrl, '_blank');
   toast(`⚡ Abrindo SiteCraft com a página de "${l.name}"!`);
 }
 
 function syncAllToSiteCraft() {
-  if (!leads.length) {
-    toast('Busque alguns leads primeiro para sincronizar!');
-    return;
-  }
+  if (!leads.length) return toast('Busque alguns leads primeiro para sincronizar!');
   syncLeadsToSiteCraftStorage();
   toast(`✓ ${leads.length} leads sincronizados com a fila do SiteCraft Studio!`);
 }
@@ -378,44 +368,30 @@ function fmtPhone(p) {
   return p;
 }
 
-const persist = () => {
-  store.set('p_leads', leads);
-  store.set('p_clients', clients);
-  store.set('p_serper_key', apiKey);
-  store.set('p_hide_done', hideDone);
-  store.set('p_sitecraft_url', sitecraftUrl);
-};
+const persist = () => { store.set('p_leads', leads); store.set('p_clients', clients); store.set('p_serper_key', apiKey); store.set('p_hide_done', hideDone); store.set('p_sitecraft_url', sitecraftUrl); };
 
 function toast(msg) {
   const t = $('toast');
-  t.textContent = msg;
+  t.innerHTML = `<span>✧</span> <span>${msg}</span>`;
   t.classList.remove('hidden');
   clearTimeout(toast.t);
   toast.t = setTimeout(() => t.classList.add('hidden'), 3200);
 }
 
-function setPreset(key) {
-  tpl = PRESETS[key];
-  $('tpl').value = tpl;
-  store.set('p_tpl', tpl);
-  renderPreview();
-  toast('Script atualizado!');
-}
+function setPreset(key) { tpl = PRESETS[key]; $('tpl').value = tpl; store.set('p_tpl', tpl); renderPreview(); toast('Script atualizado!'); }
 
 function nav(v) {
   ['leads', 'funil', 'clientes'].forEach((n) => $('v-' + n).classList.toggle('hidden', n !== v));
   document.querySelectorAll('.nav').forEach((b) => {
     const on = b.dataset.nav === v;
-    b.className = 'nav text-left px-3.5 py-2.5 rounded-lg ' + (on ? 'bg-ink text-white' : 'text-slate-600 hover:bg-slate-100');
+    b.className = 'nav text-left px-4 py-3 rounded-xl transition-colors ' + (on ? 'bg-slate-900 text-white shadow-md' : 'text-slate-600 hover:bg-slate-100');
   });
   if (v === 'funil') renderBoard();
   if (v === 'clientes') renderClients();
 }
 document.querySelectorAll('.nav').forEach((b) => b.addEventListener('click', () => nav(b.dataset.nav)));
 
-function message(lead) {
-  return tpl.replace(/{empresa}/g, lead.name).replace(/{meu_nome}/g, myName || 'Víctor');
-}
+function message(lead) { return tpl.replace(/{empresa}/g, lead.name).replace(/{meu_nome}/g, myName || 'Víctor'); }
 function waUrl(lead) { return `https://wa.me/55${lead.phone}?text=${encodeURIComponent(message(lead))}`; }
 
 function renderPreview() {
@@ -423,24 +399,18 @@ function renderPreview() {
   $('preview').textContent = message(sample);
 }
 
-$('tpl').value = tpl;
-$('myName').value = myName;
-$('apiKey').value = apiKey;
-$('sitecraftUrl').value = sitecraftUrl;
-$('chkHideDone').checked = hideDone;
-
+$('tpl').value = tpl; $('myName').value = myName; $('apiKey').value = apiKey; $('sitecraftUrl').value = sitecraftUrl; $('chkHideDone').checked = hideDone;
 $('apiKey').addEventListener('input', (e) => { apiKey = e.target.value.trim(); persist(); });
 $('sitecraftUrl').addEventListener('input', (e) => { sitecraftUrl = e.target.value.trim(); persist(); });
 $('tpl').addEventListener('input', (e) => { tpl = e.target.value; store.set('p_tpl', tpl); renderPreview(); });
 $('myName').addEventListener('input', (e) => { myName = e.target.value; store.set('p_name', myName); renderPreview(); });
-
 document.querySelectorAll('[data-chip]').forEach((b) => b.addEventListener('click', () => {
   const t = $('tpl'), s = t.selectionStart, c = b.dataset.chip;
   t.value = t.value.slice(0, s) + c + t.value.slice(t.selectionEnd);
   t.dispatchEvent(new Event('input')); t.focus(); t.setSelectionRange(s + c.length, s + c.length);
 }));
 
-/* ===== MOTOR SERPER COM PAGINAÇÃO CONFIGURÁVEL E LIMITADOR DE CRÉDITOS ===== */
+/* ===== MOTOR SERPER ===== */
 async function fetchSerperPage(query, page) {
   const res = await fetch('https://google.serper.dev/maps', {
     method: 'POST',
@@ -454,21 +424,13 @@ async function fetchSerperPage(query, page) {
 
 $('searchForm').addEventListener('submit', async (e) => {
   e.preventDefault();
-  if (!apiKey) {
-    alert('Informe a sua chave Serper no menu lateral.');
-    $('apiKey').focus();
-    return;
-  }
+  if (!apiKey) { alert('Informe a chave Serper no menu lateral.'); $('apiKey').focus(); return; }
 
   const btn = $('searchBtn');
   const targetQty = Number($('leadQty').value) || 10;
-  
-  // O Serper retorna até 20 por página. 
-  // Se o usuário pedir 10 ou 20, consome apenas 1 crédito (p=1).
   const pagesNeeded = Math.ceil(targetQty / 20);
 
-  btn.disabled = true;
-  btn.textContent = `Buscando...`;
+  btn.disabled = true; btn.textContent = `Buscando...`;
 
   const niche = $('niche').value.trim();
   const city = $('city').value.trim();
@@ -476,9 +438,7 @@ $('searchForm').addEventListener('submit', async (e) => {
 
   try {
     const promises = [];
-    for (let p = 1; p <= pagesNeeded; p++) {
-      promises.push(fetchSerperPage(query, p));
-    }
+    for (let p = 1; p <= pagesNeeded; p++) promises.push(fetchSerperPage(query, p));
 
     const results = await Promise.allSettled(promises);
     let allPlaces = [];
@@ -488,237 +448,115 @@ $('searchForm').addEventListener('submit', async (e) => {
     let fresh = [];
 
     for (const p of allPlaces) {
-      if (fresh.length >= targetQty) break; // Trava para não ultrapassar a quantidade solicitada
-      
+      if (fresh.length >= targetQty) break;
       const pPhone = cleanPhone(p.phoneNumber);
       const id = p.cid || p.placeId || `${p.title}_${pPhone}`;
       
       if (!knownIds.has(id) && pPhone) {
         knownIds.add(id);
-        
         fresh.push({
-          id,
-          name: p.title,
-          niche: niche,
-          city: city,
-          address: p.address || city,
-          phone: pPhone,
-          hasSite: Boolean(p.website),
-          websiteUrl: p.website || null,
-          rating: p.rating || 5.0,
-          reviews: p.ratingCount || 0,
-          imageUrl: p.imageUrl || p.thumbnailUrl || '', // Puxa a foto grátis da busca!
-          status: 'Novo',
-          createdAt: Date.now()
+          id, name: p.title, niche: niche, city: city, address: p.address || city, phone: pPhone,
+          hasSite: Boolean(p.website), websiteUrl: p.website || null,
+          rating: p.rating || 5.0, reviews: p.ratingCount || 0,
+          imageUrl: p.imageUrl || p.thumbnailUrl || '', // Foto grátis pescada!
+          status: 'Novo', createdAt: Date.now()
         });
       }
     }
 
     leads = [...fresh, ...leads];
-    persist();
-    syncLeadsToSiteCraftStorage();
-    renderAll();
-    toast(`${fresh.length} novas empresas encontradas!`);
-  } catch (err) {
-    toast('Erro: ' + (err.message || 'Verifique sua conexão'));
-  } finally {
-    btn.disabled = false;
-    btn.textContent = 'Buscar';
-  }
+    persist(); syncLeadsToSiteCraftStorage(); renderAll();
+    toast(`${fresh.length} novas empresas mapeadas!`);
+  } catch (err) { toast('Erro: ' + (err.message || 'Verifique sua conexão')); }
+  finally { btn.disabled = false; btn.textContent = '🔍 Mapear Região'; }
 });
 
-/* ===== GERENCIAMENTO DE SELEÇÃO E DISPARO SEQUENCIAL ===== */
-function updateSelectedBadge() {
-  $('selectedCountBadge').textContent = `${selectedLeadIds.size} selecionados`;
-}
-
-function toggleSelectLead(id, checked) {
-  if (checked) selectedLeadIds.add(id);
-  else selectedLeadIds.delete(id);
-  updateSelectedBadge();
-}
-
-function toggleSelectAll(checked) {
-  const visible = getVisibleLeads();
-  visible.forEach((l) => {
-    if (checked) selectedLeadIds.add(l.id);
-    else selectedLeadIds.delete(l.id);
-  });
-  updateSelectedBadge();
-  renderRows();
-}
+/* ===== SELEÇÃO E DISPARO ===== */
+function updateSelectedBadge() { $('selectedCountBadge').textContent = `${selectedLeadIds.size} selecionados`; }
+function toggleSelectLead(id, checked) { if (checked) selectedLeadIds.add(id); else selectedLeadIds.delete(id); updateSelectedBadge(); }
+function toggleSelectAll(checked) { const visible = getVisibleLeads(); visible.forEach((l) => { if (checked) selectedLeadIds.add(l.id); else selectedLeadIds.delete(l.id); }); updateSelectedBadge(); renderRows(); }
 
 async function startBulkDispatch() {
-  if (selectedLeadIds.size === 0) {
-    alert('Selecione pelo menos um contato nas caixas de seleção da tabela.');
-    return;
-  }
-
-  isDispatching = true;
-  $('btnStartDispatch').classList.add('hidden');
-  $('btnStopDispatch').classList.remove('hidden');
-
+  if (selectedLeadIds.size === 0) return alert('Selecione pelo menos um contato na caixinha de seleção dos cards.');
+  isDispatching = true; $('btnStartDispatch').classList.add('hidden'); $('btnStopDispatch').classList.remove('hidden');
   const idsToProcess = Array.from(selectedLeadIds);
   const delaySec = Number($('dispatchDelay').value) || 10;
 
   for (let i = 0; i < idsToProcess.length; i++) {
     if (!isDispatching) break;
-
-    const currentId = idsToProcess[i];
-    const lead = leads.find((l) => l.id === currentId);
-
+    const currentId = idsToProcess[i], lead = leads.find((l) => l.id === currentId);
     if (lead) {
       toast(`Disparando (${i + 1}/${idsToProcess.length}): ${lead.name}`);
       window.open(waUrl(lead), '_blank', 'noopener');
-      lead.status = 'Contatado';
-      selectedLeadIds.delete(currentId);
-      persist();
-      renderAll();
+      lead.status = 'Contatado'; selectedLeadIds.delete(currentId); persist(); renderAll();
     }
-
-    if (i < idsToProcess.length - 1 && isDispatching) {
-      await new Promise((resolve) => {
-        dispatchTimer = setTimeout(resolve, delaySec * 1000);
-      });
-    }
+    if (i < idsToProcess.length - 1 && isDispatching) await new Promise(r => { dispatchTimer = setTimeout(r, delaySec * 1000); });
   }
-
-  stopBulkDispatch();
-  toast('Disparos da fila concluídos com sucesso!');
+  stopBulkDispatch(); toast('Disparos da fila concluídos com sucesso!');
 }
+function stopBulkDispatch() { isDispatching = false; if (dispatchTimer) clearTimeout(dispatchTimer); $('btnStartDispatch').classList.remove('hidden'); $('btnStopDispatch').classList.add('hidden'); }
 
-function stopBulkDispatch() {
-  isDispatching = false;
-  if (dispatchTimer) clearTimeout(dispatchTimer);
-  $('btnStartDispatch').classList.remove('hidden');
-  $('btnStopDispatch').classList.add('hidden');
-}
-
-/* ===== GERENCIAMENTO DE LEADS (STATUS E EXCLUSÃO) ===== */
-function toggleDone(id) {
-  const l = leads.find((x) => x.id === id);
-  if (!l) return;
-  l.status = (l.status === 'Novo') ? 'Contatado' : 'Novo';
-  persist();
-  renderAll();
-  if (!$('v-funil').classList.contains('hidden')) renderBoard();
-}
-
-function setStage(id, s) {
-  const l = leads.find((x) => x.id === id);
-  if (l) { l.status = s; persist(); renderAll(); }
-}
-
-function delLead(id) {
-  leads = leads.filter((l) => l.id !== id);
-  selectedLeadIds.delete(id);
-  persist();
-  renderAll();
-  toast('Contato excluído.');
-  if (!$('v-funil').classList.contains('hidden')) renderBoard();
-}
-
-function clearAllLeads() {
-  if (confirm('Deseja excluir todos os leads da lista?')) {
-    leads = [];
-    selectedLeadIds.clear();
-    persist();
-    renderAll();
-    toast('Lista limpa com sucesso.');
-  }
-}
+/* ===== STATUS E EXCLUSÃO ===== */
+function toggleDone(id) { const l = leads.find((x) => x.id === id); if (!l) return; l.status = (l.status === 'Novo') ? 'Contatado' : 'Novo'; persist(); renderAll(); if (!$('v-funil').classList.contains('hidden')) renderBoard(); }
+function setStage(id, s) { const l = leads.find((x) => x.id === id); if (l) { l.status = s; persist(); renderAll(); } }
+function delLead(id) { leads = leads.filter((l) => l.id !== id); selectedLeadIds.delete(id); persist(); renderAll(); toast('Empresa excluída do radar.'); if (!$('v-funil').classList.contains('hidden')) renderBoard(); }
+function clearAllLeads() { if (confirm('Atenção: Isso apagará TODOS os leads salvos. Continuar?')) { leads = []; selectedLeadIds.clear(); persist(); renderAll(); toast('Banco de dados limpo.'); } }
 
 function setSiteFilter(type) {
   filterSite = type;
-  ['All', 'NoSite', 'HasSite'].forEach((t) => {
-    const btn = $('btnFilter' + t);
-    const active = (type === 'all' && t === 'All') || (type === 'no-site' && t === 'NoSite') || (type === 'has-site' && t === 'HasSite');
-    btn.className = `px-3 py-1.5 rounded-lg text-xs font-bold ${active ? 'bg-ink text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'}`;
-  });
+  const activeClass = 'bg-slate-900 text-white';
+  const inactiveClass = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+  $('btnFilterAll').className = `text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-colors ${type === 'all' ? activeClass : inactiveClass}`;
+  $('btnFilterNoSite').className = `text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-colors ${type === 'no-site' ? activeClass : inactiveClass}`;
+  $('btnFilterHasSite').className = `text-left px-4 py-2.5 rounded-xl text-xs font-bold transition-colors ${type === 'has-site' ? activeClass : inactiveClass}`;
   renderRows();
 }
+function toggleHideDone(checked) { hideDone = checked; persist(); renderRows(); }
+function approach(id) { const l = leads.find((x) => x.id === id); if (!l) return; window.open(waUrl(l), '_blank', 'noopener'); if (l.status === 'Novo') l.status = 'Contatado'; persist(); renderAll(); }
 
-function toggleHideDone(checked) {
-  hideDone = checked;
-  persist();
-  renderRows();
-}
-
-function approach(id) {
-  const l = leads.find((x) => x.id === id);
-  if (!l) return;
-  window.open(waUrl(l), '_blank', 'noopener');
-  if (l.status === 'Novo') l.status = 'Contatado';
-  persist();
-  renderAll();
-}
-
-function openDeal(id) {
-  const l = leads.find((x) => x.id === id);
-  pendingLead = l;
-  $('dName').value = l ? l.name : '';
-  $('dSvc').value = 'Criação de Landing Page (SiteCraft)';
-  $('dVal').value = '';
-  $('dlgTitle').textContent = l ? 'Registrar Venda' : 'Adicionar Cliente';
-  $('dlg').showModal();
-}
-
+function openDeal(id) { const l = leads.find((x) => x.id === id); pendingLead = l; $('dName').value = l ? l.name : ''; $('dSvc').value = 'Criação de Landing Page Premium'; $('dVal').value = ''; $('dlgTitle').textContent = l ? 'Fechar Contrato' : 'Adicionar Venda'; $('dlg').showModal(); }
 $('dCancel').addEventListener('click', () => $('dlg').close());
-$('dlgForm').addEventListener('submit', () => {
-  clients.push({
-    name: $('dName').value.trim(),
-    service: $('dSvc').value.trim(),
-    value: Number($('dVal').value) || 0,
-    at: Date.now()
-  });
-  if (pendingLead) leads = leads.filter((l) => l.id !== pendingLead.id);
-  pendingLead = null;
-  persist();
-  renderAll();
-  renderClients();
-  toast('Venda registrada no funil!');
-});
+$('dlgForm').addEventListener('submit', () => { clients.push({ name: $('dName').value.trim(), service: $('dSvc').value.trim(), value: Number($('dVal').value) || 0, at: Date.now() }); if (pendingLead) leads = leads.filter((l) => l.id !== pendingLead.id); pendingLead = null; persist(); renderAll(); renderClients(); toast('🎉 Nova venda registrada no faturamento!'); });
 $('addClient').addEventListener('click', () => openDeal(null));
 
-/* ===== FILA DE ABORDAGEM ===== */
-function nextTarget() {
-  const pool = leads.filter((l) => l.status === 'Novo');
-  return pool.find((l) => !l.hasSite) || pool[0];
-}
+function nextTarget() { const pool = leads.filter((l) => l.status === 'Novo'); return pool.find((l) => !l.hasSite) || pool[0]; }
 
 function renderQueue() {
-  const l = nextTarget();
-  const box = $('queueBody');
-  if (!l) {
-    box.innerHTML = `<p class="text-lg font-bold">Fila limpa!</p><p class="text-sm text-slate-300 mt-1">Todos os leads foram atendidos ou você ainda não realizou uma busca.</p>`;
-    return;
-  }
+  const l = nextTarget(); const box = $('queueBody');
+  if (!l) { box.innerHTML = `<div class="text-center py-10"><p class="text-2xl font-black">Radar Limpo!</p><p class="text-sm text-teal-200 mt-2 font-medium">Faça uma nova busca no painel para encontrar alvos.</p></div>`; return; }
   const left = leads.filter((x) => x.status === 'Novo').length;
+  
+  // Imagem de preview (se tiver puxado a foto gratis do maps)
+  const imgBg = l.imageUrl ? `<div class="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-overlay" style="background-image:url('${esc(l.imageUrl)}')"></div>` : '';
+
   box.innerHTML = `
-    <div>
+    ${imgBg}
+    <div class="relative z-10">
       <div class="flex items-center justify-between">
-        <span class="text-xs uppercase tracking-wider text-slate-400 font-bold">Próximo Alvo Prioritário</span>
-        <span class="text-xs bg-slate-800 text-teal-300 px-2 py-0.5 rounded-full font-bold">${left} pendentes</span>
+        <span class="text-[11px] uppercase tracking-widest text-teal-300 font-extrabold flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span> Próximo Alvo</span>
+        <span class="text-xs bg-slate-950/50 text-teal-300 px-3 py-1 rounded-full font-bold border border-teal-500/30">${left} pendentes</span>
       </div>
-      <h2 class="text-3xl font-extrabold tracking-tight mt-2 leading-tight">${esc(l.name)}</h2>
+      <h2 class="text-3xl md:text-4xl font-black tracking-tight mt-4 leading-tight drop-shadow-md">${esc(l.name)}</h2>
       
-      <div class="flex items-center gap-3 mt-1.5">
-        <div class="text-[12px] font-medium text-amber-400">★ ${l.rating || '5.0'} <span class="text-slate-400">(${l.reviews || 0} avaliações)</span></div>
+      <div class="flex items-center gap-3 mt-3">
+        <div class="bg-amber-500/20 border border-amber-500/30 px-3 py-1 rounded-lg text-sm font-bold text-amber-300 shadow-sm backdrop-blur-sm">★ ${l.rating || '5.0'} <span class="text-amber-100/70 text-xs ml-1 font-medium">(${l.reviews || 0} reviews)</span></div>
+        ${!l.hasSite ? '<span class="bg-red-500/20 border border-red-500/30 text-red-300 px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider backdrop-blur-sm">Sem site</span>' : ''}
       </div>
       
-      <p class="text-sm mt-1 text-slate-300">${esc(l.address)}</p>
-      
-      <p class="text-sm mt-1 font-medium">${esc(fmtPhone(l.phone))} · ${l.hasSite ? '<span class="text-slate-400">Possui site</span>' : '<span class="text-amber-300 font-bold">Sem site (Oportunidade!)</span>'}</p>
+      <p class="text-sm mt-3 text-slate-300 font-medium leading-relaxed max-w-lg drop-shadow">${esc(l.address)}</p>
+      <div class="inline-flex items-center gap-2 mt-4 text-sm font-bold bg-slate-950/40 px-4 py-2 rounded-xl border border-white/10 backdrop-blur-sm">
+        <span class="text-slate-400">📞</span> ${esc(fmtPhone(l.phone))}
+      </div>
     </div>
-    <div class="flex flex-wrap items-center gap-2 mt-6">
-      <button onclick="openInSiteCraft('${esc(l.id)}')" class="bg-craft hover:bg-craftd text-white font-extrabold text-sm rounded-lg px-5 py-3 transition shadow-lg shadow-orange-950/50">
-        ⚡ Gerar Site Rica (c/ Foto e Avaliação)
+    
+    <div class="relative z-10 flex flex-wrap items-center gap-3 mt-8">
+      <button onclick="openInSiteCraft('${esc(l.id)}')" class="bg-white hover:bg-slate-100 text-slate-900 font-extrabold text-sm rounded-xl px-6 py-3.5 transition shadow-xl hover:-translate-y-1">
+        ⚡ Gerar LP Rica
       </button>
-      <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-5 py-3 transition">
-        Abordar no WhatsApp
+      <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-xl px-6 py-3.5 transition shadow-lg shadow-teal-900/50">
+        Disparar WhatsApp
       </button>
-      <button onclick="toggleDone('${esc(l.id)}')" class="border border-white/20 hover:bg-white/10 text-sm font-semibold rounded-lg px-4 py-3">Pular</button>
-      <button onclick="delLead('${esc(l.id)}')" class="text-xs text-red-400 hover:text-red-300 ml-auto">Excluir</button>
+      <button onclick="toggleDone('${esc(l.id)}')" class="border-2 border-white/20 hover:bg-white/10 text-sm font-bold rounded-xl px-5 py-3 transition text-white">Pular</button>
     </div>`;
 }
 
@@ -730,65 +568,81 @@ function getVisibleLeads() {
   return list;
 }
 
+/* ===== NOVO VISUAL DOS CARDS NO GRID ===== */
 function renderRows() {
   const list = getVisibleLeads();
   updateSelectedBadge();
 
   $('rows').innerHTML = list.length ? list.map((l) => `
-    <tr class="${l.status !== 'Novo' ? 'bg-slate-50/60 opacity-75' : ''}">
-      <td class="p-3 w-8">
-        <input type="checkbox" onchange="toggleSelectLead('${esc(l.id)}', this.checked)" ${selectedLeadIds.has(l.id) ? 'checked' : ''} class="rounded text-brand focus:ring-0 cursor-pointer">
-      </td>
-      <td class="p-3 font-semibold text-slate-800">
-        ${esc(l.name)}
-        <div class="text-[11px] font-normal text-slate-400 truncate max-w-xs">${esc(l.address)}</div>
-        <div class="text-[11px] font-medium text-amber2 mt-0.5">★ ${l.rating || '5.0'} <span class="text-slate-400">(${l.reviews || 0} avaliações)</span></div>
-      </td>
-      <td class="p-3">
-        ${l.hasSite
-          ? `<a href="${esc(l.websiteUrl)}" target="_blank" rel="noopener" class="text-xs text-brand font-semibold hover:underline">Ver site ↗</a>`
-          : '<span class="text-xs font-bold text-amber2 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded">Sem site</span>'}
-      </td>
-      <td class="p-3 whitespace-nowrap text-xs font-medium text-slate-700">${esc(fmtPhone(l.phone))}</td>
-      <td class="p-3">
-        <select aria-label="Etapa" onchange="setStage('${esc(l.id)}', this.value)" class="border border-line rounded-lg text-xs px-2.5 py-1.5 bg-white font-medium outline-none">
+    <div class="bg-white border border-line rounded-3xl p-5 flex flex-col gap-4 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300 relative ${l.status !== 'Novo' ? 'opacity-60 bg-slate-50 grayscale-[30%]' : ''}">
+      
+      <!-- Topo do Card -->
+      <div class="flex items-start gap-3 relative">
+        <input type="checkbox" onchange="toggleSelectLead('${esc(l.id)}', this.checked)" ${selectedLeadIds.has(l.id) ? 'checked' : ''} class="mt-1 w-5 h-5 rounded border-slate-300 text-brand focus:ring-brand cursor-pointer shrink-0 transition">
+        
+        <div class="flex-1 min-w-0 pr-6">
+          <h3 class="font-extrabold text-slate-900 text-[15px] leading-tight line-clamp-2" title="${esc(l.name)}">${esc(l.name)}</h3>
+          <p class="text-[11px] text-slate-500 mt-1 line-clamp-1 font-medium">${esc(l.address)}</p>
+        </div>
+
+        <button onclick="delLead('${esc(l.id)}')" class="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-slate-100 text-slate-400 hover:bg-red-100 hover:text-red-500 transition-colors" title="Excluir Lead">
+          <span class="text-xs font-bold">✕</span>
+        </button>
+      </div>
+      
+      <!-- Badges Google e Site -->
+      <div class="flex items-center justify-between bg-slate-50/80 border border-slate-100 rounded-xl p-3 mt-1">
+        <div class="flex items-center gap-1.5 text-[13px] font-black text-amber-500">
+          ★ ${l.rating || '5.0'} <span class="text-slate-400 font-semibold text-[10px]">(${l.reviews || 0})</span>
+        </div>
+        ${!l.hasSite
+          ? '<span class="text-[10px] font-extrabold text-amber-700 bg-amber-100 border border-amber-200/60 px-2.5 py-1 rounded-full uppercase tracking-wide">Sem site</span>'
+          : `<a href="${esc(l.websiteUrl)}" target="_blank" class="text-[10px] font-extrabold text-slate-600 bg-slate-200 border border-slate-300/60 px-2.5 py-1 rounded-full uppercase tracking-wide hover:bg-slate-300 transition-colors">Visitar ↗</a>`
+        }
+      </div>
+
+      <!-- Contato e Status -->
+      <div class="flex items-center justify-between px-1">
+        <div class="text-[13px] font-bold text-slate-700 font-mono tracking-tight">${esc(fmtPhone(l.phone))}</div>
+        <select onchange="setStage('${esc(l.id)}', this.value)" class="bg-white border border-line rounded-lg text-[10px] font-bold text-slate-600 px-2.5 py-1.5 outline-none focus:border-brand cursor-pointer shadow-sm">
           ${STAGES.map((s) => `<option ${s === l.status ? 'selected' : ''}>${s}</option>`).join('')}
         </select>
-      </td>
-      <td class="p-3 text-right whitespace-nowrap space-x-1">
-        <button onclick="openInSiteCraft('${esc(l.id)}')" title="Criar Landing Page no SiteCraft" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-craft hover:bg-craftd text-white shadow-sm">
-          ⚡ Gerar Rica
+      </div>
+
+      <!-- Ações Inferiores -->
+      <div class="mt-auto grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+        <button onclick="openInSiteCraft('${esc(l.id)}')" class="col-span-2 bg-slate-900 hover:bg-slate-800 text-white font-extrabold text-xs py-2.5 rounded-xl transition shadow-sm flex justify-center items-center gap-1.5">
+          <span>⚡</span> Gerar LP Rica
         </button>
-        <button onclick="approach('${esc(l.id)}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand hover:bg-brandd text-white">Whats</button>
-        <button onclick="toggleDone('${esc(l.id)}')" title="Marcar/Desmarcar Atendido" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border ${l.status !== 'Novo' ? 'bg-teal-50 border-teal-200 text-teal-800' : 'border-line text-slate-600 hover:bg-slate-100'}">
-          ${l.status !== 'Novo' ? '✓' : 'Marcar'}
-        </button>
-        <button onclick="openDeal('${esc(l.id)}')" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-line hover:bg-slate-100">Venda</button>
-        <button onclick="delLead('${esc(l.id)}')" title="Excluir" class="px-2 py-1.5 rounded-lg text-xs text-red-500 hover:bg-red-50">✕</button>
-      </td>
-    </tr>`).join('')
-  : `<tr><td colspan="6" class="p-8 text-center text-slate-400 text-sm">Nenhum lead encontrado com estes filtros.</td></tr>`;
+        <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-xs py-2.5 rounded-xl transition flex justify-center items-center">WhatsApp</button>
+        <button onclick="openDeal('${esc(l.id)}')" class="bg-white border-2 border-slate-200 hover:border-slate-300 text-slate-700 font-extrabold text-xs py-2 rounded-xl transition flex justify-center items-center">💸 Vender</button>
+      </div>
+    </div>`).join('')
+  : `<div class="col-span-full bg-white border border-line rounded-3xl p-10 flex flex-col items-center justify-center text-center">
+       <span class="text-4xl mb-3">📭</span>
+       <h3 class="font-extrabold text-slate-800 text-lg">Nenhum alvo encontrado</h3>
+       <p class="text-sm text-slate-500 font-medium mt-1">Altere os filtros ou faça uma nova busca no Google Maps.</p>
+     </div>`;
 }
 
 function renderKpis() {
   $('kTotal').textContent = leads.length;
   $('kNoSite').textContent = leads.filter((l) => !l.hasSite).length;
-  $('kDone').textContent = leads.filter((l) => l.status !== 'Novo').length;
   $('kPending').textContent = leads.filter((l) => l.status === 'Novo').length;
 }
 
 function renderBoard() {
   $('board').innerHTML = STAGES.map((s) => {
     const items = leads.filter((l) => l.status === s);
-    return `<div class="col bg-white border border-line rounded-2xl p-4 min-h-[220px]" data-stage="${s}">
-      <div class="text-xs uppercase font-extrabold text-slate-500 mb-3 flex justify-between items-center">${s} <span class="bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full text-[11px]">${items.length}</span></div>
-      <div class="space-y-2.5">${items.map((l) => `
-        <div draggable="true" data-id="${esc(l.id)}" class="card cursor-grab bg-slate-50 border border-line rounded-xl p-3 text-sm shadow-sm hover:border-slate-300">
-          <div class="font-bold text-slate-800">${esc(l.name)}</div>
-          <div class="text-xs text-slate-500 mt-0.5">${esc(fmtPhone(l.phone))}</div>
-          <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/70">
-            <span class="text-[11px] ${l.hasSite ? 'text-slate-400' : 'text-amber2 font-bold'}">${l.hasSite ? 'Possui site' : '● Sem site'}</span>
-            <button onclick="openInSiteCraft('${esc(l.id)}')" class="text-[11px] font-bold text-craft hover:underline">⚡ Gerar Rica ↗</button>
+    return `<div class="col bg-slate-50 border border-line rounded-3xl p-5 min-h-[300px]" data-stage="${s}">
+      <div class="text-[11px] uppercase font-black text-slate-500 mb-4 flex justify-between items-center tracking-wider">${s} <span class="bg-white border border-line text-slate-700 px-2.5 py-1 rounded-full">${items.length}</span></div>
+      <div class="space-y-3">${items.map((l) => `
+        <div draggable="true" data-id="${esc(l.id)}" class="card cursor-grab bg-white border border-line rounded-2xl p-4 text-sm shadow-sm hover:shadow-md transition-shadow">
+          <div class="font-extrabold text-slate-800 leading-snug">${esc(l.name)}</div>
+          <div class="text-[11px] font-mono text-slate-500 mt-1">${esc(fmtPhone(l.phone))}</div>
+          <div class="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
+            <span class="text-[10px] uppercase font-bold ${l.hasSite ? 'text-slate-400' : 'text-amber-600 bg-amber-50 px-2 py-0.5 rounded'}">${l.hasSite ? 'Possui site' : 'Sem site'}</span>
+            <button onclick="openInSiteCraft('${esc(l.id)}')" class="text-[11px] font-black text-slate-900 hover:text-brand transition-colors">⚡ LP Rica ↗</button>
           </div>
         </div>`).join('')}
       </div>
@@ -811,16 +665,21 @@ function renderBoard() {
 function renderClients() {
   $('sum').textContent = brl(clients.reduce((a, c) => a + c.value, 0));
   $('clientRows').innerHTML = clients.length ? clients.map((c, i) => `
-    <tr>
-      <td class="p-4 font-bold text-slate-800">${esc(c.name)}<div class="text-xs font-normal text-slate-500">${esc(c.service)}</div></td>
-      <td class="p-4 font-black text-brand text-base">${brl(c.value)}</td>
-      <td class="p-4 text-right"><button onclick="delClient(${i})" class="text-xs font-semibold text-red-600 hover:underline">Remover</button></td>
+    <tr class="hover:bg-slate-50 transition-colors">
+      <td class="p-5">
+        <div class="font-extrabold text-slate-900 text-[15px]">${esc(c.name)}</div>
+        <div class="text-xs font-medium text-slate-500 mt-0.5">${esc(c.service)}</div>
+      </td>
+      <td class="p-5 font-black text-brand text-lg text-right">${brl(c.value)}</td>
+      <td class="p-5 text-right w-20">
+        <button onclick="delClient(${i})" class="w-8 h-8 flex items-center justify-center rounded-lg bg-slate-100 text-slate-400 hover:bg-red-100 hover:text-red-500 transition-colors" title="Remover Venda">✕</button>
+      </td>
     </tr>`).join('')
-    : `<tr><td class="p-8 text-center text-slate-400 text-sm">Nenhuma venda registrada ainda.</td></tr>`;
+    : `<tr><td colspan="3" class="p-12 text-center text-slate-400 text-sm font-medium">Nenhuma venda registrada no histórico.</td></tr>`;
 }
 
 function delClient(i) {
-  if (confirm('Remover este registro de venda?')) {
+  if (confirm('Tem certeza que deseja remover este registro de faturamento?')) {
     clients.splice(i, 1);
     persist();
     renderClients();
