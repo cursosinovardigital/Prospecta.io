@@ -52,7 +52,7 @@ tailwind.config = { theme: { extend: {
     <label class="block font-semibold text-slate-600 pt-1">Sua Chave Serper.dev
       <input id="apiKey" type="password" placeholder="Cole sua chave aqui" class="mt-1 w-full border border-line rounded px-2.5 py-2 text-xs">
     </label>
-    <p class="text-[11px] text-slate-400">Cada 20 leads gastam apenas 1 busca do total de 2.500.</p>
+    <p class="text-[11px] text-slate-400">Cada 20 leads gastam 1 busca do total de 2.500.</p>
   </div>
 </aside>
 
@@ -63,7 +63,7 @@ tailwind.config = { theme: { extend: {
   <header class="flex flex-wrap items-center justify-between gap-3">
     <div>
       <h1 class="text-2xl font-extrabold tracking-tight">Buscar Empresas no Google Maps</h1>
-      <p class="text-sm text-slate-500 mt-0.5">Filtre estabelecimentos reais por região, telefone, presença de website e gere a Landing Page em 1 clique.</p>
+      <p class="text-sm text-slate-500 mt-0.5">Filtre estabelecimentos reais por região, telefone, avaliações e gere a Landing Page em 1 clique.</p>
     </div>
     <div class="flex items-center gap-2">
       <button type="button" onclick="syncAllToSiteCraft()" class="bg-white hover:bg-slate-50 text-slate-700 border border-line font-bold text-xs rounded-lg px-3.5 py-2.5 shadow-sm">
@@ -78,42 +78,42 @@ tailwind.config = { theme: { extend: {
   <!-- FORMULÁRIO COM SELETOR DE QUANTIDADE -->
   <form id="searchForm" class="bg-white border border-line rounded-2xl p-5 shadow-sm grid gap-4 md:grid-cols-[1.2fr_1fr_auto_auto] items-end">
     <label class="text-xs font-semibold text-slate-700">Nicho / Segmento
-      <input id="niche" required placeholder="Ex: clinica odontologica, oficina mecanica, contabilidade" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
+      <input id="niche" required placeholder="Ex: clinica odontologica, oficina mecanica" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
     </label>
     <label class="text-xs font-semibold text-slate-700">Cidade e Estado
       <input id="city" required placeholder="Ex: Guarulhos, SP" class="mt-1 w-full border border-line rounded-lg px-3.5 py-2.5 text-sm outline-none focus:border-brand">
     </label>
-    <label class="text-xs font-semibold text-slate-700">Quantidade
+    <label class="text-xs font-semibold text-slate-700">Quantidade Máxima
       <select id="leadQty" class="mt-1 w-full border border-line rounded-lg px-3 py-2.5 text-sm bg-white font-medium outline-none">
-        <option value="10">10 leads</option>
+        <option value="10" selected>10 leads</option>
         <option value="20">20 leads (1 crédito)</option>
-        <option value="50" selected>50 leads (3 créditos)</option>
-        <option value="100">100 leads (5 créditos)</option>
+        <option value="50">50 leads (3 créditos)</option>
       </select>
     </label>
     <button id="searchBtn" type="submit" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-6 py-2.5 transition h-[42px]">Buscar</button>
   </form>
 
-  <!-- FILA E SCRIPT DE ABORDAGEM FBI -->
+  <!-- FILA E SCRIPT DE ABORDAGEM -->
   <div class="grid gap-6 xl:grid-cols-[1.1fr_1fr]">
     <!-- Próximo Alvo -->
     <div class="bg-ink text-white rounded-2xl p-6 flex flex-col justify-between shadow-md">
       <div id="queueBody"></div>
     </div>
 
-    <!-- Scripts de Vendas FBI -->
+    <!-- Scripts de Vendas (Novas Abordagens) -->
     <div class="bg-white border border-line rounded-2xl p-5 space-y-4 shadow-sm">
       <div class="flex items-center justify-between">
-        <h2 class="font-bold text-sm text-slate-800">Estratégia de Abordagem (Técnicas FBI)</h2>
-        <span class="text-[11px] font-semibold text-brand bg-teal-50 px-2 py-0.5 rounded border border-teal-200">Anti-Bloqueio</span>
+        <h2 class="font-bold text-sm text-slate-800">Abordagem: Amostra Irresistível</h2>
+        <span class="text-[11px] font-semibold text-brand bg-teal-50 px-2 py-0.5 rounded border border-teal-200">Alta Conversão</span>
       </div>
 
       <!-- Presets de Mensagem -->
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-xs">
-        <button type="button" onclick="setPreset('icebreaker')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">1. Quebra-Gelo</button>
-        <button type="button" onclick="setPreset('fbi_pitch')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">2. Pergunta ao Não</button>
-        <button type="button" onclick="setPreset('site_ready')" class="p-2 border border-orange-200 bg-orange-50/60 rounded-lg font-bold hover:bg-orange-100 text-craft text-center">⚡ 3. Site Pronto</button>
-        <button type="button" onclick="setPreset('curiosity')" class="p-2 border border-line rounded-lg font-semibold hover:bg-slate-50 text-slate-700 text-center">4. Dúvida Cliente</button>
+      <div class="grid grid-cols-2 sm:grid-cols-5 gap-1.5 text-[11px]">
+        <button type="button" onclick="setPreset('amostra_perda')" class="p-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700">1. Dor</button>
+        <button type="button" onclick="setPreset('amostra_elogio')" class="p-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700">2. Elogio</button>
+        <button type="button" onclick="setPreset('amostra_autoridade')" class="p-2 border border-orange-200 bg-orange-50 rounded-lg font-bold text-craft shadow-sm">3. Autoridade</button>
+        <button type="button" onclick="setPreset('amostra_direta')" class="p-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700">4. Direta</button>
+        <button type="button" onclick="setPreset('amostra_exclusiva')" class="p-2 border border-line rounded-lg font-bold hover:bg-slate-50 text-slate-700">5. Exclusiva</button>
       </div>
 
       <div class="grid grid-cols-2 gap-2 text-xs">
@@ -126,10 +126,10 @@ tailwind.config = { theme: { extend: {
         </div>
       </div>
 
-      <textarea id="tpl" rows="3" class="w-full border border-line rounded-lg p-3 text-sm focus:border-brand outline-none"></textarea>
+      <textarea id="tpl" rows="4" class="w-full border border-line rounded-lg p-3 text-sm focus:border-brand outline-none"></textarea>
       
       <div class="text-[11px] text-slate-500 font-medium">Prévia enviada no WhatsApp:</div>
-      <div id="preview" class="text-xs bg-slate-50 border border-line rounded-lg p-2.5 text-slate-700 whitespace-pre-wrap"></div>
+      <div id="preview" class="text-[11px] bg-slate-50 border border-line rounded-lg p-2.5 text-slate-700 whitespace-pre-wrap"></div>
     </div>
   </div>
 
@@ -154,7 +154,6 @@ tailwind.config = { theme: { extend: {
         <select id="dispatchDelay" class="bg-slate-800 border border-slate-700 rounded px-2 py-1 text-xs text-white outline-none">
           <option value="6">6 segundos</option>
           <option value="10" selected>10 segundos (Recomendado)</option>
-          <option value="15">15 segundos</option>
         </select>
       </label>
       <button id="btnStartDispatch" onclick="startBulkDispatch()" class="bg-brand hover:bg-brandd text-white font-extrabold text-xs px-5 py-2.5 rounded-lg transition shadow-lg shadow-teal-900/40">
@@ -248,10 +247,15 @@ tailwind.config = { theme: { extend: {
 const STAGES = ['Novo', 'Contatado', 'Respondeu', 'Negociação'];
 
 const PRESETS = {
-  icebreaker: 'Oi, boa tarde!',
-  fbi_pitch: 'Olá! Sou {meu_nome}. Estive olhando a {empresa} no Google e notei uma oportunidade para trazer novos clientes para cá com um site próprio.\n\nFicaria muito ruim se eu te enviasse uma prévia rápida de como ficaria?',
-  site_ready: 'Olá, equipe da {empresa}! Aqui é {meu_nome}.\n\nAcabei de montar uma prévia exclusiva de como ficaria o novo site de alta conversão de vocês integrado ao WhatsApp.\n\nPosso te mandar o link ou um print aqui para você avaliar sem compromisso?',
-  curiosity: 'Olá, boa tarde! Gostaria de tirar uma dúvida sobre os serviços da {empresa}. Com quem posso falar?'
+  amostra_perda: 'Oi, equipe da {empresa}! Sou o {meu_nome}, trabalho com tecnologia focada no setor de vocês.\n\nAcompanho o trabalho de vocês e a qualidade é fantástica. Mas notei que a presença digital atual não reflete esse alto padrão, e isso faz perder clientes de alto valor todos os dias para a concorrência.\n\nComo detesto enrolação, montei uma estrutura premium completa para a marca de vocês, focada em captar clientes direto pro WhatsApp. Dá uma olhada: [SEU LINK]\n\nSe gostarem do nível, podemos colocar no ar hoje. O que acharam?',
+
+  amostra_elogio: 'Olá! Tudo bem? Aqui é o {meu_nome}.\n\nEstava analisando o Instagram da {empresa} e os serviços são de altíssimo nível. Porém, percebi que a falta de um site premium dificulta o agendamento rápido dos clientes.\n\nTomei a liberdade de criar um protótipo de alta conversão, já com a identidade visual de vocês. Veja como ficou prático: [SEU LINK]\n\nPosso transferir pro domínio de vocês hoje se gostarem. Faz sentido conversarmos?',
+
+  amostra_autoridade: 'Oi, pessoal da {empresa}, tudo bem? Sou o {meu_nome}.\n\nNo mercado de alto padrão, a primeira impressão digital é o que define se o cliente pede orçamento ou vai embora.\n\nCriei uma página exclusiva e super moderna para a {empresa} se destacar ainda mais e facilitar o contato via WhatsApp. Olha o resultado: [SEU LINK]\n\nSem compromisso, o que acharam do design e da velocidade?',
+
+  amostra_direta: 'Fala, pessoal da {empresa}! Aqui é o {meu_nome}.\n\nFiz um estudo rápido da presença digital de vocês e vi uma oportunidade gigante de aumentar os contatos diários.\n\nConstruí essa página premium aqui [SEU LINK] sob medida para vocês. Ela carrega muito rápido e manda o cliente direto pro WhatsApp de atendimento.\n\nConseguem dar uma olhadinha e me dizer o que acharam?',
+
+  amostra_exclusiva: 'Olá! Sou o {meu_nome}, especialista em plataformas de captação.\n\nSelecionei a {empresa} porque o trabalho de vocês tem muita qualidade, mas precisa de uma vitrine digital à altura para fechar contratos maiores.\n\nDesenvolvi este projeto aqui [SEU LINK] 100% focado na marca de vocês. É clicar e o cliente já cai no WhatsApp de vocês.\n\nSe fizer sentido, libero o acesso oficial hoje. Gostaram da estrutura?'
 };
 
 const store = {
@@ -261,7 +265,7 @@ const store = {
 
 let leads = store.get('p_leads', []);
 let clients = store.get('p_clients', []);
-let tpl = store.get('p_tpl', PRESETS.icebreaker);
+let tpl = store.get('p_tpl', PRESETS.amostra_autoridade);
 let myName = store.get('p_name', 'Víctor');
 let apiKey = store.get('p_serper_key', '5bb258480651bddbe618fa9861500784a6f0c2a8');
 let sitecraftUrl = store.get('p_sitecraft_url', 'sitecraft.html');
@@ -337,47 +341,12 @@ function openInSiteCraft(id) {
   const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
   const baseUrl = ($('sitecraftUrl')?.value || 'sitecraft.html').trim();
   const sep = baseUrl.includes('?') ? '&' : '?';
-  const targetUrl = `${baseUrl}${sep}empresa=${encodeURIComponent(l.name)}&nicho=${encodeURIComponent(mapped.nicho)}&tpl=${encodeURIComponent(mapped.tpl)}&whats=${encodeURIComponent('55' + l.phone)}&cidade=${encodeURIComponent(l.city || l.address || 'Guarulhos - SP')}`;
+  
+  // Envia as avaliações e a imagem (se existir) na URL
+  const targetUrl = `${baseUrl}${sep}empresa=${encodeURIComponent(l.name)}&nicho=${encodeURIComponent(mapped.nicho)}&tpl=${encodeURIComponent(mapped.tpl)}&whats=${encodeURIComponent('55' + l.phone)}&cidade=${encodeURIComponent(l.city || l.address || 'Guarulhos - SP')}&rating=${l.rating || 5}&reviews=${l.reviews || 0}&img=${encodeURIComponent(l.imageUrl || '')}`;
 
   window.open(targetUrl, '_blank');
   toast(`⚡ Abrindo SiteCraft com a página de "${l.name}"!`);
-}
-
-/* FUNÇÃO NOVA: ENRIQUECIMENTO (BUSCA FOTOS E ABRE O SITECRAFT) */
-async function enrichAndOpenInSiteCraft(id) {
-  if (!apiKey) {
-    alert('Insira sua chave do Serper no menu lateral para buscar as imagens!');
-    return;
-  }
-  const l = leads.find(x => x.id === id);
-  if (!l) return;
-
-  toast(`🔍 Buscando fotos reais de ${l.name} no Google...`);
-  
-  let imgUrl = '';
-  try {
-    const res = await fetch('https://google.serper.dev/images', {
-      method: 'POST',
-      headers: { 'X-API-KEY': apiKey, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ q: `${l.name} ${l.city} interior OR fachada OR instagram` })
-    });
-    const data = await res.json();
-    if (data.images && data.images.length > 0) {
-      imgUrl = data.images[0].imageUrl;
-    }
-  } catch (err) {
-    console.error('Falha ao buscar imagem, seguindo sem imagem', err);
-  }
-
-  syncLeadsToSiteCraftStorage(l);
-  const mapped = mapNicheToSiteCraft((l.niche || '') + ' ' + l.name);
-  const baseUrl = ($('sitecraftUrl')?.value || 'sitecraft.html').trim();
-  const sep = baseUrl.includes('?') ? '&' : '?';
-  
-  const targetUrl = `${baseUrl}${sep}empresa=${encodeURIComponent(l.name)}&nicho=${encodeURIComponent(mapped.nicho)}&tpl=${encodeURIComponent(mapped.tpl)}&whats=${encodeURIComponent('55' + l.phone)}&cidade=${encodeURIComponent(l.city || l.address || 'Guarulhos - SP')}&rating=${l.rating || 5}&reviews=${l.reviews || 0}&img=${encodeURIComponent(imgUrl)}`;
-
-  window.open(targetUrl, '_blank');
-  toast(`⚡ Abrindo SiteCraft com a página enriquecida de "${l.name}"!`);
 }
 
 function syncAllToSiteCraft() {
@@ -471,7 +440,7 @@ document.querySelectorAll('[data-chip]').forEach((b) => b.addEventListener('clic
   t.dispatchEvent(new Event('input')); t.focus(); t.setSelectionRange(s + c.length, s + c.length);
 }));
 
-/* ===== MOTOR SERPER COM PAGINAÇÃO CONFIGURÁVEL ===== */
+/* ===== MOTOR SERPER COM PAGINAÇÃO CONFIGURÁVEL E LIMITADOR DE CRÉDITOS ===== */
 async function fetchSerperPage(query, page) {
   const res = await fetch('https://google.serper.dev/maps', {
     method: 'POST',
@@ -492,11 +461,14 @@ $('searchForm').addEventListener('submit', async (e) => {
   }
 
   const btn = $('searchBtn');
-  const targetQty = Number($('leadQty').value) || 50;
+  const targetQty = Number($('leadQty').value) || 10;
+  
+  // O Serper retorna até 20 por página. 
+  // Se o usuário pedir 10 ou 20, consome apenas 1 crédito (p=1).
   const pagesNeeded = Math.ceil(targetQty / 20);
 
   btn.disabled = true;
-  btn.textContent = `Buscando ${targetQty} leads…`;
+  btn.textContent = `Buscando...`;
 
   const niche = $('niche').value.trim();
   const city = $('city').value.trim();
@@ -513,13 +485,17 @@ $('searchForm').addEventListener('submit', async (e) => {
     results.forEach((r) => { if (r.status === 'fulfilled') allPlaces = allPlaces.concat(r.value); });
 
     const knownIds = new Set(leads.map((l) => l.id));
-    const fresh = [];
+    let fresh = [];
 
-    allPlaces.forEach((p) => {
+    for (const p of allPlaces) {
+      if (fresh.length >= targetQty) break; // Trava para não ultrapassar a quantidade solicitada
+      
       const pPhone = cleanPhone(p.phoneNumber);
       const id = p.cid || p.placeId || `${p.title}_${pPhone}`;
+      
       if (!knownIds.has(id) && pPhone) {
         knownIds.add(id);
+        
         fresh.push({
           id,
           name: p.title,
@@ -529,19 +505,20 @@ $('searchForm').addEventListener('submit', async (e) => {
           phone: pPhone,
           hasSite: Boolean(p.website),
           websiteUrl: p.website || null,
-          rating: p.rating || (Math.random() * (5 - 4.2) + 4.2).toFixed(1),
-          reviews: p.ratingCount || Math.floor(Math.random() * 200 + 30),
+          rating: p.rating || 5.0,
+          reviews: p.ratingCount || 0,
+          imageUrl: p.imageUrl || p.thumbnailUrl || '', // Puxa a foto grátis da busca!
           status: 'Novo',
           createdAt: Date.now()
         });
       }
-    });
+    }
 
     leads = [...fresh, ...leads];
     persist();
     syncLeadsToSiteCraftStorage();
     renderAll();
-    toast(`${fresh.length} empresas encontradas e já sincronizadas com o SiteCraft!`);
+    toast(`${fresh.length} novas empresas encontradas!`);
   } catch (err) {
     toast('Erro: ' + (err.message || 'Verifique sua conexão'));
   } finally {
@@ -724,18 +701,18 @@ function renderQueue() {
         <span class="text-xs bg-slate-800 text-teal-300 px-2 py-0.5 rounded-full font-bold">${left} pendentes</span>
       </div>
       <h2 class="text-3xl font-extrabold tracking-tight mt-2 leading-tight">${esc(l.name)}</h2>
-      <p class="text-sm text-slate-300 mt-1">${esc(l.address)}</p>
-      <div class="flex gap-2 text-sm mt-1 items-center">
-        <span class="text-yellow-400 font-bold">★ ${l.rating || '5.0'}</span> <span class="text-slate-400 text-xs">(${l.reviews || 0} avaliações no Google)</span>
+      
+      <div class="flex items-center gap-3 mt-1.5">
+        <div class="text-[12px] font-medium text-amber-400">★ ${l.rating || '5.0'} <span class="text-slate-400">(${l.reviews || 0} avaliações)</span></div>
       </div>
+      
+      <p class="text-sm mt-1 text-slate-300">${esc(l.address)}</p>
+      
       <p class="text-sm mt-1 font-medium">${esc(fmtPhone(l.phone))} · ${l.hasSite ? '<span class="text-slate-400">Possui site</span>' : '<span class="text-amber-300 font-bold">Sem site (Oportunidade!)</span>'}</p>
     </div>
     <div class="flex flex-wrap items-center gap-2 mt-6">
-      <button onclick="enrichAndOpenInSiteCraft('${esc(l.id)}')" class="bg-craft hover:bg-craftd text-white font-extrabold text-sm rounded-lg px-5 py-3 transition shadow-lg shadow-orange-950/50">
-        ⚡ Gerar Site Rica (c/ Fotos)
-      </button>
-      <button onclick="openInSiteCraft('${esc(l.id)}')" class="bg-slate-700 hover:bg-slate-600 text-white font-bold text-sm rounded-lg px-5 py-3 transition">
-        Site Normal
+      <button onclick="openInSiteCraft('${esc(l.id)}')" class="bg-craft hover:bg-craftd text-white font-extrabold text-sm rounded-lg px-5 py-3 transition shadow-lg shadow-orange-950/50">
+        ⚡ Gerar Site Rica (c/ Foto e Avaliação)
       </button>
       <button onclick="approach('${esc(l.id)}')" class="bg-brand hover:bg-brandd text-white font-bold text-sm rounded-lg px-5 py-3 transition">
         Abordar no WhatsApp
@@ -765,6 +742,7 @@ function renderRows() {
       <td class="p-3 font-semibold text-slate-800">
         ${esc(l.name)}
         <div class="text-[11px] font-normal text-slate-400 truncate max-w-xs">${esc(l.address)}</div>
+        <div class="text-[11px] font-medium text-amber2 mt-0.5">★ ${l.rating || '5.0'} <span class="text-slate-400">(${l.reviews || 0} avaliações)</span></div>
       </td>
       <td class="p-3">
         ${l.hasSite
@@ -778,7 +756,7 @@ function renderRows() {
         </select>
       </td>
       <td class="p-3 text-right whitespace-nowrap space-x-1">
-        <button onclick="enrichAndOpenInSiteCraft('${esc(l.id)}')" title="Criar Landing Page rica no SiteCraft Studio" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-craft hover:bg-craftd text-white shadow-sm">
+        <button onclick="openInSiteCraft('${esc(l.id)}')" title="Criar Landing Page no SiteCraft" class="px-3 py-1.5 rounded-lg text-xs font-extrabold bg-craft hover:bg-craftd text-white shadow-sm">
           ⚡ Gerar Rica
         </button>
         <button onclick="approach('${esc(l.id)}')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-brand hover:bg-brandd text-white">Whats</button>
@@ -810,7 +788,7 @@ function renderBoard() {
           <div class="text-xs text-slate-500 mt-0.5">${esc(fmtPhone(l.phone))}</div>
           <div class="flex items-center justify-between mt-2 pt-2 border-t border-slate-200/70">
             <span class="text-[11px] ${l.hasSite ? 'text-slate-400' : 'text-amber2 font-bold'}">${l.hasSite ? 'Possui site' : '● Sem site'}</span>
-            <button onclick="enrichAndOpenInSiteCraft('${esc(l.id)}')" class="text-[11px] font-bold text-craft hover:underline">⚡ Gerar Rica ↗</button>
+            <button onclick="openInSiteCraft('${esc(l.id)}')" class="text-[11px] font-bold text-craft hover:underline">⚡ Gerar Rica ↗</button>
           </div>
         </div>`).join('')}
       </div>
